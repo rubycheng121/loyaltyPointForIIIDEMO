@@ -1,0 +1,8 @@
+{
+	"release": {
+		"provider": "http://localhost:8545"
+	},
+	"debug": {
+		"provider": "http://localhost:8545"
+	}
+}

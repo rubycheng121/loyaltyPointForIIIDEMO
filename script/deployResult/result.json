@@ -1,0 +1,13 @@
+{
+    "Account": {
+        "address": "0x54c9b73a1d445347d6270a4d91a564380fe82f5e"
+    },
+    "Account0": {
+        "address": "0xc828124d5fb69dde1ab8478f3ea5eb2b6a738a20"
+    },
+    "exchange": {
+        "address": "0xa9eecc283b7d041d72320f3b2feac53794079dc7"
+    },
+    "coinbase": "0x2e84baa28cb5470d74714569cb1af932e6606939",
+    "provider": "http://localhost:8545"
+}

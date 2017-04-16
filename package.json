@@ -1,0 +1,25 @@
+{
+  "name": "rewardpoints",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "none",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "cucumber",
+    "BDD"
+  ],
+  "author": "RubyCheng",
+  "license": "ISC",
+  "dependencies": {
+    "web3": "^0.18.2"
+  },
+  "devDependencies": {
+    "cucumber": "^2.0.0-rc.9",
+  }
+}
