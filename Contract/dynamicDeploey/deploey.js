@@ -58,7 +58,10 @@ var Exchange_abi = ${Exchange_abi};`
 		fs.writeFileSync(path.resolve(__dirname, '../../script/', 'deployResult', 'abi.js'), abi_str)
 
 		console.log('all good')
+
+
 	})
-			callback(result)
+
+      callback(result)
   }
 };

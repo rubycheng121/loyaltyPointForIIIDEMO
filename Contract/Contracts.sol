@@ -31,10 +31,10 @@ contract Exchange{
 		return true;
 
     }
-    function getAccount() returns(Account){
+    function getAccount() constant returns(Account){
         return myAccount;
     }
-    function getPartnerAccount() returns(Account){
+    function getPartnerAccount() constant returns(Account){
 		return partnerAccount;
 	}
 
@@ -80,13 +80,14 @@ contract LoyaltyPoint {
 	 int private points;
 	 uint private rate; // 1 local points = "rate" points of "name"
 
+//   event getLocalLoyaltyPointAddress(address LocalLoyaltyPointAddress);
 	function LoyaltyPoint(bytes32 _name, int _points, uint _rate) public {
 		name = _name;
 		points = _points;
 		rate = _rate;
 	}
 
-	function  getName() public returns(bytes32) {
+	function  getName() public constant returns(bytes32) {
 		return name;
 	}
 
@@ -94,7 +95,7 @@ contract LoyaltyPoint {
 		name = _name;
 	}
 
-	function getPoints() public returns (int) {
+	function getPoints() public constant returns (int) {
 		return points;
 	}
 
@@ -106,7 +107,7 @@ contract LoyaltyPoint {
 		points = points;
 	}
 
-	function  getRate() public returns (uint) {
+	function  getRate() public constant returns (uint) {
 		return rate;
 	}
 
