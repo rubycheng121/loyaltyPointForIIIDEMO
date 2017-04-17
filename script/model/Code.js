@@ -5,6 +5,8 @@ const fs = require('fs')
 const config = require('./config.json')
 const assert = require('assert')
 const Web3 = require('web3')
+const EventEmitter = require('events')
+const emitter = new EventEmitter()
 const abi = require(path.resolve(__dirname, '..', 'deployResult', 'abi.js'))
 
 const deploey = require(process.cwd() + '/Contract/dynamicDeploey/deploey');
@@ -33,6 +35,26 @@ let myAccount
 let partnerAccount
 let exchange
 let LoyaltyPoint
+
+
+/*web3.eth.filter('latest', (err, blockNumber) => {
+  web3.eth.getBlock(blockNumber, (err, block) => {
+    if (!err) {
+      block.transactions.forEach(txhash => {
+        web3.eth.getTransactionReceipt(txhash, (err, txr) => {
+          if (!err) {
+            if (txr.gasUsed < 44444444) emitter.emit(txhash)
+            else throw 'tx throwed!, gas == 44444444'
+          } else {
+            throw err
+          }
+        })
+      })
+    } else {
+      throw err
+    }
+  })
+})*/
 
 module.exports = {
   the_exchange_rate_is_alp_blp : function(alp,blp){
@@ -76,20 +98,20 @@ module.exports = {
       from: web3.eth.coinbase,
       gas: 44444444
     }, (err, txhash) => {
-      if (err !== undefined && err !== null) done(err)
+      if (err !== undefined && err !== null) console.log();
       else {
-          // if pass do something
           LoyaltyPoint_address=result[0];
+          console.log('Message:'+result[0]);
       }
     })
 
-    LoyaltyPoint = web3.eth.contract(LoyaltyPoint_abi).at(LoyaltyPoint_address)
 
-    partnerAccount.setPoints(originalAlp, {
+    LoyaltyPoint = web3.eth.contract(LoyaltyPoint_abi).at(LoyaltyPoint_address)
+    LoyaltyPoint.setPoints(originalAlp, {
       from: web3.eth.coinbase,
       gas: 44444444
     }, (err, txhash) => {
-      if (err !== undefined && err !== null) done(err)
+      if (err !== undefined && err !== null) console.log();
       else {
         // if pass do something
       }
@@ -97,6 +119,28 @@ module.exports = {
 
   },
   original_blp_account_of_A_is : function(originalBlp){
+    partnerAccount.getLocalLoyaltyPoint( {
+      from: web3.eth.coinbase,
+      gas: 44444444
+    }, (err, txhash) => {
+      if (err !== undefined && err !== null) console.log();
+      else {
+          LoyaltyPoint_address=result[0];
+          console.log('Message:'+result[0]);
+      }
+    })
+
+
+    LoyaltyPoint = web3.eth.contract(LoyaltyPoint_abi).at(LoyaltyPoint_address)
+    LoyaltyPoint.setPoints(originalBlp, {
+      from: web3.eth.coinbase,
+      gas: 44444444
+    }, (err, txhash) => {
+      if (err !== undefined && err !== null) console.log();
+      else {
+        // if pass do something
+      }
+    })
 
   },
   original_alp_account_of_B_is : function(originalAlp){

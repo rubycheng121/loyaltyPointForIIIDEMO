@@ -20,6 +20,6 @@
     "web3": "^0.18.2"
   },
   "devDependencies": {
-    "cucumber": "^2.0.0-rc.9",
+    "cucumber": "^2.0.0-rc.9"
   }
 }

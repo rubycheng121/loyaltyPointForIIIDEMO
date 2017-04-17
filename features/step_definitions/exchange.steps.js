@@ -1,87 +1,92 @@
 // features/step_definitions/browser_steps.js 1s
-//var seleniumWebdriver = require('selenium-webdriver');
 const path = require('path')
 const {defineSupportCode} = require('cucumber');
 var assert = require('assert');
+const deploey = require(process.cwd() + '/Contract/dynamicDeploey/deploey');
+var Code = require(process.cwd() + '/script/model/Code');
 
 defineSupportCode(function({Given, When, Then, And}) {
   //let request=exchangRequest.newRequest();
   Given('the exchange rate is {alp}alp={blp}blp', function (alp, blp,callback) {
   // Write code here that turns the phrase above into concrete actions
-  /*deploey.init(2,function(result){
-    console.log(result);
-  })*/
-
-  myAccount=new Account('Company A')
-
+  deploey.init(function(result){
+    console.log('Deploey!!');
+  })
+  Code.the_exchange_rate_is_alp_blp(alp,blp);
 
 
   callback();
   });
 
-  Given('original alp account of A is {originalAlp}', function (originalAlp) {
+  Given('original alp account of A is {originalAlp}', function (originalAlp,callback) {
   // Write code here that turns the phrase above into concrete actions
-  //callback(null, 'pending');
-  console.log('originalAlp:'+originalAlp);
+  //  console.log('originalAlp:'+originalAlp);
+
+  Code.the_exchange_rate_is_alp_blp(alp,blp);
+  callback();
   });
 
   Given('original blp account of A is {originalBlp}', function (originalBlp) {
     // Write code here that turns the phrase above into concrete actions
 
-    console.log('originalAlp:'+originalBlp);
-    //callback(null, 'pending');
+    Code.original_alp_account_of_A_is(originalBlp)
+    //console.log('originalAlp:'+originalBlp);
+    callback();
   });
 
   Given('original alp account of B is {originalAlp}', function (originalAlp) {
     // Write code here that turns the phrase above into concrete actions
-
-    console.log('originalAlp:'+originalAlp);
-    //callback(null, 'pending');
+    Code.original_blp_account_of_A_is(originalAlp)
+    //console.log('originalAlp:'+originalAlp);
+    callback();
   })
 
 
   Given('original blp account of B is {originalBlp}', function (originalBlp) {
     // Write code here that turns the phrase above into concrete actions
-
-    console.log('originalAlp:'+originalBlp);
-    //callback(null, 'pending');
+    Code.original_alp_account_of_B_is(originalBlp)
+    //console.log('originalAlp:'+originalBlp);
+    callback();
   });
 
   When('A want to exchange {exchangingAlp} alp for blp', function (exchangingAlp) {
     // Write code here that turns the phrase above into concrete actions
-
-    console.log('originalAlp:'+exchangingAlp);
-    //callback(null, 'pending');
+    Code.original_blp_account_of_B_is(exchangingAlp)
+    //console.log('originalAlp:'+exchangingAlp);
+    callback();
   });
 
   Then('alp account of A should be {resultAlp}', function (resultAlp) {
   // Write code here that turns the phrase above into concrete actions
+  Code.a_want_to_exchange_alp_for_blp(resultAlp)
 
-  console.log('originalAlp:'+resultAlp);
-  //callback(null, 'pending');
+  //console.log('originalAlp:'+resultAlp);
+  callback();
   });
 
 
   Then('blp account of A should be {resultBlp}', function (resultBlp) {
     // Write code here that turns the phrase above into concrete actions
+    Code.alp_account_of_A_should_be(resultBlp)
 
-    console.log('originalAlp:'+resultBlp);
-    //callback(null, 'pending');
+    //console.log('originalAlp:'+resultBlp);
+    callback();
   });
 
   Then('alp account of B should be {resultBlp}', function (resultBlp) {
     // Write code here that turns the phrase above into concrete actions
+    Code.blp_account_of_A_should_be(resultBlp)
 
-    console.log('originalAlp:'+resultBlp);
-    //callback(null, 'pending');
+    //console.log('originalAlp:'+resultBlp);
+    callback();
   });
 
 
   Then('blp account of B should be {resultBlp}', function (resultBlp) {
     // Write code here that turns the phrase above into concrete actions
-
-    console.log('originalAlp:'+resultBlp);
-    //callback(null, 'pending');
+    Code.blp_account_of_B_should_be(resultBlp)
+    //console.log('originalAlp:'+resultBlp);
+    callback();
   });
 
 
