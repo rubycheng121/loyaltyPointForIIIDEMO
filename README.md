@@ -61,5 +61,5 @@ low level test code : Test/test/test.js
 ### start ###
 
 0. ```testrpc -l 88888888 -p 8545``` or connect to private chain
-1. npm instll
+1. npm install
 2. node node_modules/cucumber/bin/cucumber.js
