@@ -39,6 +39,6 @@ module.exports = (mode,addr,addr0,callback) => {
 				callback(exchange.address)
 			}
 		})
-		console.log('deploey end');
+		//console.log('deploey end');
 	}))
 }

@@ -7,9 +7,10 @@ const assert = require('assert')
 const Web3 = require('web3')
 const EventEmitter = require('events')
 const emitter = new EventEmitter()
-const abi = require(path.resolve(__dirname, '..', 'deployResult', 'abi.js'))
-
+//const abi = require(path.resolve(__dirname, '..', 'deployResult', 'abi.js'))
 const deploey = require(process.cwd() + '/Contract/dynamicDeploey/deploey');
+
+//const deploey = require(process.cwd() + '/Contract/dynamicDeploey/deploey');
 
 const mode = "debug"
 const provider = config[mode].provider
@@ -58,9 +59,9 @@ let LoyaltyPoint
 
 module.exports = {
   the_exchange_rate_is_alp_blp : function(alp,blp){
-  /*  deploey.init(function(result){
-      console.log("Deploey！"+result);
-    });*/
+    deploey.init(function(result){
+      console.log('Deploey!!');
+    })
     result = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..','deployResult', 'Result.json')))
 
     account_address=result.Account.address
