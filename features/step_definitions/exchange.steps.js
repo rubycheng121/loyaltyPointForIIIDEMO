@@ -22,58 +22,50 @@ defineSupportCode(function({Given, When, Then, And}) {
   // Write code here that turns the phrase above into concrete actions
   //  console.log('originalAlp:'+originalAlp);
 
-  Code.the_exchange_rate_is_alp_blp(alp,blp);
+  Code.original_alp_account_of_A_is(originalAlp);
   callback();
   });
 
-  Given('original blp account of A is {originalBlp}', function (originalBlp) {
+  Given('original blp account of A is {originalBlp}', function (originalBlp,callback) {
     // Write code here that turns the phrase above into concrete actions
 
-    Code.original_alp_account_of_A_is(originalBlp)
+    Code.original_blp_account_of_A_is(originalBlp)
     //console.log('originalAlp:'+originalBlp);
     callback();
   });
 
-  Given('original alp account of B is {originalAlp}', function (originalAlp) {
+  Given('original alp account of B is {originalAlp}', function (originalAlp,callback) {
     // Write code here that turns the phrase above into concrete actions
-    Code.original_blp_account_of_A_is(originalAlp)
+    Code.original_alp_account_of_B_is(originalAlp)
     //console.log('originalAlp:'+originalAlp);
     callback();
   })
 
 
-  Given('original blp account of B is {originalBlp}', function (originalBlp) {
+  Given('original blp account of B is {originalBlp}', function (originalBlp,callback) {
     // Write code here that turns the phrase above into concrete actions
-    Code.original_alp_account_of_B_is(originalBlp)
+    Code.original_blp_account_of_B_is(originalBlp)
     //console.log('originalAlp:'+originalBlp);
     callback();
   });
 
-  When('A want to exchange {exchangingAlp} alp for blp', function (exchangingAlp) {
+  When('A want to exchange {exchangingAlp} alp for blp', function (exchangingAlp,callback) {
     // Write code here that turns the phrase above into concrete actions
-    Code.original_blp_account_of_B_is(exchangingAlp)
+    Code.a_want_to_exchange_alp_for_blp(exchangingAlp)
     //console.log('originalAlp:'+exchangingAlp);
     callback();
   });
 
-  Then('alp account of A should be {resultAlp}', function (resultAlp) {
+  Then('alp account of A should be {resultAlp}', function (resultAlp,callback) {
   // Write code here that turns the phrase above into concrete actions
-  Code.a_want_to_exchange_alp_for_blp(resultAlp)
+  Code.alp_account_of_A_should_be(resultAlp)
 
   //console.log('originalAlp:'+resultAlp);
   callback();
   });
 
 
-  Then('blp account of A should be {resultBlp}', function (resultBlp) {
-    // Write code here that turns the phrase above into concrete actions
-    Code.alp_account_of_A_should_be(resultBlp)
-
-    //console.log('originalAlp:'+resultBlp);
-    callback();
-  });
-
-  Then('alp account of B should be {resultBlp}', function (resultBlp) {
+  Then('blp account of A should be {resultBlp}', function (resultBlp,callback) {
     // Write code here that turns the phrase above into concrete actions
     Code.blp_account_of_A_should_be(resultBlp)
 
@@ -81,8 +73,16 @@ defineSupportCode(function({Given, When, Then, And}) {
     callback();
   });
 
+  Then('alp account of B should be {resultBlp}', function (resultBlp,callback) {
+    // Write code here that turns the phrase above into concrete actions
+    Code.alp_account_of_B_should_be(resultBlp)
 
-  Then('blp account of B should be {resultBlp}', function (resultBlp) {
+    //console.log('originalAlp:'+resultBlp);
+    callback();
+  });
+
+
+  Then('blp account of B should be {resultBlp}', function (resultBlp,callback) {
     // Write code here that turns the phrase above into concrete actions
     Code.blp_account_of_B_should_be(resultBlp)
     //console.log('originalAlp:'+resultBlp);
