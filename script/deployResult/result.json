@@ -1,12 +1,12 @@
 {
     "Account": {
-        "address": "0x302fa6a129dc933a2962c04ce616b2f713efd827"
+        "address": "0x35625e4534bd4649558313c6b7327f799a534bc8"
     },
     "Account0": {
-        "address": "0x30e3dc81e8228a35af2688c0cd7683667c869e98"
+        "address": "0x6c6b000898ef50613d743632b1b322cf59e47be1"
     },
     "exchange": {
-        "address": "0x529c706863d5473acc674707ca98941d71426d4e"
+        "address": "0x3f3dc6d4631c61e3a50af91ce666c3f6468df52b"
     },
     "coinbase": "0x2e84baa28cb5470d74714569cb1af932e6606939",
     "provider": "http://localhost:8545"
