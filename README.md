@@ -17,7 +17,7 @@ Gherkin : features/Exchange_loyalty_points_between_two_parties.feature
 
 high level test code : features/step_definitions/Exchange_loyalty_points_between_two_parties.steps.js
 
-features Code (import code) : script/Code.js
+features Code (import code) : script/model/Code.js
 
 ### mocha
 
