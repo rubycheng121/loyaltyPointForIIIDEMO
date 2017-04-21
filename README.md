@@ -4,7 +4,6 @@
 ## 路徑說明
 ### Solidity
 
-web Example Code : ./webExample
 
 Solidity Code : ./Contract/Contract.sol
 
@@ -23,6 +22,10 @@ features Code (import code) : script/Code.js
 ### mocha
 
 unit test code : ./test/test.js , ./test/senatio/
+
+### 其他相關
+
+web Example Code : ./webExample
 
 
 
