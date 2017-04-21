@@ -35,21 +35,28 @@ web Example Code : ./webExample
 
 ### WINDOWS
 1.到 https://nodejs.org/en/download/ 下載及安裝 Node js
-2.使用管理員權限(右鍵- 以系統管理員執行) 開啟 cmd 
+
+2.使用管理員權限(右鍵- 以系統管理員執行) 開啟 cmd
+ 
 3.cd 到 nodejs 目錄下(裡面有npm)
+
 4.```npm install -g –production windows-build-tools```
+
 5.```npm install -g ethereumjs-testrpc```  (可能會跳出是否開啟防火牆警告, 按確定)
+
 6 cmd 下 輸入 ```testrpc``` 即可開啟
 
 ### MacOS
 1.到 https://nodejs.org/en/download/ 下載及安裝 Node js
+
 2.開啟 terminal 輸入 : ```sudo npm install -g node-gyp && sudo npm install -g ethereumjs-testrpc```
+
 3.terminal 下輸入 ```testrpc``` 即可開啟
 
 
 ### 執行
 
-  ```testrpc -p 8545 -a 100 -l 88888888```
+```testrpc -p 8545 -a 100 -l 88888888```
 
 
 ## compiler contract (solcjs@0.4.8)
