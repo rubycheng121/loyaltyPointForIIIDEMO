@@ -30,13 +30,7 @@ defineSupportCode(function({Given, When, Then, And}) {
       });
     })
   })
-
-
-
-
-
-
-  });
+});
 
   Given('original alp account of A is {originalAlp}', function (originalAlp,callback) {
 
