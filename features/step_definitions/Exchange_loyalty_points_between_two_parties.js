@@ -1,34 +1,37 @@
 // features/step_definitions/browser_steps.js 1s
 const path = require('path')
 const {defineSupportCode} = require('cucumber');
-var assert = require('assert');
 const fs = require('fs')
+const assert = require('assert');
 var Code = require(process.cwd() + '/script/model/Code');
-let addressData={}
+
 
 defineSupportCode(function({Given, When, Then, And}) {
   //let request=exchangRequest.newRequest();
+
   Given('the exchange rate is {alp}alp={blp}blp', function (alp, blp,callback) {
   // Write code here that turns the phrase above into concrete actions
-
+  let addressData={}
   Code.deploeyAccountContract('Company A',(name,address)=>{
-    if (address){
-      addressData.company={
+    assert.ok(address, 'Company A address has been defined');
+    addressData.companyA={
         companyName:name,
         companyAddress:address
       }
-      console.log(name);
-      console.log(address);
-
+    Code.deploeyAccountContract('Company B',(name,address)=>{
+      assert.ok(address, 'Company B address has been defined');
+      addressData.companyB={
+              companyName:name,
+              companyAddress:address
+          }
       fs.writeFile(path.resolve(__dirname, '..', '..','build', 'contract.address'), JSON.stringify(addressData, null, 4), (err) => {
-        if (err) throw err;
+        assert.ifError(err);
+        callback()
       });
-      callback();
-    }
-    else {
-      throw new Error('accuontAddress is null')
-    }
+    })
   })
+
+
 
 
 
