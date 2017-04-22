@@ -23,8 +23,8 @@ contract Exchange{
 		source.addPoints(0 - amount);
 		partnerSource.addPoints(amount);
 		// B to A
-		target.addPoints(amount * int(target.getRate()));
-		partnerTarget.addPoints(0 - (amount * int(target.getRate())));
+		target.addPoints(amount * int(target.getRate())/100);
+		partnerTarget.addPoints(0 - (amount * int(target.getRate())/100));
 
 		return true;
 
