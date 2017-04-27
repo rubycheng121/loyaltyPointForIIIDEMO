@@ -33,27 +33,40 @@ defineSupportCode(function({Given, When, Then, And}) {
 });
 
   Given('original alp account of A is {originalAlp}', function (originalAlp,callback) {
-
-  callback();
+    let addressData = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..','build', 'contract.address'),"utf-8"));
+    addressData.companyA.companyAlp = originalAlp;
+    fs.writeFile(path.resolve(__dirname, '..', '..','build', 'contract.address'), JSON.stringify(addressData, null, 4), (err) => {
+        assert.ifError(err);
+        callback()
+      });
   });
 
   Given('original blp account of A is {originalBlp}', function (originalBlp,callback) {
-
-
-    callback();
+    let addressData = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..','build', 'contract.address'),"utf-8"));
+    addressData.companyA.companyBlp = originalBlp;
+    fs.writeFile(path.resolve(__dirname, '..', '..','build', 'contract.address'), JSON.stringify(addressData, null, 4), (err) => {
+        assert.ifError(err);
+        callback()
+      });
   });
 
   Given('original alp account of B is {originalAlp}', function (originalAlp,callback) {
-
-
-    callback();
+    let addressData = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..','build', 'contract.address'),"utf-8"));
+    addressData.companyB.companyAlp = originalAlp;
+    fs.writeFile(path.resolve(__dirname, '..', '..','build', 'contract.address'), JSON.stringify(addressData, null, 4), (err) => {
+        assert.ifError(err);
+        callback()
+      });
   })
 
 
   Given('original blp account of B is {originalBlp}', function (originalBlp,callback) {
-
-
-    callback();
+    let addressData = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..','build', 'contract.address'),"utf-8"));
+    addressData.companyB.companyBlp = originalBlp;
+    fs.writeFile(path.resolve(__dirname, '..', '..','build', 'contract.address'), JSON.stringify(addressData, null, 4), (err) => {
+        assert.ifError(err);
+        callback()
+      });
   });
 
   When('A want to exchange {exchangingAlp} alp for blp', function (exchangingAlp,callback) {
