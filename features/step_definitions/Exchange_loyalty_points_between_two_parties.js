@@ -4,7 +4,8 @@ const {defineSupportCode} = require('cucumber');
 const fs = require('fs')
 const assert = require('assert');
 var Code = require(process.cwd() + '/script/model/Code');
-
+const Web3 = require('web3');
+const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
 defineSupportCode(function({Given, When, Then, And}) {
   //let request=exchangRequest.newRequest();
