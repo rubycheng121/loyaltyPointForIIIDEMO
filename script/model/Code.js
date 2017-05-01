@@ -13,7 +13,6 @@ const web3 = new Web3(new Web3.providers.HttpProvider(provider))
 
 let result
 
-
 let account_address
 let account0_address
 let exchange_address
