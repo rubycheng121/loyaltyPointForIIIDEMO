@@ -1,10 +1,10 @@
 {
     "companyA": {
         "companyName": "Company A",
-        "companyAddress": "0x43d6c9eef13dc6b9668f5d481c378e9b33df37c4"
+        "companyAddress": "0x3fb6f425002b6c178e6ee58012868059b809839e"
     },
     "companyB": {
         "companyName": "Company B",
-        "companyAddress": "0x197dc89a774f8186bab152ad67f05c48dbc259d6"
+        "companyAddress": "0x00937f78fdf4c44c6f5f0578187729ecf4b7187a"
     }
 }
