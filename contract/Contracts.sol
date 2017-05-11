@@ -101,8 +101,8 @@ contract LoyaltyPoint {
 		points += amount;
 	}
 
-	function setPoints(uint points) public {
-		points = points;
+	function setPoints(uint amount) public {
+		points = int(amount);
 	}
 
 	function  getRate() public constant returns (uint) {

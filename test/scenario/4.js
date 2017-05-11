@@ -6,21 +6,31 @@ const fs = require('fs')
 const Web3 = require('web3')
 const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
 
-const exchange_abi = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', 'build', 'exchange.abi')))
-const exchange = web3.eth.contract(exchange_abi).at(JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', 'config.json'))).exchange.address)
+let exchange_abi
+let exchange
 
 describe('Scenario 4 : Get Exchage Contract Function', function () {
     this.timeout(0)
+
+    before(function (done) {
+
+        exchange_abi = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', 'build', 'exchange.abi')))
+        exchange = web3.eth.contract(exchange_abi).at(JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', 'config.json'))).exchange.address)
+        
+        done()
+    })
+
     describe('Use to Function when Company A wants to exchange 10 points', function () {
         it('should use successfully', function (done) {
-            exchange.to("Company B", 10, {
+
+            exchange.to("Company B", 100, {
                 from: web3.eth.coinbase,
                 gas: 1234567
             }, (err, result) => {
                 if (err !== undefined && err !== null)
                     done(err)
                 if (result !== undefined && result !== null) {
-                    console.log(result)
+                    //console.log(result)
                     done()
                 }
             })
@@ -32,7 +42,7 @@ describe('Scenario 4 : Get Exchage Contract Function', function () {
                 if (err !== undefined && err !== null)
                     done(err)
                 if (result !== undefined && result !== null) {
-                    console.log(result)
+                    //console.log(result)
                     done()
                 }
             })
@@ -44,7 +54,7 @@ describe('Scenario 4 : Get Exchage Contract Function', function () {
                 if (err !== undefined && err !== null)
                     done(err)
                 if (result !== undefined && result !== null) {
-                    console.log(result)
+                    //console.log(result)
                     done()
                 }
             })
