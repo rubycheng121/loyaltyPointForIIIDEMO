@@ -23,14 +23,14 @@ describe('Scenario 4 : Get Exchage Contract Function', function () {
     describe('Use to Function when Company A wants to exchange 10 points', function () {
         it('should use successfully', function (done) {
 
-            exchange.to("Company B", 100, {
+            exchange.to("Company B", 10, {
                 from: web3.eth.coinbase,
                 gas: 1234567
             }, (err, result) => {
                 if (err !== undefined && err !== null)
                     done(err)
                 if (result !== undefined && result !== null) {
-                    //console.log(result)
+                    console.log(exchange.to.call("Company B", 10))
                     done()
                 }
             })
