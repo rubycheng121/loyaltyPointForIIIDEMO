@@ -22,15 +22,18 @@ describe('Scenario 4 : Get Exchage Contract Function', function () {
 
     describe('Use to Function when Company A wants to exchange 10 points', function () {
         it('should use successfully', function (done) {
-
-            exchange.to("Company B", 10, {
+            
+            exchange.to("Company A","Company B", 10, {
                 from: web3.eth.coinbase,
                 gas: 1234567
             }, (err, result) => {
                 if (err !== undefined && err !== null)
                     done(err)
                 if (result !== undefined && result !== null) {
-                    console.log(exchange.to.call("Company B", 10))
+                    //console.log(web3.eth.getBlockTransactionCount(result))
+                    exchange.testFunctionRun({fromBlock: 0,toBlock: 'latest'}).watch((err,result)=>{
+                        console.log(result.args.test)
+                    })
                     done()
                 }
             })
@@ -42,7 +45,7 @@ describe('Scenario 4 : Get Exchage Contract Function', function () {
                 if (err !== undefined && err !== null)
                     done(err)
                 if (result !== undefined && result !== null) {
-                    //console.log(result)
+                    console.log(result)
                     done()
                 }
             })
@@ -54,7 +57,7 @@ describe('Scenario 4 : Get Exchage Contract Function', function () {
                 if (err !== undefined && err !== null)
                     done(err)
                 if (result !== undefined && result !== null) {
-                    //console.log(result)
+                    console.log(result)
                     done()
                 }
             })

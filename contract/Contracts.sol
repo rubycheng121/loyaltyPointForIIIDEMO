@@ -3,29 +3,33 @@ contract Exchange{
     Account private myAccount;
     Account private partnerAccount;
     string myCompanyName;
+
+	event testFunctionRun(bool test);
+
     function Exchange (address me,address partner){
         myAccount=Account(me);
         partnerAccount=Account(partner);
 
     }
 
-    function to(bytes32 targerName,int amount) returns (bool){
+    function to(bytes32 sourceName,bytes32 targerName,int amount) returns (bool){
         LoyaltyPoint target = LoyaltyPoint(myAccount.getLoyaltyPoint(targerName));
         LoyaltyPoint source = LoyaltyPoint(myAccount.getLocalLoyaltyPoint());
-        LoyaltyPoint partnerSource = LoyaltyPoint(partnerAccount.getLoyaltyPoint(myAccount.getCompanyName()));
+        LoyaltyPoint partnerSource = LoyaltyPoint(partnerAccount.getLoyaltyPoint(sourceName));
 		LoyaltyPoint partnerTarget = LoyaltyPoint(partnerAccount.getLocalLoyaltyPoint());
 
 		if (source.getPoints() - amount < 0) {
+			testFunctionRun(false);
 			return false;
 		}
-
 		// A to B
 		source.addPoints(0 - amount);
 		partnerSource.addPoints(amount);
 		// B to A
 		target.addPoints(amount * int(target.getRate())/100);
 		partnerTarget.addPoints(0 - (amount * int(target.getRate())/100));
-
+		
+		testFunctionRun(true);
 		return true;
 
     }

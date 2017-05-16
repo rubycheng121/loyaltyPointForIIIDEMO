@@ -107,7 +107,7 @@ defineSupportCode(function ({ Given, When, Then, And }) {
   When('A want to exchange {exchangingAlp} alp for blp', function (exchangingAlp, callback) {
     Code.deploeyExchangeContract(AccountA_address, AccountB_address, (myAddress, partnerAddress, address) => {
       ExchangeContract = web3.eth.contract(Exchange_abi).at(address);
-      ExchangeContract.to('Company B', exchangingAlp, {
+      ExchangeContract.to('Company A','Company B', exchangingAlp, {
         from: web3.eth.coinbase,
         gas: 44444444
       }, (err, txhash) => {
