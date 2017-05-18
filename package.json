@@ -2,7 +2,7 @@
   "name": "loyalty-Points-DEMO",
   "version": "1.0.0",
   "description": "test",
-  "main": "./webExample/index.html",
+  "main": "none",
   "scripts": {
     "solc": "concurrently \"solcjs --optimize --bin -o ./build ./contract/Contracts.sol\" \"solcjs --optimize --abi -o ./build ./contract/Contracts.sol\"",
     "cucumber": "cucumberjs",
