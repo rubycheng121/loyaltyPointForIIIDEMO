@@ -40,7 +40,7 @@ img.github-logo {
   width: 100%;
 }
 
-#feature, #step-definitions, #output {
+#feature, #step-definitions, #output, #solidity, #mochaOutput, #mocha {
   position: absolute;
   top: 0px;
   bottom: 0px;
@@ -49,28 +49,19 @@ img.github-logo {
   border: 1px solid #ccc;
 }
 
-#output {
+#output, #mochaOutput{
   overflow: scroll;
   padding: 5px;
 }
 
-#output .exit-status {
+#output, #mochaOutput .exit-status {
   margin-top: 20px;
 }
 
-#output .error {
+#output, #mochaOutput .error {
   color: red;
 }
 
-
-#feature, #step-definitions, #solidity {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  border: 1px solid #ccc;
-}
 
 #solidity {
   overflow: scroll;
@@ -105,5 +96,16 @@ img.github-logo {
 }
 
 #run-feature:hover {
+  background-color: #39B54A;
+}
+#run-mocha {
+  position: absolute;
+  top: 33px;
+  right: 150px;
+  background-color: #00A818;
+  color: white;
+}
+
+#run-mocha:hover {
   background-color: #39B54A;
 }

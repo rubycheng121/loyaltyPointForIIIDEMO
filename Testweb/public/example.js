@@ -1,4 +1,4 @@
-var featureEditor, stepDefinitionsEditor, $output;
+var featureEditor, stepDefinitionsEditor, mochaEditor, $output, $mochaOutput;
 
 function runFeature() {
   $output.empty();
@@ -36,9 +36,33 @@ function runFeature() {
   return runtime.start();
 };
 
+function runMocha(){
+  $mochaOutput.empty();
+  $('a[href="#mocha-output-tab"]').tab('show');
+  mocha.setup('bdd');
+  describe('Mocha', function() {
+	  it('really runs', function(done) {
+      done();
+    });
+  });
+  describe('Mocha2', function() {
+	  it('really runs_2', function(done) {
+      done();
+    });
+  });
+  console.log(mocha.reporter());
+  //clean(mocha.reporter());
+  mocha.run();
+  //mocha.clean();
+}
+
 function appendToOutput(data) {
   $output.append(data);
   $output.scrollTop($output.prop("scrollHeight"));
+}
+function appendToMochaOutput(data) {
+  $mochaOutput.append(data);
+  $mochaOutput.scrollTop($mochaOutput.prop("scrollHeight"));
 }
 
 function displayError(error) {
@@ -54,10 +78,14 @@ $(function() {
   stepDefinitionsEditor = ace.edit("step-definitions");
   stepDefinitionsEditor.getSession().setMode("ace/mode/javascript");
 
+  mochaEditor = ace.edit("mocha");
+  mochaEditor.getSession().setMode("ace/mode/javascript");
+
   $output = $('#output');
+  $mochaOutput = $('mochaOutput')
 
   window.onerror = displayError;
-
+  
   $('#run-feature').click(function() {
     runFeature().then(function(success) {
       var exitStatus = success ? '0' : '1';
@@ -65,5 +93,8 @@ $(function() {
       exitStatusContainer.addClass('exit-status').text('Exit Status: ' + exitStatus);
       appendToOutput(exitStatusContainer);
     }).catch(displayError);
+  });
+  $('#run-mocha').click(function() {
+    runMocha();
   });
 });
