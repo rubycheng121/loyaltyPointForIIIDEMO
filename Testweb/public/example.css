@@ -42,7 +42,7 @@ img.github-logo {
 
 #feature, #step-definitions, #output, #solidity, #mochaOutput, #mocha {
   position: absolute;
-  top: 0px;
+  top: 3rem;
   bottom: 0px;
   left: 0px;
   right: 0px;
@@ -61,7 +61,6 @@ img.github-logo {
 #output, #mochaOutput .error {
   color: red;
 }
-
 
 #solidity {
   overflow: scroll;

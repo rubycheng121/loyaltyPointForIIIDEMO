@@ -1,4 +1,4 @@
-var featureEditor, stepDefinitionsEditor, mochaEditor, $output, $mochaOutput;
+var featureEditor, stepDefinitionsEditor, solidityEditor, mochaEditor, $output, $mochaOutput;
 
 function runFeature() {
   $output.empty();
@@ -81,6 +81,9 @@ $(function() {
   mochaEditor = ace.edit("mocha");
   mochaEditor.getSession().setMode("ace/mode/javascript");
 
+  solidityEditor = ace.edit("solidity");
+  solidityEditor.getSession().setMode("ace/mode/javascript");
+
   $output = $('#output');
   $mochaOutput = $('mochaOutput')
 
@@ -98,3 +101,15 @@ $(function() {
     runMocha();
   });
 });
+
+
+function show02(fileinfo) {
+  file = fileinfo.files[0];
+  //console.log(file);
+
+  var fReader = new FileReader();
+  fReader.onload = function (event) {
+    featureEditor.setValue(event.target.result);
+  };
+  fReader.readAsText(file);
+}
