@@ -1,4 +1,4 @@
-var featureEditor, stepDefinitionsEditor, $output;
+var featureEditor, stepDefinitionsEditor, solidityEditor, $output;
 
 function runFeature() {
   $output.empty();
@@ -54,6 +54,9 @@ $(function() {
   stepDefinitionsEditor = ace.edit("step-definitions");
   stepDefinitionsEditor.getSession().setMode("ace/mode/javascript");
 
+  solidityEditor = ace.edit("solidity");
+  solidityEditor.getSession().setMode("ace/mode/javascript");
+
   $output = $('#output');
 
   window.onerror = displayError;
@@ -67,3 +70,15 @@ $(function() {
     }).catch(displayError);
   });
 });
+
+
+function show02(fileinfo) {
+  file = fileinfo.files[0];
+  //console.log(file);
+
+  var fReader = new FileReader();
+  fReader.onload = function (event) {
+    featureEditor.setValue(event.target.result);
+  };
+  fReader.readAsText(file);
+}

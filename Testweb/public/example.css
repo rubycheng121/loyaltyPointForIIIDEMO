@@ -40,9 +40,9 @@ img.github-logo {
   width: 100%;
 }
 
-#feature, #step-definitions, #output {
+#feature, #step-definitions, #solidity, #output {
   position: absolute;
-  top: 0px;
+  top: 3rem;
   bottom: 0px;
   left: 0px;
   right: 0px;
@@ -60,16 +60,6 @@ img.github-logo {
 
 #output .error {
   color: red;
-}
-
-
-#feature, #step-definitions, #solidity {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  border: 1px solid #ccc;
 }
 
 #solidity {
