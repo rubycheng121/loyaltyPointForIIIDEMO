@@ -1,5 +1,4 @@
 var featureEditor, stepDefinitionsEditor, solidityEditor, mochaEditor, $output, $mochaOutput;
-
 function runFeature() {
   $output.empty();
   $('a[href="#output-tab"]').tab('show');
@@ -36,25 +35,6 @@ function runFeature() {
   return runtime.start();
 };
 
-function runMocha(){
-  $mochaOutput.empty();
-  $('a[href="#mocha-output-tab"]').tab('show');
-  mocha.setup('bdd');
-  describe('Mocha', function() {
-	  it('really runs', function(done) {
-      done();
-    });
-  });
-  describe('Mocha2', function() {
-	  it('really runs_2', function(done) {
-      done();
-    });
-  });
-  console.log(mocha.reporter());
-  //clean(mocha.reporter());
-  mocha.run();
-  //mocha.clean();
-}
 
 function appendToOutput(data) {
   $output.append(data);
@@ -82,7 +62,7 @@ $(function() {
   mochaEditor.getSession().setMode("ace/mode/javascript");
 
   solidityEditor = ace.edit("solidity");
-  solidityEditor.getSession().setMode("ace/mode/javascript");
+  solidityEditor.getSession().setMode("ace/mode/solidity");
 
   $output = $('#output');
   $mochaOutput = $('mochaOutput')
@@ -98,7 +78,10 @@ $(function() {
     }).catch(displayError);
   });
   $('#run-mocha').click(function() {
-    runMocha();
+    $.post("/mocha",{
+      mocha: mochaEditor.getValue(),
+      solidity: solidityEditor.getValue()
+    });
   });
 });
 
