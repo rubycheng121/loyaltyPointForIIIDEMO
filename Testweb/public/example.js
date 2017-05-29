@@ -65,7 +65,7 @@ $(function() {
   solidityEditor.getSession().setMode("ace/mode/solidity");
 
   $output = $('#output');
-  $mochaOutput = $('mochaOutput')
+  $mochaOutput = $('#mochaOutput')
 
   window.onerror = displayError;
   
@@ -81,6 +81,8 @@ $(function() {
     $.post("/mocha",{
       mocha: mochaEditor.getValue(),
       solidity: solidityEditor.getValue()
+    },(result)=>{
+      appendToMochaOutput(result)
     });
   });
 });

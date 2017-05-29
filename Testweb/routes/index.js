@@ -10,10 +10,18 @@ router.get('/', function(req, res, next) {
 });
 router.post('/mocha',function(req, res, next){
   fs.writeFileSync('test.js',req.body.mocha);
-  var mocha = new Mocha({ui : 'bdd',reporter :　'list'});
+  var mocha = new Mocha({ui : 'bdd',reporter :　'spec'});
   mocha.addFile('test.js');
-  mocha.reporter().run();
-  console.log(mocha.reporter()._reporter)
-  //console.log(req.body.mocha);
+  var write = process.stdout.write;
+  var output = '';
+  process.stdout.write = function(str) {
+    output += str;
+  };
+
+  mocha.run(function(failures) {
+    process.stdout.write = write;
+    console.log(output);
+    res.send(output.replace(/\[.*?[Hm]/g, ''))
+  });
 })
 module.exports = router;
