@@ -88,13 +88,35 @@ $(function() {
 });
 
 
-function show02(fileinfo) {
+function show01(fileinfo) {
   file = fileinfo.files[0];
-  //console.log(file);
-
   var fReader = new FileReader();
   fReader.onload = function (event) {
     featureEditor.setValue(event.target.result);
+  };
+  fReader.readAsText(file);
+}
+function show02(fileinfo) {
+  file = fileinfo.files[0];
+  var fReader = new FileReader();
+  fReader.onload = function (event) {
+    stepDefinitionsEditor.setValue(event.target.result);
+  };
+  fReader.readAsText(file);
+}
+function show03(fileinfo) {
+  file = fileinfo.files[0];
+  var fReader = new FileReader();
+  fReader.onload = function (event) {
+    solidityEditor.setValue(event.target.result);
+  };
+  fReader.readAsText(file);
+}
+function show04(fileinfo) {
+  file = fileinfo.files[0];
+  var fReader = new FileReader();
+  fReader.onload = function (event) {
+    mochaEditor.setValue(event.target.result);
   };
   fReader.readAsText(file);
 }
