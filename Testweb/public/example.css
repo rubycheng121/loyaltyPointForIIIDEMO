@@ -42,7 +42,7 @@ img.github-logo {
 
 #feature, #step-definitions, #output, #solidity, #mochaOutput, #mocha {
   position: absolute;
-  top: 3rem;
+  top: 0px;
   bottom: 0px;
   left: 0px;
   right: 0px;
