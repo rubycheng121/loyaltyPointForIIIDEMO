@@ -54,14 +54,18 @@ img.github-logo {
   padding: 5px;
 }
 
-#output, #mochaOutput .exit-status {
+#mochaOutput .exit-status {
   margin-top: 20px;
 }
-
-#output, #mochaOutput .error {
+#output .exit-status {
+  margin-top: 20px;
+}
+#mochaOutput .error {
   color: red;
 }
-
+#output .error {
+  color: red;
+}
 #solidity {
   overflow: scroll;
   padding: 5px;
