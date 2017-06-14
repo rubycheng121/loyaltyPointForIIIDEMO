@@ -94,15 +94,6 @@ $(function () {
 		});
 	});
 
-	$('#read_file').click(function () {
-		var file = fileinfo.files[0];
-		var fReader = new FileReader();
-		fReader.onload = function (event) {
-			featureEditor.setValue(event.target.result);
-		};
-		fReader.readAsText(file);
-	});
-
 	$('#download').click(function () {
 		$.post("/download", {}, (result) => {
 			featureEditor.setValue();
@@ -123,3 +114,12 @@ $(function () {
 		});
 	});
 });
+
+function read_file(fileinfo) {
+	var file = fileinfo.files[0];
+	var fReader = new FileReader();
+	fReader.onload = function (event) {
+		featureEditor.setValue(event.target.result);
+	};
+	fReader.readAsText(file);
+}
