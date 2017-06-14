@@ -1,0 +1,35 @@
+/*
+ * Header
+ */
+
+header {
+	margin-top: 1rem;
+}
+
+/*
+ * Main
+ */
+
+.main {
+
+}
+
+.tab-pane {
+	margin-top: 1rem; 
+}
+
+.tab-pane div {
+	height: 75vh;
+}
+
+.tab-pane pre {
+	height: 75vh;
+}
+
+/*
+ * footer
+ */
+
+footer {
+
+}
