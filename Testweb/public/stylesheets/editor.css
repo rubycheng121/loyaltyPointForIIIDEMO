@@ -1,0 +1,32 @@
+/*
+ * Header
+ */
+
+header #github-logo{
+	margin-top: 1rem;
+}
+
+/*
+ * Main
+ */
+
+.tab-pane {
+	margin-top: 1rem; 
+}
+
+.tab-pane {
+    height: 80vh;
+}
+
+.tab-pane div,
+.tab-pane pre{
+    height: 100%;
+}
+
+/*
+ * footer
+ */
+
+footer {
+
+}

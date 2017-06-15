@@ -2,31 +2,25 @@
  * Header
  */
 
-header #github-logo{
-	margin-top: 1rem;
+header #github-logo {
+    margin-top: 1rem;
 }
+
 
 /*
  * Main
  */
 
-.tab-pane {
-	margin-top: 1rem; 
+#project .row div div {
+    background-color: gray;
+    height: 20rem;
+    margin: 1rem;
+    border-style: solid;
+    border-color: red;
+    border-width: 3px;
+    border-radius: 20px;
 }
 
-.tab-pane {
-    height: 70vh;
-}
-
-.tab-pane div,
-.tab-pane pre{
-    height: 100%;
-}
-
-/*
- * footer
- */
-
-footer {
-
+#project{
+    display: none;
 }

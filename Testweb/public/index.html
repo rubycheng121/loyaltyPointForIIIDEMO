@@ -14,9 +14,8 @@
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link href="stylesheets/index.css" rel="stylesheet" type="text/css">
 
-	<!-- external javascript -->
+	<!-- javascript -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-	<script type="text/javascript" src="./javascripts/ace/ace.js"></script>
 	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 	<!-- Hack to get ansi-html to run in the browser -->
@@ -29,7 +28,7 @@
 		module = null;
 	</script>
 
-	<!-- internal javascript -->
+	<script type="text/javascript" src="./javascripts/ace/ace.js"></script>
 	<script type="text/javascript" src="javascripts/index.js"></script>
 
 </head>
@@ -40,8 +39,6 @@
 	<header class="container-fluid">
 		<div class="row">
 			<div class="col-md-2">
-				<p>ID:XXXX</p>
-				<p>project:OOOOO</p>
 			</div>
 			<div class="col-md-8 text-center">
 				<a href="">
@@ -56,87 +53,122 @@
 		</div>
 	</header>
 
-	<!-- htool-bareader -->
-	<section id="tool-bar">
-		<div class="container-fluid">
+	<section id="account">
+		<div class="container">
 			<div class="row">
 				<div class="col-md-6">
-					<ul class="nav nav-pills" role="tablist">
-						<li class="active"><a href="#feature-tab" data-toggle="tab">Feature</a></li>
-						<li><a href="#step-definitions-tab" data-toggle="tab">Step Definitions</a></li>
-						<li><a href="#mocha-tab" data-toggle="tab">Unit test</a></li>
-						<li><a href="#solidity-tab" data-toggle="tab">Contract</a></li>
-					</ul>
-				</div>
-				<div class="col-md-6 text-right">
-					<button type="buttom" class="btn btn-success" id="run-feature">Run Feature</button>
-					<button type="buttom" class="btn btn-success" id="run-mocha">Run Mocha</button>
-					<button type="buttom" class="btn btn-success" id="compile">Compile</button>
+					<form class="form-horizontal" action="/login" method="post">
 
-					<button id="full" type="buttom" class="btn btn-info" aria-label="left Align">
-						<span class="glyphicon glyphicon-resize-small" aria-hidden="true">
-					</button>
-					<button id="save" type="buttom" class="btn btn-info" aria-label="left Align">
-						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">save
-					</button>
-					<button id="download" type="buttom" class="btn btn-info" aria-label="left Align">
-						<span class="glyphicon glyphicon-cloud-download" aria-hidden="true">download
-					</button>
-					<button id="upload" type="buttom" class="btn btn-info" aria-label="left Align">
-						<span class="glyphicon glyphicon-cloud-upload" aria-hidden="true">upload
-					</button>
-					<button type="buttom" class="btn btn-info" aria-label="left Align">
-						<span class="glyphicon glyphicon-cog"  aria-hidden="true">setting
-					</button>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="ID">帳號</label>
+							<div class="col-sm-10">
+								<input class="form-control" type="text" id="ID" name="ID" placeholder="帳號">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="password">密碼</label>
+							<div class="col-sm-10">
+								<input class="form-control" type="password" id="password" name="password" placeholder="包含至少一個數字字元(0-9)">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-4">
+								<button type="submit" role="button" class="btn btn-success btn-lg">登錄</button>
+							</div>
+							<div class="col-sm-4">
+								<a href="" role="button" class="btn btn-success btn-lg">忘記密碼</a>
+							</div>
+						</div>
+
+					</form>
 				</div>
-				<!--
-				<div class="col-md-12" style="margin-top:1rem">
-					<input id="input" type="file" class="file" data-show-preview="false">
+				<div class="col-md-6">
+					<form class="form-horizontal" action="/registration" method="post">
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="contact-id">帳號</label>
+							<div class="col-sm-10">
+								<input class="form-control" type="text" id="contact-id" name="ID" placeholder="帳號">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="contact-password">密碼</label>
+							<div class="col-sm-10">
+								<input class="form-control" type="password" id="contact-password" name="password" placeholder="包含至少一個數字字元(0-9)">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="contact-repassword">確認密碼</label>
+							<div class="col-sm-10">
+								<input class="form-control" type="password" id="contact-repassword" placeholder="再次輸入密碼">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="contact-email">電子郵件</label>
+							<div class="col-sm-10">
+								<input class="form-control" type="email" id="contact-email" name="email" placeholder="你的電子郵件地址">
+							</div>
+						</div>
+
+
+						<div class="form-group">
+							<div class="col-sm-4">
+								<button type="submit" class="btn btn-success btn-lg">註冊</button>
+							</div>
+							<div class="col-sm-4">
+								<button class="btn btn-success btn-lg" type="reset">重設</button>
+							</div>
+						</div>
+
+					</form>
 				</div>
-				-->
 			</div>
 		</div>
 	</section>
 
-	<section id="main">
-		<div class="container-fluid">
+	<section id="project">
+		<div class="container">
 			<div class="row">
-				<div class="tab-content">
-
-					<!--feature-->
-					<div class="tab-pane active" id="feature-tab">
-						<div class="col-md-12">
-							<div id="feature" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'feature')"></div>
-						</div>
+				<div class="col-md-4">
+					<div>
+						<h2>專案1</h2>
+						<p>111</p>
 					</div>
-
-					<!--step-definitions-->
-					<div class="tab-pane" id="step-definitions-tab">
-						<div class="col-md-7">
-							<div id="step-definitions" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'step-definitions')"></div>
-						</div>
-						<div class="col-md-5">
-							<pre id="output"></pre>
-						</div>
+				</div>
+				<div class="col-md-4">
+					<div>
+						<h2>專案2</h2>
+						<p>222</p>
 					</div>
-
-					<!--mocha-->
-					<div class="tab-pane" id="mocha-tab">
-						<div class="col-md-7">
-							<div id="mocha" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'mocha')"></div>
-						</div>
-						<div class="col-md-5">
-							<pre id="mochaOutput"></pre>
-						</div>
+				</div>
+				<div class="col-md-4">
+					<div>
+						<h2>專案3</h2>
+						<p>333</p>
 					</div>
-
-					<!--solidity-->
-					<div class="tab-pane" id="solidity-tab">
-						<div class="col-md-12">
-							<div id="solidity" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'solidity')"></div>
-						</div>
+				</div>
+				<div class="col-md-4">
+					<div>
+						<h2>專案1</h2>
+						<p>111</p>
 					</div>
-
+				</div>
+				<div class="col-md-4">
+					<div>
+						<h2>專案2</h2>
+						<p>222</p>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div>
+						<h2>專案3</h2>
+						<p>333</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -153,5 +185,3 @@
 	-->
 
 </body>
-
-</html>

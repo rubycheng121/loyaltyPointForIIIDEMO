@@ -8,7 +8,7 @@ var connection = mysql.createConnection({
     database: credentials.SQL.database
 });
 
-function dowmload() {
+function download() {
     console.log("資料庫下載");
 }
 
