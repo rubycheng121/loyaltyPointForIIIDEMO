@@ -96,6 +96,13 @@ router.post('/compile', function (req, res, next) {
     res.send('compile');
 })
 
+router.post('/upload', function (req, res, next) {
+
+    
+
+    res.redirect('/');
+});
+
 router.post('/registration', function (req, res, next) {
 
     console.log("註冊");

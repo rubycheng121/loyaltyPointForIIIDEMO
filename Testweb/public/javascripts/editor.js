@@ -73,6 +73,7 @@ $(function () {
 
 	$('#download').click(function () {
 		$.post("/download", {}, (result) => {
+			console.log(result);
 			featureEditor.setValue();
 			stepDefinitionsEditor.setValue();
 			solidityEditor.setValue();
