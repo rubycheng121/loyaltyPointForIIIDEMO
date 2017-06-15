@@ -120,6 +120,20 @@ $(function () {
 			appendToMochaOutput(result)
 		});
 	});
+
+	$('#full').click(function () {
+		$('#full span').toggleClass("glyphicon-resize-full glyphicon-resize-small");
+		if ($('#full span').hasClass('glyphicon-resize-small')) {
+			$('header').show();
+			$('.tab-pane').css("height", "70vh");
+		}
+		else {
+			$('header').hide();
+			$('.tab-pane').css("height", "90vh");
+		}
+	});
+
+
 });
 
 $(window).load(function () {
@@ -170,12 +184,4 @@ function dropHandler(evt, target) {//evt 為 DragEvent 物件
 	reader.onload = function (event) {
 		editor.setValue(event.target.result);
 	};
-}
-
-
-
-window.onbeforeunload = function () {
-
-
-	return "檔案儲存成功";
 }
