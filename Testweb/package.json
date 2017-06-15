@@ -7,10 +7,12 @@
   },
   "dependencies": {
     "body-parser": "^1.17.2",
+    "chai": "^4.0.2",
     "cookie-parser": "^1.4.3",
     "cucumber": "^2.2.0",
     "express": "~4.14.0",
     "mocha": "^3.4.1",
-    "morgan": "^1.8.1"
+    "morgan": "^1.8.1",
+    "solc": "^0.4.11"
   }
 }
