@@ -1,287 +1,158 @@
 <!doctype html>
 <html>
 
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Cucumber.js</title>
+<head>
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="example.css" rel="stylesheet" type="text/css"/>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Cucumber.js</title>
 
-    <link href="images/favicon.png" rel="icon" type="image/png">
+	<!-- favicon -->
+	<link href="images/favicon.png" rel="icon" type="image/png">
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="./javascripts/ace/ace.js"></script>
-    
+	<!-- stylesheet -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="stylesheets/index.css" rel="stylesheet" type="text/css">
 
-    <!-- Hack to get ansi-html to run in the browser -->
-    <script type="text/javascript">
-      var module = {};
-    </script>
-    <script type="text/javascript" src="ansi-html/index.js"></script>
-    <script type="text/javascript">
-      var ansiHTML = module.exports;
-      module = null;
-    </script>
+	<!-- external javascript -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+	<script type="text/javascript" src="./javascripts/ace/ace.js"></script>
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="cucumber.js"></script>
-    <script type="text/javascript" src="mocha.js"></script>
-    <script type="text/javascript" src="example.js"></script>
-  </head>
+	<!-- Hack to get ansi-html to run in the browser -->
+	<script type="text/javascript">
+		var module = {};
+	</script>
+	<script type="text/javascript" src="ansi-html/index.js"></script>
+	<script type="text/javascript">
+		var ansiHTML = module.exports;
+		module = null;
+	</script>
 
-  <body>
+	<!-- internal javascript -->
+	<script type="text/javascript" src="javascripts/cucumber.js"></script>
+	<script type="text/javascript" src="javascripts/mocha.js"></script>
+	<script type="text/javascript" src="javascripts/index.js"></script>
 
-    <div class="header">
-      <a href="">
-      </br>
-        <img class="cucumber-logo" src="images/index.png" width="600">
-      </a>
-      <a href="https://github.com/cucumber/cucumber-js">
-        <img class="github-logo" src="images/github.png">
-      </a>
-    </div>
+</head>
 
-    <div class="main">
+<body>
 
-      <ul class="nav nav-pills" role="tablist">
-        <li class="active"><a href="#feature-tab" data-toggle="tab">Feature</a></li>
-        <li><a href="#step-definitions-tab" data-toggle="tab">Step Definitions</a></li>
-        <li><a href="#solidity-tab" data-toggle="tab">Contract</a></li>
-        <li><a href="#mocha-tab" data-toggle="tab">Unit test</a></li>
-        <li><a href="#mocha-output-tab" data-toggle="tab">Output(Unit test)</a></li>
-        <li><a href="#output-tab" data-toggle="tab">Output</a></li>
-      </ul>
+	<!-- header -->
+	<header class="container-fluid">
+		<div class="row">
+			<div class="col-md-2">
+				<p>ID:XXXX</p>
+				<p>project:OOOOO</p>
+			</div>
+			<div class="col-md-8 text-center">
+				<a href="">
+        			<img class="cucumber-logo text-center" src="images/logo.png" width="600">
+      			</a>
+			</div>
+			<div class="col-md-2 text-right" id="github-logo">
+				<a href="https://github.com/cucumber/cucumber-js">
+       				<img src="images/github.png">
+     			</a>
+			</div>
+		</div>
+	</header>
 
-      <div class="tab-content">
+	<!-- htool-bareader -->
+	<section id="tool-bar">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-6">
+					<ul class="nav nav-pills" role="tablist">
+						<li class="active"><a href="#feature-tab" data-toggle="tab">Feature</a></li>
+						<li><a href="#step-definitions-tab" data-toggle="tab">Step Definitions</a></li>
+						<li><a href="#mocha-tab" data-toggle="tab">Unit test</a></li>
+						<li><a href="#solidity-tab" data-toggle="tab">Contract</a></li>
+					</ul>
+				</div>
+				<div class="col-md-6 text-right">
+					<button type="buttom" class="btn btn-success" id="run-feature">Run Feature</button>
+					<button type="buttom" class="btn btn-success" id="run-mocha">Run Mocha</button>
 
-        <!--feature-->
-        <div class="tab-pane active" id="feature-tab">
-          
-          <div id="feature">Feature: Simple maths
-  In order to do maths
-  As a developer
-  I want to increment variables
+					<button id="full" type="buttom" class="btn btn-info" aria-label="left Align">
+						<span class="glyphicon glyphicon-resize-small" aria-hidden="true">
+					</button>
+					<button id="save" type="buttom" class="btn btn-info" aria-label="left Align">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">save
+					</button>
+					<button id="download" type="buttom" class="btn btn-info" aria-label="left Align">
+						<span class="glyphicon glyphicon-cloud-download" aria-hidden="true">download
+					</button>
+					<button id="upload" type="buttom" class="btn btn-info" aria-label="left Align">
+						<span class="glyphicon glyphicon-cloud-upload" aria-hidden="true">upload
+					</button>
+					<button type="buttom" class="btn btn-info" aria-label="left Align">
+						<span class="glyphicon glyphicon-cog"  aria-hidden="true">setting
+					</button>
+				</div>
+				<!--
+				<div class="col-md-12" style="margin-top:1rem">
+					<input id="input" type="file" class="file" data-show-preview="false">
+				</div>
+				-->
+			</div>
+		</div>
+	</section>
 
-  Scenario: easy maths
-    Given a variable set to 1
-    When I increment the variable by 1
-    Then the variable should contain 2
+	<section id="main">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="tab-content">
 
-  Scenario Outline: much more complex stuff
-    Given a variable set to &lt;var&gt;
-    When I increment the variable by &lt;increment&gt;
-    Then the variable should contain &lt;result&gt;
+					<!--feature-->
+					<div class="tab-pane active" id="feature-tab">
+						<div class="col-md-12">
+							<div id="feature" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'feature')"></div>
+						</div>
+					</div>
 
-    Examples:
-      | var | increment | result |
-      | 100 |         5 |    105 |
-      |  99 |      1234 |   1333 |
-      |  12 |         5 |     18 |</div>
-        </div>
+					<!--step-definitions-->
+					<div class="tab-pane" id="step-definitions-tab">
+						<div class="col-md-7">
+							<div id="step-definitions" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'step-definitions')"></div>
+						</div>
+						<div class="col-md-5">
+							<pre id="output"></pre>
+						</div>
+					</div>
 
-        <!--step-definitions-->
-        <div class="tab-pane" id="step-definitions-tab">
-          <div id="step-definitions">Cucumber.defineSupportCode(function(context) {
-  var setWorldConstructor = context.setWorldConstructor;
-  var Given = context.Given
-  var When = context.When
-  var Then = context.Then
+					<!--mocha-->
+					<div class="tab-pane" id="mocha-tab">
+						<div class="col-md-7">
+							<div id="mocha" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'mocha')"></div>
+						</div>
+						<div class="col-md-5">
+							<pre id="mochaOutput"></pre>
+						</div>
+					</div>
 
-  ///// Your World /////
-  //
-  // Call 'setWorldConstructor' with to your custom world (optional)
-  //
+					<!--solidity-->
+					<div class="tab-pane" id="solidity-tab">
+						<div class="col-md-12">
+							<div id="solidity" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'solidity')"></div>
+						</div>
+					</div>
 
-  var CustomWorld = function() {};
+				</div>
+			</div>
+		</div>
+	</section>
 
-  CustomWorld.prototype.variable = 0;
+	<!--
+	<footer class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
 
-  CustomWorld.prototype.setTo = function(number) {
-    this.variable = parseInt(number);
-  };
+			</div>
+		</div>
+	</footer>
+	-->
 
-  CustomWorld.prototype.incrementBy = function(number) {
-    this.variable += parseInt(number);
-  };
-
-  setWorldConstructor(CustomWorld);
-
-  ///// Your step definitions /////
-  //
-  // use 'Given', 'When' and 'Then' to declare step definitions
-  //
-
-  Given(/^a variable set to (\d+)$/, function(number) {
-    this.setTo(number);
-  });
-
-  When(/^I increment the variable by (\d+)$/, function(number) {
-    this.incrementBy(number);
-  });
-
-  Then(/^the variable should contain (\d+)$/, function(number) {
-    if (this.variable != parseInt(number))
-      throw new Error('Variable should contain ' + number +
-        ' but it contains ' + this.variable + '.');
-  });
-})</div>
-        </div>
-
-        <!--solidity-->
-        <div class="tab-pane" id="solidity-tab">
-          <div id="solidity">pragma solidity ^0.4.8;
-contract Exchange{
-    Account private myAccount;
-    Account private partnerAccount;
-    string myCompanyName;
-
-	event testFunctionRun(bool test);
-
-    function Exchange (address me,address partner){
-        myAccount=Account(me);
-        partnerAccount=Account(partner);
-
-    }
-
-    function to(bytes32 sourceName,bytes32 targerName,int amount) returns (bool){
-        LoyaltyPoint target = LoyaltyPoint(myAccount.getLoyaltyPoint(targerName));
-        LoyaltyPoint source = LoyaltyPoint(myAccount.getLocalLoyaltyPoint());
-        LoyaltyPoint partnerSource = LoyaltyPoint(partnerAccount.getLoyaltyPoint(sourceName));
-		LoyaltyPoint partnerTarget = LoyaltyPoint(partnerAccount.getLocalLoyaltyPoint());
-
-		if (source.getPoints() - amount < 0) {
-			testFunctionRun(false);
-			return false;
-		}
-		// A to B
-		source.addPoints(0 - amount);
-		partnerSource.addPoints(amount);
-		// B to A
-		target.addPoints(amount * int(target.getRate())/100);
-		partnerTarget.addPoints(0 - (amount * int(target.getRate())/100));
-		
-		testFunctionRun(true);
-		return true;
-
-    }
-    function getAccount() constant returns(Account){
-        return myAccount;
-    }
-    function getPartnerAccount() constant returns(Account){
-		return partnerAccount;
-	}
-
-}
-
-contract Account{
-    bytes32 private companyName;
-    mapping (bytes32 => address) private loyaltyPoints;
-
-	function Account(bytes32 _companyName) public {
-
-		companyName = _companyName;
-		address loyaltyPointAddress = new LoyaltyPoint(companyName, 0, 1);
-		loyaltyPoints[companyName]=loyaltyPointAddress;
-	}
-
-	function getLoyaltyPoint(bytes32 name) public constant returns(address) {
-
-		return loyaltyPoints[name];
-	}
-
-	function  getLocalLoyaltyPoint() constant returns(address) {
-
-
-		return loyaltyPoints[companyName];
-	}
-
-	function getCompanyName() public constant returns(bytes32) {
-		return companyName;
-	}
-
-	function addLoyaltyPoint(bytes32 companyName, int points, uint rate) public returns(address) {
-		LoyaltyPoint newLoyaltyPointAddress=new LoyaltyPoint(companyName,points,rate);
-		loyaltyPoints[companyName]=newLoyaltyPointAddress;
-		return newLoyaltyPointAddress;
-
-
-	}
-}
-
-contract LoyaltyPoint {
-	 bytes32 private name;
-	 int private points;
-	 uint private rate; // 1 local points = "rate" points of "name"
-
-//   event getLocalLoyaltyPointAddress(address LocalLoyaltyPointAddress);
-	function LoyaltyPoint(bytes32 _name, int _points, uint _rate) public {
-		name = _name;
-		points = _points;
-		rate = _rate;
-	}
-
-	function  getName() public constant returns(bytes32) {
-		return name;
-	}
-
-	function setName(bytes32 _name) public  {
-		name = _name;
-	}
-
-	function getPoints() public constant returns (int) {
-		return points;
-	}
-
-	function addPoints(int amount) public {
-		points += amount;
-	}
-
-	function setPoints(uint amount) public {
-		points = int(amount);
-	}
-
-	function  getRate() public constant returns (uint) {
-		return rate;
-	}
-
-}
-</div>
-        </div>
-
-        <!--mocha-->
-        <div class="tab-pane" id="mocha-tab">
-          <div id="mocha">describe('Mocha', function() {
-	it('really runs', function(done) {
-  	done();
-  });
-});
-</div>
-        </div>
-
-        <!--mocha-output-->
-        <div class="tab-pane" id="mocha-output-tab">
-          <pre id="mochaOutput"></pre>
-        </div>
-
-        <!--output-->
-        <div class="tab-pane" id="output-tab">
-          <pre id="output"></pre>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="footer">
-      <button class="btn" id="run-mocha">Run Mocha</button>
-      Feature<input type="file" onchange="show01(this)"/>
-      Step Definitions<input type="file" onchange="show02(this)"/>
-      Contract<input type="file" onchange="show03(this)"/>
-      Unit test<input type="file" onchange="show04(this)"/>
-      <button class="btn" id="run-feature">Run Feature</button>
-    </div>
-
-  </body>
+</body>
 
 </html>
