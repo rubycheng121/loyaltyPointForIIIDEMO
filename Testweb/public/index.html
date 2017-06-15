@@ -16,9 +16,8 @@
 
 	<!-- external javascript -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="./javascripts/ace/ace.js"></script>
-
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 	<!-- Hack to get ansi-html to run in the browser -->
 	<script type="text/javascript">
@@ -39,9 +38,14 @@
 
 <body>
 
+	<!-- header -->
 	<header class="container-fluid">
 		<div class="row">
-			<div class="col-md-10 text-center">
+			<div class="col-md-2">
+				<p>ID:XXXX</p>
+				<p>project:OOOOO</p>
+			</div>
+			<div class="col-md-8 text-center">
 				<a href="">
         			<img class="cucumber-logo text-center" src="images/logo.png" width="600">
       			</a>
@@ -54,6 +58,7 @@
 		</div>
 	</header>
 
+	<!-- htool-bareader -->
 	<section id="tool-bar">
 		<div class="container-fluid">
 			<div class="row">
@@ -63,16 +68,15 @@
 						<li><a href="#step-definitions-tab" data-toggle="tab">Step Definitions</a></li>
 						<li><a href="#mocha-tab" data-toggle="tab">Unit test</a></li>
 						<li><a href="#solidity-tab" data-toggle="tab">Contract</a></li>
-						<li><a href="#output-tab" data-toggle="tab">Output</a></li>
 					</ul>
 				</div>
 				<div class="col-md-6 text-right">
 					<button type="buttom" class="btn btn-success" id="run-feature">Run Feature</button>
 					<button type="buttom" class="btn btn-success" id="run-mocha">Run Mocha</button>
 
-					<label class="control-label">Select File</label>
-					<input id="input-4" name="input4[]" type="file" multiple class="file-loading">
-
+					<button id="save" type="buttom" class="btn btn-info" aria-label="left Align">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">save
+					</button>
 					<button id="download" type="buttom" class="btn btn-info" aria-label="left Align">
 						<span class="glyphicon glyphicon-cloud-download" aria-hidden="true">download
 					</button>
@@ -83,6 +87,11 @@
 						<span class="glyphicon glyphicon-cog"  aria-hidden="true">setting
 					</button>
 				</div>
+				<!--
+				<div class="col-md-12" style="margin-top:1rem">
+					<input id="input" type="file" class="file" data-show-preview="false">
+				</div>
+				-->
 			</div>
 		</div>
 	</section>
@@ -90,45 +99,48 @@
 	<section id="main">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-12">
-					<div class="tab-content">
+				<div class="tab-content">
 
-						<!--feature-->
-						<div class="tab-pane active" id="feature-tab">
-							<div id="feature"></div>
+					<!--feature-->
+					<div class="tab-pane active" id="feature-tab">
+						<div class="col-md-12">
+							<div id="feature" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'feature')"></div>
 						</div>
-
-						<!--step-definitions-->
-						<div class="tab-pane" id="step-definitions-tab">
-							<div id="step-definitions"></div>
-						</div>
-
-						<!--mocha-->
-						<div class="tab-pane" id="mocha-tab">
-							<div id="mocha"></div>
-						</div>
-
-						<!--solidity-->
-						<div class="tab-pane" id="solidity-tab">
-							<div id="solidity"></div>
-						</div>
-
-						<!--output-->
-						<div class="tab-pane" id="output-tab">
-							<div class="col-md-6">
-								<pre id="output"></pre>
-							</div>
-							<div class="col-md-6">
-								<pre id="mochaOutput"></pre>
-							</div>
-						</div>
-
 					</div>
+
+					<!--step-definitions-->
+					<div class="tab-pane" id="step-definitions-tab">
+						<div class="col-md-7">
+							<div id="step-definitions" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'step-definitions')"></div>
+						</div>
+						<div class="col-md-5">
+							<pre id="output"></pre>
+						</div>
+					</div>
+
+					<!--mocha-->
+					<div class="tab-pane" id="mocha-tab">
+						<div class="col-md-7">
+							<div id="mocha" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'mocha')"></div>
+						</div>
+						<div class="col-md-5">
+							<pre id="mochaOutput"></pre>
+						</div>
+					</div>
+
+					<!--solidity-->
+					<div class="tab-pane" id="solidity-tab">
+						<div class="col-md-12">
+							<div id="solidity" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'solidity')"></div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
 	</section>
 
+	<!--
 	<footer class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
@@ -136,6 +148,7 @@
 			</div>
 		</div>
 	</footer>
+	-->
 
 </body>
 

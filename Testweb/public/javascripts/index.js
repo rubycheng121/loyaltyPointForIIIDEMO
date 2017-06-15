@@ -94,6 +94,13 @@ $(function () {
 		});
 	});
 
+	$('#save').click(function () {
+		localStorage.setItem("feature", featureEditor.getValue());
+		localStorage.setItem("stepDefinitions", stepDefinitionsEditor.getValue());
+		localStorage.setItem("mocha", mochaEditor.getValue());
+		localStorage.setItem("solidity", solidityEditor.getValue());
+	});
+
 	$('#download').click(function () {
 		$.post("/download", {}, (result) => {
 			featureEditor.setValue();
@@ -115,6 +122,13 @@ $(function () {
 	});
 });
 
+$(window).load(function () {
+	featureEditor.setValue(localStorage.getItem("feature"));
+	stepDefinitionsEditor.setValue(localStorage.getItem("stepDefinitions"));
+	mochaEditor.setValue(localStorage.getItem("mocha"));
+	solidityEditor.setValue(localStorage.getItem("solidity"));
+})
+
 function read_file(fileinfo) {
 	var file = fileinfo.files[0];
 	var fReader = new FileReader();
@@ -122,4 +136,46 @@ function read_file(fileinfo) {
 		featureEditor.setValue(event.target.result);
 	};
 	fReader.readAsText(file);
+}
+
+function dragoverHandler(evt) {
+	evt.preventDefault();
+}
+
+function dropHandler(evt, target) {//evt 為 DragEvent 物件
+	evt.preventDefault();
+	var file = evt.dataTransfer.files[0];
+	var reader = new FileReader();
+	var editor;
+
+	switch (target) {
+		case 'feature':
+			editor = featureEditor;
+			reader.readAsText(file);
+			break;
+		case 'step-definitions':
+			editor = stepDefinitionsEditor;
+			reader.readAsText(file);
+			break;
+		case 'mocha':
+			editor = mochaEditor;
+			reader.readAsText(file);
+			break;
+		case 'solidity':
+			editor = solidityEditor;
+			reader.readAsText(file);
+			break;
+	}
+
+	reader.onload = function (event) {
+		editor.setValue(event.target.result);
+	};
+}
+
+
+
+window.onbeforeunload = function () {
+
+
+	return "檔案儲存成功";
 }
