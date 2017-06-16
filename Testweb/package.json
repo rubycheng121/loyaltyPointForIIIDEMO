@@ -11,6 +11,7 @@
     "cookie-parser": "^1.4.3",
     "cucumber": "^2.2.0",
     "express": "~4.14.0",
+    "express-session": "^1.15.3",
     "mocha": "^3.4.1",
     "morgan": "^1.8.1",
     "mysql": "^2.13.0",
