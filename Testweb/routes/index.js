@@ -32,38 +32,43 @@ router.get('/editor', function (req, res, next) {
 
 
 
-router.post('/cucumber', function (req, res, next) {
-	var resdata;
-	var feature = Cucumber.FeatureParser.parse({
-		scenarioFilter: new Cucumber.ScenarioFilter({}),
-		source: req.body.featureSource,
-		uri: '/feature'
-	});
+router.get('/', function (req, res, next) {
+    res.sendFile(path.resolve('public', 'index.html'));
+});
 
-	Cucumber.clearSupportCodeFns();
-	new Function(req.body.stepDefinitions)();
-	var supportCodeLibrary = Cucumber.SupportCodeLibraryBuilder.build({
-		cwd: '/',
-		fns: Cucumber.getSupportCodeFns()
-	});
+router.post('/cucumber', async function (req, res, next) {
+    var resdata = "";
 
-	var formatterOptions = {
-		colorsEnabled: true,
-		cwd: '/',
-		log: function (data) {
-			console.log(data);
-			resdata = data;
-		},
-		supportCodeLibrary: supportCodeLibrary
-	};
-	var prettyFormatter = Cucumber.FormatterBuilder.build('pretty', formatterOptions);
-	var runtime = new Cucumber.Runtime({
-		features: [feature],
-		listeners: [prettyFormatter],
-		supportCodeLibrary: supportCodeLibrary
-	});
-	runtime.start();
-	res.send(resdata)
+    var feature = Cucumber.FeatureParser.parse({
+        scenarioFilter: new Cucumber.ScenarioFilter({}),
+        source: req.body.featureSource,
+        uri: '/feature'
+    });
+
+    Cucumber.clearSupportCodeFns();
+    new Function(req.body.stepDefinitions)();
+    var supportCodeLibrary = Cucumber.SupportCodeLibraryBuilder.build({
+        cwd: '/',
+        fns: Cucumber.getSupportCodeFns()
+    });
+
+    var formatterOptions = {
+        colorsEnabled: true,
+        cwd: '/',
+        log: function (data) {
+            resdata += data;
+        },
+        supportCodeLibrary: supportCodeLibrary
+    };
+    var prettyFormatter = Cucumber.FormatterBuilder.build('pretty', formatterOptions);
+    var runtime = new Cucumber.Runtime({
+        features: [feature],
+        listeners: [prettyFormatter],
+        supportCodeLibrary: supportCodeLibrary
+    });
+    await runtime.start()
+    //console.log(resdata)
+    res.send(resdata)
 })
 
 router.post('/mocha', function (req, res, next) {
@@ -93,14 +98,19 @@ router.post('/mocha', function (req, res, next) {
 })
 
 router.post('/compile', function (req, res, next) {
-	var source = req.body.solidity;
-	var compiledContract = solc.compile(source, 1);
-	//var abi = compiledContract.contracts[].interface;
-	//var bytecode = compiledContract.contracts[].bytecode;
-	//fs.writeFileSync('contract.abi', abi);
-	//fs.writeFileSync('contract.bin', bytecode);
-	console.log(compiledContract)
-	res.send('compile');
+    var info = [];
+    var source = req.body.solidity;
+    var compiledContract = solc.compile(source, 1);
+    //console.log(compiledContract)
+    for(var index in compiledContract.contracts){
+        var contractinfo = {
+            'name': index,
+            'abi': compiledContract.contracts[index].interface,
+            'bytecode': compiledContract.contracts[index].bytecode
+        }
+        info.push(contractinfo);
+    }
+    res.send(info);
 })
 
 router.post('/upload', function (req, res, next) {
