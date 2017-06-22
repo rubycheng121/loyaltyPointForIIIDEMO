@@ -1,16 +1,101 @@
 $(function () {
-    var dialog, form,
+    var sign_in_dialog;
+    var sign_in_form;
+    var sign_up_dialog;
+    var sign_up_form;
 
-        // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
-        emailRegex =
-        /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-        name = $("#name"),
-        email = $("#email"),
-        password = $("#password"),
-        allFields = $([]).add(name).add(email).add(password),
-        tips = $(".validateTips");
+    var emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    var name = $("#name");
+    var email = $("#email");
+    var password = $("#password");
+    var allFields = $([]).add(name).add(email).add(password);
+    var tips = $(".validateTips");
 
-    var sign_in;
+    //dialog
+    sign_in_dialog = $("#sign_in_dialog").dialog({
+        autoOpen: false,
+        height: 330,
+        width: 350,
+        modal: true,
+        buttons: {
+            "sign_in": sign_in_submit,
+            Cancel: function () {
+                sign_in_dialog.dialog("close");
+            }
+        },
+        close: function () {
+            sign_in_form[0].reset();
+            allFields.removeClass("ui-state-error");
+        }
+    });
+
+    sign_up_dialog = $("#sign_up_dialog").dialog({
+        autoOpen: false,
+        height: 400,
+        width: 350,
+        modal: true,
+        buttons: {
+            "Create an account": sign_up_submit,
+            Cancel: function () {
+                sign_up_dialog.dialog("close");
+            }
+        },
+        close: function () {
+            sign_up_form[0].reset();
+            allFields.removeClass("ui-state-error");
+        }
+    });
+
+    //form
+    sign_in_form = sign_in_dialog.find("form").on("submit", function (event) {
+        event.preventDefault();
+        addUser();
+    });
+    sign_up_form = sign_up_dialog.find("form").on("submit", function (event) {
+        event.preventDefault();
+        addUser();
+    });
+
+    //button
+    $("#sign_in_button").button().on("click", function () {
+        sign_in_dialog.dialog("open");
+    });
+
+    $("#sign_up_button").button().on("click", function () {
+        sign_up_dialog.dialog("open");
+    });
+
+    //submit
+    function sign_in_submit() {
+
+    }
+    function sign_up_submit() {
+
+    }
+
+    function addUser() {
+        var valid = true;
+        allFields.removeClass("ui-state-error");
+
+        valid = valid && checkLength(name, "username", 3, 16);
+        valid = valid && checkLength(email, "email", 6, 80);
+        valid = valid && checkLength(password, "password", 5, 16);
+
+        valid = valid && checkRegexp(name, /^[a-z]([0-9a-z_\s])+$/i,
+            "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter.");
+        valid = valid && checkRegexp(email, emailRegex, "eg. ui@jquery.com");
+        valid = valid && checkRegexp(password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9");
+
+        if (valid) {
+            $("#users tbody").append("<tr>" +
+                "<td>" + name.val() + "</td>" +
+                "<td>" + email.val() + "</td>" +
+                "<td>" + password.val() + "</td>" +
+                "</tr>");
+            dialog.dialog("close");
+        }
+        return valid;
+    }
 
     function updateTips(t) {
         tips.text(t).addClass("ui-state-highlight");
@@ -64,51 +149,6 @@ $(function () {
         return valid;
     }
 
-    dialog = $("#dialog-form").dialog({
-        autoOpen: false,
-        height: 400,
-        width: 350,
-        modal: true,
-        buttons: {
-            "Create an account": addUser,
-            Cancel: function () {
-                dialog.dialog("close");
-            }
-        },
-        close: function () {
-            form[0].reset();
-            allFields.removeClass("ui-state-error");
-        }
-    });
 
-    sign_in = $("#sign_in").dialog({
-        autoOpen: false,
-        height: 330,
-        width: 350,
-        modal: true,
-        buttons: {
-            "sign_in": addUser,
-            Cancel: function () {
-                sign_in.dialog("close");
-            }
-        },
-        close: function () {
-            form[0].reset();
-            allFields.removeClass("ui-state-error");
-        }
-    });
-
-    form = dialog.find("form").on("submit", function (event) {
-        event.preventDefault();
-        addUser();
-    });
-
-    $("#create-user").button().on("click", function () {
-        dialog.dialog("open");
-    });
-
-    $("#sign_in_bt").button().on("click", function () {
-        sign_in.dialog("open");
-    });
 
 });
