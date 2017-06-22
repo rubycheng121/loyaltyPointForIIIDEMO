@@ -62,6 +62,10 @@ $(function () {
         sign_up_dialog.dialog("open");
     });
 
+    $("#sign_out_button").button().on("click", function () {
+        $.post("sign_out");
+    });
+
     //submit
     function sign_in_submit() {
         allFields.removeClass("ui-state-error");
@@ -71,13 +75,17 @@ $(function () {
                 password: $("#sign_in_password").val()
             })
             .done(function (data) {
-                
-                if(data.sucess) {
-                    sign_in_dialog.dialog("close");
+
+                alert(data.result);
+                if (data.success) {
                     alert(data.result);
-                }
-                else {
-                    alert(data.result);
+
+                    $("#sign_in_button").hide();
+                    $("#sign_up_button").hide();
+                    $("#sign_out_button").show();
+
+                    $("#uaer_name").html($("#sign_in_user").val());
+                    $("#user_project").html("project1");
                 }
             });
     }
@@ -91,10 +99,9 @@ $(function () {
                 password: $("#sign_up_password").val()
             })
             .done(function (data) {
-                if(data.sucess) {
+                if (data.sucess) {
                     alert(data.result);
-                }
-                else {
+                } else {
                     alert(data.result);
                 }
             });

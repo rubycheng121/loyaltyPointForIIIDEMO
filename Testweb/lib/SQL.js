@@ -18,7 +18,6 @@ function upload() {
 
 function sing_in(user, password, callback) {
     getUser(user, (result) => {
-        console.log(result);
         if (result == "") {
             callback(false, "查無此帳號");
         } else {
@@ -33,7 +32,6 @@ function sing_in(user, password, callback) {
 
 function sing_up(user, email, password, callback) {
     getUser(user, (result) => {
-        console.log(result);
         if (result == "") {
             addUser(user, email, password, (result) => {
                 callback(true, "註冊成功");
