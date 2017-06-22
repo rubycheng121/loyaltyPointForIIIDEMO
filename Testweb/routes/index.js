@@ -38,7 +38,7 @@ router.get('/', function (req, res, next) {
 
 router.post('/cucumber', async function (req, res, next) {
     var resdata = "";
-
+	var undofunc = "";
     var feature = Cucumber.FeatureParser.parse({
         scenarioFilter: new Cucumber.ScenarioFilter({}),
         source: req.body.featureSource,
@@ -56,6 +56,9 @@ router.post('/cucumber', async function (req, res, next) {
         colorsEnabled: true,
         cwd: '/',
         log: function (data) {
+			if(data.includes('Undefined. Implement with the following snippet:')){
+				undofunc += data.slice(data.indexOf('Undefined. Implement with the following snippet:')+50).replace(/     /g,"")
+			}
             resdata += data;
         },
         supportCodeLibrary: supportCodeLibrary
@@ -67,7 +70,10 @@ router.post('/cucumber', async function (req, res, next) {
         supportCodeLibrary: supportCodeLibrary
     });
     await runtime.start()
-    res.send(resdata)
+    res.send({
+		output: resdata,
+		setinput: undofunc.replace(/\[.*?[Hm]/g, '')
+	})
 })
 
 router.post('/mocha', function (req, res, next) {

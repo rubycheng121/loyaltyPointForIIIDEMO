@@ -21,6 +21,9 @@ function appendToSolidityOutput(data) {
 	$solidityOutput.append(data);
 	$solidityOutput.scrollTop($solidityOutput.prop("scrollHeight"));
 }
+function appendToStepDefinitionsEditor(data) {
+	stepDefinitionsEditor.setValue(data);
+}
 
 function displayError(error) {
 	var errorContainer = $('<div>')
@@ -48,11 +51,16 @@ $(function () {
 	window.onerror = displayError;
 
 	$('#run-feature').click(function () {
+		$('a[href="#step-definitions-tab"]').tab('show');
 		$.post('/cucumber', {
 			featureSource: featureEditor.getValue(),
 			stepDefinitions: stepDefinitionsEditor.getValue()
 		}, (result) => {
-			appendToOutput(ansiHTML(result))
+			appendToOutput(ansiHTML(result.output))
+			if (stepDefinitionsEditor.getValue().length == 0) {
+				appendToStepDefinitionsEditor("defineSupportCode(function ({ Given, When, Then, And }) {\n\n" + result.setinput.replace(//g,"") + "\n});")
+			}
+			
 		})
 	});
 
@@ -68,9 +76,10 @@ $(function () {
 		$.post("/compile", {
 			solidity: solidityEditor.getValue()
 		}, (result) => {
-			for (var index in result) {
-				appendToSolidityOutput("" + result[index].name.slice(1) + '\n' + 'abi : ' + result[index].abi + '\n' + 'bytecode : ' + result[index].bytecode + '\n\n');
+			for(var index in result){
+				appendToSolidityOutput(""+result[index].name.slice(1)+'\n'+'abi : '+result[index].abi+'\n'+'bytecode : '+result[index].bytecode+'\n\n');
 			}
+			console.log(result);
 		});
 	});
 	$('#save').click(function () {
