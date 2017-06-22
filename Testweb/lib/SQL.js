@@ -16,25 +16,56 @@ function upload() {
     console.log("資料庫上傳");
 }
 
-function sing_in(name, password) {
-    console.log("會員登錄");
-}
-
-function sing_up(name, email, password) {
-    console.log("會員註冊");
-}
-
-function getUserNumByName(username, callback) {
-    var cmd = "select * from userinfo where username = ? ";
-    connection.query(cmd, [username], function (err, result) {
-        if (err) {
-            return;
+function sing_in(user, password, callback) {
+    return getUser(user, (result) => {
+        if (result == "") {
+            callback(false, "查無此帳號");
+        } else {
+            if (result[0].password == password) {
+                callback(true, "登錄成功");
+            } else {
+                callback(false, "密碼無效");
+            }
         }
-        connection.release();
-        callback(err, result);
     });
 }
 
+function sing_up(user, email, password, callback) {
+    getUser(user, (result) => {
+        if (result == "") {
+            addUser(user, email, password, (result) => {
+                callback(true, "註冊成功");
+            })
+        } else {
+            callback(false, "此帳號已有人註冊過");
+        }
+    });
+}
+
+function getUser(user, callback) {
+    var cmd = "select * from account where user = ?";
+    connection.query(cmd, [user], (err, result) => {
+        if (!err) {
+            callback(result);
+        } else {
+            console.log(err);
+        }
+    });
+}
+
+function addUser(user, email, password, callback) {
+    var cmd = "INSERT INTO account (user, email, password) VALUES ?";
+    var value = [
+        [user, email, password]
+    ];
+    connection.query(cmd, [value], (err, result) => {
+        if (!err) {
+            callback(result);
+        } else {
+            console.log(err);
+        }
+    });
+}
 
 module.exports = {
     connection: connection,
