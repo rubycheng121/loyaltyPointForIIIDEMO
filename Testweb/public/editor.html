@@ -11,11 +11,13 @@
 	<link href="images/favicon.png" rel="icon" type="image/png">
 
 	<!-- stylesheet -->
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="./jquery-ui-themes-1.12.1/jquery-ui.css">
 	<link href="stylesheets/editor.css" rel="stylesheet" type="text/css">
 
 	<!-- javascript -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 	<!-- Hack to get ansi-html to run in the browser -->
@@ -30,6 +32,7 @@
 
 	<script type="text/javascript" src="./javascripts/ace/ace.js"></script>
 	<script type="text/javascript" src="javascripts/editor.js"></script>
+	<script type="text/javascript" src="javascripts/account.js"></script>
 
 </head>
 
@@ -38,9 +41,9 @@
 	<!-- header -->
 	<header class="container-fluid">
 		<div class="row">
-			<div class="col-md-2">
-				<p>ID:XXXX</p>
-				<p>project:OOOOO</p>
+			<div class="col-md-2" id="account">
+				<button class="btn btn-success" id="sign_in_bt">登錄</button>
+				<button class="btn btn-success" id="create-user">註冊</button>
 			</div>
 			<div class="col-md-8 text-center">
 				<a href="">
@@ -143,6 +146,38 @@
 			</div>
 		</div>
 	</section>
+
+	<div id="sign_in" title="sign_in">
+		<p class="validateTips">All form fields are required.</p>
+		<form>
+			<fieldset>
+				<label for="name">Name</label>
+				<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
+				<label for="password">Password</label>
+				<input type="password" name="password" id="password" class="text ui-widget-content ui-corner-all">
+
+				<!-- Allow form submission with keyboard without duplicating the dialog button -->
+				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+			</fieldset>
+		</form>
+	</div>
+
+	<div id="dialog-form" title="Create new user">
+		<p class="validateTips">All form fields are required.</p>
+		<form>
+			<fieldset>
+				<label for="name">Name</label>
+				<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
+				<label for="email">Email</label>
+				<input type="text" name="email" id="email" class="text ui-widget-content ui-corner-all">
+				<label for="password">Password</label>
+				<input type="password" name="password" id="password" class="text ui-widget-content ui-corner-all">
+
+				<!-- Allow form submission with keyboard without duplicating the dialog button -->
+				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+			</fieldset>
+		</form>
+	</div>
 
 	<!--
 	<footer class="container-fluid">

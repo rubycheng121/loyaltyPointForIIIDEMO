@@ -5,6 +5,8 @@ var mochaEditor
 var $output
 var $mochaOutput
 
+
+
 function appendToOutput(data) {
 	$output.append(data);
 	$output.scrollTop($output.prop("scrollHeight"));
@@ -102,6 +104,7 @@ $(function () {
 			$('.tab-pane').css("height", "90vh");
 		}
 	});
+
 
 });
 
