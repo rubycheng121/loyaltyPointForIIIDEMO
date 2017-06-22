@@ -66,24 +66,30 @@ $(function () {
     function sign_in_submit() {
         allFields.removeClass("ui-state-error");
 
-        console.log();
-        console.log();
-
-        $.post("sign_up", {
-                name: $("#sign_in_name").val(),
+        $.post("sign_in", {
+                user: $("#sign_in_user").val(),
                 password: $("#sign_in_password").val()
             })
             .done(function (data) {
                 alert("Data Loaded: " + data);
+                console.log(data);
+                sign_ip_dialog.dialog("close");
             });
     }
 
     function sign_up_submit() {
         allFields.removeClass("ui-state-error");
 
-        console.log($("#sign_up_name").val());
-        console.log($("#sign_up_email").val());
-        console.log($("#sign_up_password").val());
+        $.post("sign_up", {
+                user: $("#sign_up_user").val(),
+                email: $("#sign_up_email").val(),
+                password: $("#sign_up_password").val()
+            })
+            .done(function (data) {
+                alert("Data Loaded: " + data);
+                console.log(data);
+                sign_up_dialog.dialog("close");
+            });
     }
 
     function addUser() {

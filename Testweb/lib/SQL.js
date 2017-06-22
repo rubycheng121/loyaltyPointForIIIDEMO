@@ -17,7 +17,7 @@ function upload() {
 }
 
 function sing_in(user, password, callback) {
-    return getUser(user, (result) => {
+    getUser(user, (result) => {
         if (result == "") {
             callback(false, "查無此帳號");
         } else {

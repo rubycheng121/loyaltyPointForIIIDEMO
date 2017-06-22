@@ -146,7 +146,7 @@ router.post('/sign_up', function (req, res, next) {
 	console.log("註冊");
 	console.log(req.body);
 
-	sql.sing_up(req.body.name, req.body.email, req.body.password, (success, result) => {
+	sql.sing_up(req.body.user, req.body.email, req.body.password, (success, result) => {
 		if (success) {
 			console.log(result);
 		} else {
