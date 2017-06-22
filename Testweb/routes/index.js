@@ -33,44 +33,44 @@ router.get('/editor', function (req, res, next) {
 
 
 router.get('/', function (req, res, next) {
-    res.sendFile(path.resolve('public', 'index.html'));
+	res.sendFile(path.resolve('public', 'index.html'));
 });
 
 router.post('/cucumber', async function (req, res, next) {
-    var resdata = "";
+	var resdata = "";
 	var undofunc = "";
-    var feature = Cucumber.FeatureParser.parse({
-        scenarioFilter: new Cucumber.ScenarioFilter({}),
-        source: req.body.featureSource,
-        uri: '/feature'
-    });
+	var feature = Cucumber.FeatureParser.parse({
+		scenarioFilter: new Cucumber.ScenarioFilter({}),
+		source: req.body.featureSource,
+		uri: '/feature'
+	});
 
-    Cucumber.clearSupportCodeFns();
-    new Function(req.body.stepDefinitions)();
-    var supportCodeLibrary = Cucumber.SupportCodeLibraryBuilder.build({
-        cwd: '/',
-        fns: Cucumber.getSupportCodeFns()
-    });
+	Cucumber.clearSupportCodeFns();
+	new Function(req.body.stepDefinitions)();
+	var supportCodeLibrary = Cucumber.SupportCodeLibraryBuilder.build({
+		cwd: '/',
+		fns: Cucumber.getSupportCodeFns()
+	});
 
-    var formatterOptions = {
-        colorsEnabled: true,
-        cwd: '/',
-        log: function (data) {
-			if(data.includes('Undefined. Implement with the following snippet:')){
-				undofunc += data.slice(data.indexOf('Undefined. Implement with the following snippet:')+50).replace(/     /g,"")
+	var formatterOptions = {
+		colorsEnabled: true,
+		cwd: '/',
+		log: function (data) {
+			if (data.includes('Undefined. Implement with the following snippet:')) {
+				undofunc += data.slice(data.indexOf('Undefined. Implement with the following snippet:') + 50).replace(/     /g, "")
 			}
-            resdata += data;
-        },
-        supportCodeLibrary: supportCodeLibrary
-    };
-    var prettyFormatter = Cucumber.FormatterBuilder.build('pretty', formatterOptions);
-    var runtime = new Cucumber.Runtime({
-        features: [feature],
-        listeners: [prettyFormatter],
-        supportCodeLibrary: supportCodeLibrary
-    });
-    await runtime.start()
-    res.send({
+			resdata += data;
+		},
+		supportCodeLibrary: supportCodeLibrary
+	};
+	var prettyFormatter = Cucumber.FormatterBuilder.build('pretty', formatterOptions);
+	var runtime = new Cucumber.Runtime({
+		features: [feature],
+		listeners: [prettyFormatter],
+		supportCodeLibrary: supportCodeLibrary
+	});
+	await runtime.start()
+	res.send({
 		output: resdata,
 		setinput: undofunc.replace(/\[.*?[Hm]/g, '')
 	})
@@ -103,19 +103,19 @@ router.post('/mocha', function (req, res, next) {
 })
 
 router.post('/compile', function (req, res, next) {
-    var info = [];
-    var source = req.body.solidity;
-    var compiledContract = solc.compile(source, 1);
-    //console.log(compiledContract)
-    for(var index in compiledContract.contracts){
-        var contractinfo = {
-            'name': index,
-            'abi': compiledContract.contracts[index].interface,
-            'bytecode': compiledContract.contracts[index].bytecode
-        }
-        info.push(contractinfo);
-    }
-    res.send(info);
+	var info = [];
+	var source = req.body.solidity;
+	var compiledContract = solc.compile(source, 1);
+	//console.log(compiledContract)
+	for (var index in compiledContract.contracts) {
+		var contractinfo = {
+			'name': index,
+			'abi': compiledContract.contracts[index].interface,
+			'bytecode': compiledContract.contracts[index].bytecode
+		}
+		info.push(contractinfo);
+	}
+	res.send(info);
 })
 
 router.post('/upload', function (req, res, next) {
@@ -152,6 +152,10 @@ router.post('/sign_up', function (req, res, next) {
 		} else {
 			console.log(result);
 		}
+		res.json({
+			success: success,
+			result: result
+		});
 	});
 });
 

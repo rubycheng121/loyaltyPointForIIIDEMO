@@ -71,9 +71,14 @@ $(function () {
                 password: $("#sign_in_password").val()
             })
             .done(function (data) {
-                alert("Data Loaded: " + data);
-                console.log(data);
-                sign_in_dialog.dialog("close");
+                
+                if(data.sucess) {
+                    sign_in_dialog.dialog("close");
+                    alert(data.result);
+                }
+                else {
+                    alert(data.result);
+                }
             });
     }
 
@@ -86,9 +91,12 @@ $(function () {
                 password: $("#sign_up_password").val()
             })
             .done(function (data) {
-                alert("Data Loaded: " + data);
-                console.log(data);
-                sign_up_dialog.dialog("close");
+                if(data.sucess) {
+                    alert(data.result);
+                }
+                else {
+                    alert(data.result);
+                }
             });
     }
 
