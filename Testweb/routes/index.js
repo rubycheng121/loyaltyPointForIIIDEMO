@@ -140,7 +140,7 @@ router.post('/sign_in', function (req, res, next) {
 	console.log("登錄");
 	console.log(req.body);
 
-	//登錄成功
+	/*
 	if (req.body.ID != "" && req.body.password != "") {
 		req.session.ID = req.body.ID;
 		res.redirect('/project');
@@ -148,6 +148,8 @@ router.post('/sign_in', function (req, res, next) {
 	else {
 		res.redirect('/');
 	}
+	*/
+	
 });
 
 module.exports = router;
