@@ -62,7 +62,7 @@
 	<section id="tool-bar">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<ul class="nav nav-pills" role="tablist">
 						<li class="active" ondragenter="dragEnter(event,'feature')"><a href="#feature-tab" data-toggle="tab">Feature</a></li>
 						<li ondragenter="dragEnter(event,'step-definitions')"><a href="#step-definitions-tab" data-toggle="tab">Step Definitions</a></li>
@@ -70,7 +70,7 @@
 						<li ondragenter="dragEnter(event,'solidity')"><a href="#solidity-tab" data-toggle="tab">Contract</a></li>
 					</ul>
 				</div>
-				<div class="col-md-6 text-right">
+				<div class="col-md-8 text-right">
 					<button type="buttom" class="btn btn-success" id="run-feature">Run Feature</button>
 					<button type="buttom" class="btn btn-success" id="run-mocha">Run Mocha</button>
 					<button type="buttom" class="btn btn-success" id="compile">Compile</button>
@@ -152,9 +152,9 @@
 		<form>
 			<fieldset>
 				<label for="name">Name</label>
-				<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
+				<input type="text" name="name" id="sign_in_name" class="text ui-widget-content ui-corner-all">
 				<label for="password">Password</label>
-				<input type="password" name="password" id="password" class="text ui-widget-content ui-corner-all">
+				<input type="password" name="password" id="sign_in_password" class="text ui-widget-content ui-corner-all">
 
 				<!-- Allow form submission with keyboard without duplicating the dialog button -->
 				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
@@ -167,11 +167,11 @@
 		<form>
 			<fieldset>
 				<label for="name">Name</label>
-				<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
+				<input type="text" name="name" id="sign_up_name" class="text ui-widget-content ui-corner-all">
 				<label for="email">Email</label>
-				<input type="text" name="email" id="email" class="text ui-widget-content ui-corner-all">
+				<input type="text" name="email" id="sign_up_email" class="text ui-widget-content ui-corner-all">
 				<label for="password">Password</label>
-				<input type="password" name="password" id="password" class="text ui-widget-content ui-corner-all">
+				<input type="password" name="password" id="sign_up_password" class="text ui-widget-content ui-corner-all">
 
 				<!-- Allow form submission with keyboard without duplicating the dialog button -->
 				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
