@@ -4,6 +4,8 @@ var solidityEditor
 var mochaEditor
 var $output
 var $mochaOutput
+var $solidityOutput
+
 
 function appendToOutput(data) {
 	$output.append(data);
@@ -13,6 +15,10 @@ function appendToOutput(data) {
 function appendToMochaOutput(data) {
 	$mochaOutput.append(data);
 	$mochaOutput.scrollTop($mochaOutput.prop("scrollHeight"));
+}
+function appendToSolidityOutput(data) {
+	$solidityOutput.append(data);
+	$solidityOutput.scrollTop($solidityOutput.prop("scrollHeight"));
 }
 
 function displayError(error) {
@@ -35,7 +41,8 @@ $(function () {
 	solidityEditor.getSession().setMode("ace/mode/solidity");
 
 	$output = $('#output');
-	$mochaOutput = $('#mochaOutput')
+	$mochaOutput = $('#mochaOutput');
+	$solidityOutput = $('#solidityOutput');
 
 	window.onerror = displayError;
 
@@ -44,7 +51,7 @@ $(function () {
 			featureSource: featureEditor.getValue(),
 			stepDefinitions: stepDefinitionsEditor.getValue()
 		}, (result) => {
-			console.log(result)
+			appendToOutput(ansiHTML(result))
 		})
 	});
 
@@ -52,7 +59,7 @@ $(function () {
 		$.post("/mocha", {
 			mocha: mochaEditor.getValue()
 		}, (result) => {
-			console.log(result)
+			appendToMochaOutput(ansiHTML(result))
 		});
 	});
 
@@ -60,10 +67,12 @@ $(function () {
 		$.post("/compile", {
 			solidity: solidityEditor.getValue()
 		}, (result) => {
-			console.log(result)
+			/*for(var index in result){
+				appendToSolidityOutput(""+index+''result)
+			}*/
+			console.log(result);
 		});
 	});
-
 	$('#save').click(function () {
 		localStorage.setItem("feature", featureEditor.getValue());
 		localStorage.setItem("stepDefinitions", stepDefinitionsEditor.getValue());

@@ -67,7 +67,6 @@ router.post('/cucumber', async function (req, res, next) {
         supportCodeLibrary: supportCodeLibrary
     });
     await runtime.start()
-    //console.log(resdata)
     res.send(resdata)
 })
 
@@ -93,7 +92,7 @@ router.post('/mocha', function (req, res, next) {
 	mocha.run(function (failures) {
 		process.stdout.write = write;
 		console.log(output);
-		res.send(output.replace(/\[.*?[Hm]/g, ''))
+		res.send(output)
 	});
 })
 
