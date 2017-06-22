@@ -83,11 +83,11 @@ $(function () {
 
     sign_in = $("#sign_in").dialog({
         autoOpen: false,
-        height: 350,
+        height: 330,
         width: 350,
         modal: true,
         buttons: {
-            "登錄": addUser,
+            "sign_in": addUser,
             Cancel: function () {
                 sign_in.dialog("close");
             }
