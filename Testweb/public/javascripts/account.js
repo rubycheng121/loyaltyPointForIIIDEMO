@@ -73,7 +73,7 @@ $(function () {
             .done(function (data) {
                 alert("Data Loaded: " + data);
                 console.log(data);
-                sign_ip_dialog.dialog("close");
+                sign_in_dialog.dialog("close");
             });
     }
 

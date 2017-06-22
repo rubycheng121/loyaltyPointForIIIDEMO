@@ -126,10 +126,24 @@ $(function () {
 });
 
 $(window).load(function () {
-	featureEditor.setValue(localStorage.getItem("feature"));
-	stepDefinitionsEditor.setValue(localStorage.getItem("stepDefinitions"));
-	mochaEditor.setValue(localStorage.getItem("mocha"));
-	solidityEditor.setValue(localStorage.getItem("solidity"));
+
+	let feature_save = localStorage.getItem("feature");
+	let stepDefinitions_save = localStorage.getItem("stepDefinitions");
+	let mocha_save = localStorage.getItem("mocha");
+	let solidity_save = localStorage.getItem("solidity");
+
+	if (feature_save) {
+		featureEditor.setValue(feature_save);
+	}
+	if (stepDefinitions_save) {
+		stepDefinitionsEditor.setValue(stepDefinitions_save);
+	}
+	if (mocha_save) {
+		mochaEditor.setValue(mocha_save);
+	}
+	if (solidity_save) {
+		solidityEditor.setValue(solidity_save);
+	}
 })
 
 function read_file(fileinfo) {
