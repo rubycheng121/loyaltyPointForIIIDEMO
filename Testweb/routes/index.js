@@ -120,7 +120,20 @@ router.post('/compile', function (req, res, next) {
 
 router.post('/upload', function (req, res, next) {
 
-	res.redirect('/');
+	
+
+
+
+
+});
+
+router.post('/download', function (req, res, next) {
+
+	
+
+
+
+	
 });
 
 router.post('/sign_in', function (req, res, next) {
