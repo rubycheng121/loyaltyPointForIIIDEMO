@@ -66,8 +66,16 @@ $(function () {
     function sign_in_submit() {
         allFields.removeClass("ui-state-error");
 
-        console.log($("#sign_in_name").val());
-        console.log($("#sign_in_password").val());
+        console.log();
+        console.log();
+
+        $.post("sign_up", {
+                name: $("#sign_in_name").val(),
+                password: $("#sign_in_password").val()
+            })
+            .done(function (data) {
+                alert("Data Loaded: " + data);
+            });
     }
 
     function sign_up_submit() {

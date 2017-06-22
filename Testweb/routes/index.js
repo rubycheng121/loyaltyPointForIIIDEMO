@@ -122,7 +122,7 @@ router.post('/sign_up', function (req, res, next) {
 	console.log("註冊");
 	console.log(req.body);
 
-	//web3.personal.newAccount("1234");
+	/*
 	console.log("create a new account not work in testrpc");
 
 
@@ -132,8 +132,7 @@ router.post('/sign_up', function (req, res, next) {
 			throw error;
 		}
 	});
-
-	res.redirect('/');
+	*/
 });
 
 router.post('/sign_in', function (req, res, next) {
