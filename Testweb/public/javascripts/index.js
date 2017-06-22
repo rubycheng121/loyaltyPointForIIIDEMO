@@ -16,7 +16,6 @@ function appendToMochaOutput(data) {
 	$mochaOutput.append(data);
 	$mochaOutput.scrollTop($mochaOutput.prop("scrollHeight"));
 }
-
 function appendToSolidityOutput(data) {
 	$solidityOutput.append(data);
 	$solidityOutput.scrollTop($solidityOutput.prop("scrollHeight"));
@@ -51,6 +50,7 @@ $(function () {
 	window.onerror = displayError;
 
 	$('#run-feature').click(function () {
+		$output.empty();
 		$('a[href="#step-definitions-tab"]').tab('show');
 		$.post('/cucumber', {
 			featureSource: featureEditor.getValue(),
@@ -58,13 +58,14 @@ $(function () {
 		}, (result) => {
 			appendToOutput(ansiHTML(result.output))
 			if (stepDefinitionsEditor.getValue().length == 0) {
-				appendToStepDefinitionsEditor("defineSupportCode(function ({ Given, When, Then, And }) {\n\n" + result.setinput.replace(//g,"") + "\n});")
+				appendToStepDefinitionsEditor("Cucumber.defineSupportCode(function ({ Given, When, Then, And }) {\n\n" + result.setinput.replace(//g,"") + "\n});")
 			}
 			
 		})
 	});
 
 	$('#run-mocha').click(function () {
+		$mochaOutput.empty();
 		$.post("/mocha", {
 			mocha: mochaEditor.getValue()
 		}, (result) => {
@@ -73,6 +74,7 @@ $(function () {
 	});
 
 	$('#compile').click(function () {
+		$solidityOutput.empty();
 		$.post("/compile", {
 			solidity: solidityEditor.getValue()
 		}, (result) => {
@@ -124,24 +126,10 @@ $(function () {
 });
 
 $(window).load(function () {
-
-	let feature_save = localStorage.getItem("feature");
-	let stepDefinitions_save = localStorage.getItem("stepDefinitions");
-	let mocha_save = localStorage.getItem("mocha");
-	let solidity_save = localStorage.getItem("solidity");
-
-	if (feature_save) {
-		featureEditor.setValue(feature_save);
-	}
-	if (stepDefinitions_save) {
-		stepDefinitionsEditor.setValue(stepDefinitions_save);
-	}
-	if (mocha_save) {
-		mochaEditor.setValue(mocha_save);
-	}
-	if (solidity_save) {
-		solidityEditor.setValue(solidity_save);
-	}
+	featureEditor.setValue(localStorage.getItem("feature"));
+	stepDefinitionsEditor.setValue(localStorage.getItem("stepDefinitions"));
+	mochaEditor.setValue(localStorage.getItem("mocha"));
+	solidityEditor.setValue(localStorage.getItem("solidity"));
 })
 
 function read_file(fileinfo) {
