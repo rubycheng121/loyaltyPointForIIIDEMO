@@ -123,39 +123,36 @@ router.post('/upload', function (req, res, next) {
 	res.redirect('/');
 });
 
-router.post('/sign_up', function (req, res, next) {
-
-	console.log("註冊");
-	console.log(req.body);
-
-	/*
-	console.log("create a new account not work in testrpc");
-
-
-	connection.query('INSERT INTO smart.account SET ?', req.body, function (error) {
-		if (error) {
-			console.log('寫入資料失敗！');
-			throw error;
-		}
-	});
-	*/
-});
-
 router.post('/sign_in', function (req, res, next) {
 
 	console.log("登錄");
 	console.log(req.body);
 
-	/*
-	if (req.body.ID != "" && req.body.password != "") {
-		req.session.ID = req.body.ID;
-		res.redirect('/project');
-	}
-	else {
-		res.redirect('/');
-	}
-	*/
-	
+	sql.sing_in(req.body.name, req.body.password, (success, result) => {
+		if (success) {
+			console.log(result);
+		} else {
+			console.log(result);
+		}
+		res.json({
+			success: success,
+			result: result
+		});
+	})
+});
+
+router.post('/sign_up', function (req, res, next) {
+
+	console.log("註冊");
+	console.log(req.body);
+
+	sql.sing_up(req.body.name, req.body.email, req.body.password, (success, result) => {
+		if (success) {
+			console.log(result);
+		} else {
+			console.log(result);
+		}
+	});
 });
 
 module.exports = router;
