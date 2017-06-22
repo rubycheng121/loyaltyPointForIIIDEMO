@@ -92,7 +92,7 @@ router.post('/mocha', function (req, res, next) {
 	mocha.run(function (failures) {
 		process.stdout.write = write;
 		console.log(output);
-		res.send(output)
+		res.send(output.replace(/\[.*?[Hm]/g, ''))
 	});
 })
 

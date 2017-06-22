@@ -59,7 +59,7 @@ $(function () {
 		$.post("/mocha", {
 			mocha: mochaEditor.getValue()
 		}, (result) => {
-			appendToMochaOutput(ansiHTML(result))
+			appendToMochaOutput(result)
 		});
 	});
 
@@ -67,10 +67,9 @@ $(function () {
 		$.post("/compile", {
 			solidity: solidityEditor.getValue()
 		}, (result) => {
-			/*for(var index in result){
-				appendToSolidityOutput(""+index+''result)
-			}*/
-			console.log(result);
+			for (var index in result) {
+				appendToSolidityOutput("" + result[index].name.slice(1) + '\n' + 'abi : ' + result[index].abi + '\n' + 'bytecode : ' + result[index].bytecode + '\n\n');
+			}
 		});
 	});
 	$('#save').click(function () {
