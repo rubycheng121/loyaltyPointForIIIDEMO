@@ -119,21 +119,19 @@ router.post('/compile', function (req, res, next) {
 })
 
 router.post('/upload', function (req, res, next) {
-
-	
-
-
-
-
+	sql.upload(req.body, req.session.user, (success, result) => {
+		res.json({
+			success: success,
+			result: result
+		});
+	})
 });
 
 router.post('/download', function (req, res, next) {
 
-	
 
 
 
-	
 });
 
 router.post('/sign_in', function (req, res, next) {
@@ -143,7 +141,7 @@ router.post('/sign_in', function (req, res, next) {
 	sql.sing_in(req.body.user, req.body.password, (success, result) => {
 		if (success) {
 			req.session.sing_in = true;
-			req.session.name = req.body.user;
+			req.session.user = req.body.user;
 		}
 		res.json({
 			success: success,

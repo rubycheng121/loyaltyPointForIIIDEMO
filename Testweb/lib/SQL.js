@@ -12,8 +12,12 @@ function download() {
     console.log("資料庫下載");
 }
 
-function upload() {
+function upload(body, callback) {
     console.log("資料庫上傳");
+    console.log(body);
+    addProject(body, (result) => {
+        callback(true, "儲存成功");
+    })
 }
 
 function sing_in(user, password, callback) {
@@ -57,6 +61,20 @@ function addUser(user, email, password, callback) {
     var cmd = "INSERT INTO account (user, email, password) VALUES ?";
     var value = [
         [user, email, password]
+    ];
+    connection.query(cmd, [value], (err, result) => {
+        if (!err) {
+            callback(result);
+        } else {
+            console.log(err);
+        }
+    });
+}
+
+function addProject(body, callback) {
+    var cmd = "INSERT INTO project (user, project, feature, stepDefinitions, solidity, mocha) VALUES ?";
+    var value = [
+        [body.user, body.project, body.feature, body.stepDefinitions, body.solidity, body.mocha]
     ];
     connection.query(cmd, [value], (err, result) => {
         if (!err) {

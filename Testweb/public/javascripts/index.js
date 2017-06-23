@@ -66,6 +66,7 @@ $(function () {
 
 	$('#run-mocha').click(function () {
 		$mochaOutput.empty();
+		$('a[href="#mocha-tab"]').tab('show');
 		$.post("/mocha", {
 			mocha: mochaEditor.getValue()
 		}, (result) => {
@@ -75,6 +76,7 @@ $(function () {
 
 	$('#compile').click(function () {
 		$solidityOutput.empty();
+		$('a[href="#solidity-tab"]').tab('show');
 		$.post("/compile", {
 			solidity: solidityEditor.getValue()
 		}, (result) => {
@@ -103,12 +105,14 @@ $(function () {
 
 	$('#upload').click(function () {
 		$.post("/upload", {
+			user: $('#uaer_name').text(),
+			project: $('#user_project').text(),
 			feature: featureEditor.getValue(),
 			stepDefinitions: stepDefinitionsEditor.getValue(),
 			solidity: solidityEditor.getValue(),
-			mocha: mochaEditor.getValue(),
+			mocha: mochaEditor.getValue()
 		}, (result) => {
-			appendToMochaOutput(result)
+			appendToMochaOutput(result);
 		});
 	});
 
