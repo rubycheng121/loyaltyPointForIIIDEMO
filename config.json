@@ -1,11 +1,11 @@
 {
 	"Account": {
-		"address": "0xcd25356de5cf2147f302bba8ee289704ac010324"
+		"address": "0xda4ddf30a5498eec6c6d46f40c29141bba7543a3"
 	},
 	"Account0": {
-		"address": "0x8325e43341be749cec71770fff70652d0dc87d74"
+		"address": "0xbc075fd3ba6cdd3250eec118c437006a4912be76"
 	},
 	"exchange": {
-		"address": "0xe9ad07a38b5097b41908b153c38376890fe336ea"
+		"address": "0x1e51cafd05f5a6ea3aae7212dcb42add7d70cd87"
 	}
 }

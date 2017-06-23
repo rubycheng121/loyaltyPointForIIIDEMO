@@ -11,6 +11,10 @@ header #account {
     display: block;
 }
 
+#sign_out_button {
+    display: none;
+}
+
 /*
  * Main
  */
