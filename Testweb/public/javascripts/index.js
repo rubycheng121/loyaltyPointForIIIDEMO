@@ -58,7 +58,7 @@ $(function () {
 		}, (result) => {
 			appendToOutput(ansiHTML(result.output))
 			if (stepDefinitionsEditor.getValue().length == 0) {
-				appendToStepDefinitionsEditor("Cucumber.defineSupportCode(function ({ Given, When, Then, And }) {\n\n" + result.setinput.replace(//g,"") + "\n});")
+				appendToStepDefinitionsEditor("defineSupportCode(function ({ Given, When, Then, And }) {\n" + result.setinput.replace(//g,"") + "});")
 			}
 			
 		})

@@ -36,44 +36,27 @@ router.get('/', function (req, res, next) {
 	res.sendFile(path.resolve('public', 'index.html'));
 });
 
-router.post('/cucumber', async function (req, res, next) {
-	var resdata = "";
-	var undofunc = "";
-	var feature = Cucumber.FeatureParser.parse({
-		scenarioFilter: new Cucumber.ScenarioFilter({}),
-		source: req.body.featureSource,
-		uri: '/feature'
-	});
+router.post('/cucumber', function (req, res, next) {
+	var re = "111";
+	var exec = require('child_process').exec;
+	var cmd = 'cucumberjs features/test.feature';
+	fs.writeFileSync('features/test.feature', req.body.featureSource);
 
-	Cucumber.clearSupportCodeFns();
-	new Function(req.body.stepDefinitions)();
-	var supportCodeLibrary = Cucumber.SupportCodeLibraryBuilder.build({
-		cwd: '/',
-		fns: Cucumber.getSupportCodeFns()
+	await exec(cmd, function (error, stdout, stderr) {
+		console.log(error);
+		console.log(stdout);
+		console.log(stderr);
+        res.send({
+            output: stdout,
+            setinput: stdout.slice(stdout.indexOf('1) Scenario: '))
+			.replace(/\[.*?[Hm]/g, '')
+			.replace(/\d+\) Scenario(.*\n)(.*\n)(.*\n)(.*\n)/mg,'')
+			.replace(/\d+ scenarios \((.*\n)/,'')
+			.replace(/\d+ steps \((.*\n)/,'')
+			.replace(/\d+m\d+\.\d+s/,'')
+			.replace(/       /mg,'    ')
+        })
 	});
-
-	var formatterOptions = {
-		colorsEnabled: true,
-		cwd: '/',
-		log: function (data) {
-			if (data.includes('Undefined. Implement with the following snippet:')) {
-				undofunc += data.slice(data.indexOf('Undefined. Implement with the following snippet:') + 50).replace(/     /g, "")
-			}
-			resdata += data;
-		},
-		supportCodeLibrary: supportCodeLibrary
-	};
-	var prettyFormatter = Cucumber.FormatterBuilder.build('pretty', formatterOptions);
-	var runtime = new Cucumber.Runtime({
-		features: [feature],
-		listeners: [prettyFormatter],
-		supportCodeLibrary: supportCodeLibrary
-	});
-	await runtime.start()
-	res.send({
-		output: resdata,
-		setinput: undofunc.replace(/\[.*?[Hm]/g, '')
-	})
 })
 
 router.post('/mocha', function (req, res, next) {
