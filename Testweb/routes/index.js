@@ -36,13 +36,12 @@ router.get('/', function (req, res, next) {
 	res.sendFile(path.resolve('public', 'index.html'));
 });
 
-router.post('/cucumber', function (req, res, next) {
-	var re = "111";
+router.post('/cucumber',async function (req, res, next) {
 	var exec = require('child_process').exec;
 	var cmd = 'cucumberjs features/test.feature';
-	fs.writeFileSync('features/test.feature', req.body.featureSource);
-
-	await exec(cmd, function (error, stdout, stderr) {
+	await fs.writeFileSync('features/step_definitions/test.js', req.body.stepDefinitions);
+	await fs.writeFileSync('features/test.feature', req.body.featureSource);
+	exec(cmd, function (error, stdout, stderr) {
 		console.log(error);
 		console.log(stdout);
 		console.log(stderr);
