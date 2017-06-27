@@ -18,12 +18,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: 'B54C9B842DD16', // 建议使用 128 个字符的随机字符串
+  secret: 'B54C9B842DD16'
 }));
 
 app.use('/', index);
 app.use('/users', users);
-
 
 app.listen(8888);
 module.exports = app;
