@@ -10,13 +10,3 @@ header #github-logo {
 /*
  * Main
  */
-
-#project .row div div {
-    background-color: gray;
-    height: 20rem;
-    margin: 1rem;
-    border-style: solid;
-    border-color: red;
-    border-width: 3px;
-    border-radius: 20px;
-}

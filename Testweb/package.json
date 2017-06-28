@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-	"testrpc":　"testrpc -p 8545 -a 100 -l 88888888"
+    "testrpc": "testrpc -p 8545 -a 100 -l 88888888"
   },
   "dependencies": {
     "body-parser": "^1.17.2",

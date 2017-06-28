@@ -1,94 +1,27 @@
 /*
- * Header
+ * header
  */
 
-header #github-logo,
-header #account {
-    margin-top: 1rem;
-}
-
-#account {
-    display: block;
-}
-
-#sign_out_button {
-    display: none;
+header #github-logo {
+	margin-top: 1rem;
 }
 
 /*
- * Main
+ * main
  */
 
-.tab-pane {
-    margin-top: 1rem;
+#tool-bar {
+	background-color: beige;
 }
 
-.tab-pane {
-    height: 80vh;
+#main {
+	margin-top: 1rem;
 }
 
-.tab-pane div,
-.tab-pane pre {
-    height: 100%;
+.tab-content #sign_in,
+.tab-content #sign_up {
+	border-style:solid;
+	border-width:3px;
+	border-radius: 10px;
+	padding: 0rem 1rem 4rem 5rem;
 }
-
-
-/*
- * pop
- */
-
-label,
-input {
-    display: block;
-}
-
-input.text {
-    margin-bottom: 12px;
-    width: 95%;
-    padding: .4em;
-}
-
-fieldset {
-    padding: 0;
-    border: 0;
-    margin-top: 25px;
-}
-
-h1 {
-    font-size: 1.2em;
-    margin: .6em 0;
-}
-
-div#users-contain {
-    width: 350px;
-    margin: 20px 0;
-}
-
-div#users-contain table {
-    margin: 1em 0;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-div#users-contain table td,
-div#users-contain table th {
-    border: 1px solid #eee;
-    padding: .6em 10px;
-    text-align: left;
-}
-
-.ui-dialog .ui-state-error {
-    padding: .3em;
-}
-
-.validateTips {
-    border: 1px solid transparent;
-    padding: 0.3em;
-}
-
-
-/*
- * footer
- */
-
-footer {}

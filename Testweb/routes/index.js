@@ -30,8 +30,6 @@ router.get('/editor', function (req, res, next) {
 	res.sendFile(path.resolve('public', 'editor.html'));
 });
 
-
-
 router.get('/', function (req, res, next) {
 	res.sendFile(path.resolve('public', 'index.html'));
 });
@@ -119,7 +117,8 @@ router.post('/download', function (req, res, next) {
 router.post('/sign_in', function (req, res, next) {
 
 	console.log("登錄");
-
+	console.log(req.body);
+	/*
 	sql.sing_in(req.body.user, req.body.password, (success, result) => {
 		if (success) {
 			req.session.sing_in = true;
@@ -130,24 +129,27 @@ router.post('/sign_in', function (req, res, next) {
 			result: result
 		});
 	})
+	*/
 });
 
 router.post('/sign_up', function (req, res, next) {
 
 	console.log("註冊");
-
+	console.log(req.body);
+	/*
 	sql.sing_up(req.body.user, req.body.email, req.body.password, (success, result) => {
 		res.json({
 			success: success,
 			result: result
 		});
 	});
+	*/
 });
 
 router.post('/sign_out', function (req, res, next) {
 
 	console.log("登出");
-
+	
 	req.session.destroy();
 	res.sendFile(path.resolve('public', 'index.html'));
 });

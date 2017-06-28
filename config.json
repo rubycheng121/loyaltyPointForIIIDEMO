@@ -1,11 +1,5 @@
 {
-	"Account": {
-		"address": "0xda4ddf30a5498eec6c6d46f40c29141bba7543a3"
-	},
-	"Account0": {
-		"address": "0xbc075fd3ba6cdd3250eec118c437006a4912be76"
-	},
-	"exchange": {
-		"address": "0x1e51cafd05f5a6ea3aae7212dcb42add7d70cd87"
-	}
+	"Account": {},
+	"Account0": {},
+	"exchange": {}
 }
