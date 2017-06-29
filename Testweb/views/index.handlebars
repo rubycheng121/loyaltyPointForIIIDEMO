@@ -1,0 +1,90 @@
+{{#section 'css'}}
+<link rel="stylesheet" href="stylesheets/index.css"> {{/section}}
+
+<!-- header -->
+<header class="container-fluid">
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6 text-center">
+            <a href="">
+        			<img class="cucumber-logo text-center" src="images/logo_en.png" width="600">
+      			</a>
+        </div>
+        <div class="col-md-3 text-right" id="github-logo">
+            <a href="https://github.com/cucumber/cucumber-js">
+       				<img src="images/github.png">
+     			</a>
+        </div>
+    </div>
+</header>
+
+<section id="tool-bar">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="active"><a href="#sign_in-tab" data-toggle="tab">sign in</a></li>
+                    <li><a href="#sign_up-tab" data-toggle="tab">Create An Account</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="main">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="tab-content">
+
+                <!--sign in-->
+                <div class="tab-pane active" id="sign_in-tab">
+                    <div class="col-md-4">
+                        <div id="sign_in">
+                            <form id="sign_in-form" action="/sign_in" method="post">
+                                <h2>sign in</h2>
+                                <label for="user">Name</label><br>
+                                <input type="text" name="user" id="sign_in_user"><br>
+                                <label for="password">Password</label><br>
+                                <input type="password" name="password" id="sign_in_password"><br>
+                                <br>
+                                <input type="submit">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!--sign up-->
+                <div class="tab-pane" id="sign_up-tab">
+                    <div class="col-md-4">
+                        <div id="sign_up">
+                            <form id="sign_up-form" action="/sign_up" method="post">
+                                <h2>sign up</h2>
+                                <label for="user">Name</label><br>
+                                <input type="text" name="user" id="sign_up_user"><br>
+                                <label for="email">Email</label><br>
+                                <input type="text" name="email" id="sign_up_email"><br>
+                                <label for="password">Password</label><br>
+                                <input type="password" name="password" id="sign_up_password"><br>
+                                <label for="re_password">Re Password</label><br>
+                                <input type="password" name="re_password" id="sign_up_re_password"><br>
+                                <br>
+                                <input type="submit">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <b>Welcome to the submission site for A Service Platform for</b><br>
+                    <h2>BDD-style Smart Contract Integration Test Systems</h2><br>
+                    <br> Journal To begin, log in with your user ID and password.<br>
+                    <br> If you are unsure about whether or not you have an account,<br> or have forgotten your password,
+                    go to the <a>Reset Password</a> screen.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{#section 'script'}}
+<script src="javascripts/index.js"></script>
+{{/section}}

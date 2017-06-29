@@ -6,7 +6,6 @@ var $output
 var $mochaOutput
 var $solidityOutput
 
-
 function appendToOutput(data) {
 	$output.append(data);
 	$output.scrollTop($output.prop("scrollHeight"));
@@ -16,10 +15,12 @@ function appendToMochaOutput(data) {
 	$mochaOutput.append(data);
 	$mochaOutput.scrollTop($mochaOutput.prop("scrollHeight"));
 }
+
 function appendToSolidityOutput(data) {
 	$solidityOutput.append(data);
 	$solidityOutput.scrollTop($solidityOutput.prop("scrollHeight"));
 }
+
 function appendToStepDefinitionsEditor(data) {
 	stepDefinitionsEditor.setValue(data);
 }
@@ -28,6 +29,17 @@ function displayError(error) {
 	var errorContainer = $('<div>')
 	errorContainer.addClass('error').text(error.stack || error);
 	appendToOutput(errorContainer)
+}
+
+function getUrlVars() {
+	var vars = [], hash;
+	var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+	for (var i = 0; i < hashes.length; i++) {
+		hash = hashes[i].split('=');
+		vars.push(hash[0]);
+		vars[hash[0]] = hash[1];
+	}
+	return vars;
 }
 
 $(function () {
@@ -58,9 +70,9 @@ $(function () {
 		}, (result) => {
 			appendToOutput(ansiHTML(result.output))
 			if (stepDefinitionsEditor.getValue().length == 0) {
-				appendToStepDefinitionsEditor("const { defineSupportCode } = require('cucumber');\ndefineSupportCode(function ({ Given, When, Then, And }) {\n" + result.setinput.replace(//g,"") + "});")
+				appendToStepDefinitionsEditor("const { defineSupportCode } = require('cucumber');\ndefineSupportCode(function ({ Given, When, Then, And }) {\n" + result.setinput.replace(//g, "") + "});")
 			}
-			
+
 		})
 	});
 
@@ -80,17 +92,11 @@ $(function () {
 		$.post("/compile", {
 			solidity: solidityEditor.getValue()
 		}, (result) => {
-			for(var index in result){
-				appendToSolidityOutput(""+result[index].name.slice(1)+'\n'+'abi : '+result[index].abi+'\n'+'bytecode : '+result[index].bytecode+'\n\n');
+			for (var index in result) {
+				appendToSolidityOutput("" + result[index].name.slice(1) + '\n' + 'abi : ' + result[index].abi + '\n' + 'bytecode : ' + result[index].bytecode + '\n\n');
 			}
 			console.log(result);
 		});
-	});
-	$('#save').click(function () {
-		localStorage.setItem("feature", featureEditor.getValue());
-		localStorage.setItem("stepDefinitions", stepDefinitionsEditor.getValue());
-		localStorage.setItem("mocha", mochaEditor.getValue());
-		localStorage.setItem("solidity", solidityEditor.getValue());
 	});
 
 	$('#download').click(function () {
@@ -105,14 +111,13 @@ $(function () {
 
 	$('#upload').click(function () {
 		$.post("/upload", {
-			user: $('#uaer_name').text(),
-			project: $('#user_project').text(),
+			project: getUrlVars().project,
 			feature: featureEditor.getValue(),
 			stepDefinitions: stepDefinitionsEditor.getValue(),
 			solidity: solidityEditor.getValue(),
 			mocha: mochaEditor.getValue()
 		}, (result) => {
-			appendToMochaOutput(result);
+			console.log(result);
 		});
 	});
 
@@ -131,23 +136,13 @@ $(function () {
 
 $(window).load(function () {
 
-	let feature_save = localStorage.getItem("feature");
-	let stepDefinitions_save = localStorage.getItem("stepDefinitions");
-	let mocha_save = localStorage.getItem("mocha");
-	let solidity_save = localStorage.getItem("solidity");
-
-	if (feature_save) {
-		featureEditor.setValue(feature_save);
-	}
-	if (stepDefinitions_save) {
-		stepDefinitionsEditor.setValue(stepDefinitions_save);
-	}
-	if (mocha_save) {
-		mochaEditor.setValue(mocha_save);
-	}
-	if (solidity_save) {
-		solidityEditor.setValue(solidity_save);
-	}
+	let project = getUrlVars().project;
+	$.post("get_project", {project: project}, (data) => {
+		featureEditor.setValue(data[0].feature);
+		stepDefinitionsEditor.setValue(data[0].stepDefinitions);
+		mochaEditor.setValue(data[0].mocha);
+		solidityEditor.setValue(data[0].solidity);
+	});
 })
 
 function read_file(fileinfo) {
@@ -218,3 +213,4 @@ function dragEnter(evt, target) { //evt 為 DragEvent 物件
 			break;
 	}
 }
+

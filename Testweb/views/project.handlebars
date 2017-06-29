@@ -1,0 +1,47 @@
+{{#section 'css'}}
+<link rel="stylesheet" href="stylesheets/project.css"> {{/section}}
+
+<!-- header -->
+<header class="container-fluid">
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6 text-center">
+            <a href="">
+        			<img class="cucumber-logo text-center" src="images/logo_en.png" width="600">
+      			</a>
+        </div>
+        <div class="col-md-3 text-right" id="github-logo">
+            <a href="https://github.com/cucumber/cucumber-js">
+       				<img src="images/github.png">
+     			</a>
+        </div>
+    </div>
+</header>
+
+<section id="tool-bar">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-pills" role="tablist">
+                    <li><a data-toggle="tab">{{user}}</a></li>
+                    <li><a href="/sign_out">sign out</a></li>
+                    <li><a id="new_project">new project</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="main">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div id="project_list">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{#section 'script'}}
+<script src="javascripts/project.js"></script>
+{{/section}}

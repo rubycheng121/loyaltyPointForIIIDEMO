@@ -13,28 +13,41 @@ sql.connection.connect(function (err) {
 	if (err) {
 		console.log('error when connecting to db:', err);
 		// 2秒後重新連線
-		setTimeout(handleDisconnect, 2000);
+		//setTimeout(handleDisconnect, 2000);
 	}
 });
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-	res.sendFile(path.resolve('public', 'index.html'));
-});
 
-router.get('/project', function (req, res, next) {
-	res.sendFile(path.resolve('public', 'project.html'));
+	if (req.session.user) {
+		res.render('project', {
+			user: req.session.user
+		});
+	} else {
+		res.render('index');
+	}
 });
 
 router.get('/editor', function (req, res, next) {
-	res.sendFile(path.resolve('public', 'editor.html'));
+
+	if (req.session.user) {
+		sql.get_project(req.session.user, req.query.project, (result) => {
+			if (result == "") {
+				res.send("找不到");
+			} else {
+				res.render('editor', {
+					user: req.session.user,
+					project: "a"
+				});
+			}
+		});
+	} else {
+		res.render('index');
+	}
 });
 
-router.get('/', function (req, res, next) {
-	res.sendFile(path.resolve('public', 'index.html'));
-});
-
-router.post('/cucumber',async function (req, res, next) {
+router.post('/cucumber', async function (req, res, next) {
 	var exec = require('child_process').exec;
 	var cmd = 'cucumberjs features/test.feature';
 	await fs.writeFileSync('features/step_definitions/test.js', req.body.stepDefinitions);
@@ -43,16 +56,16 @@ router.post('/cucumber',async function (req, res, next) {
 		console.log(error);
 		console.log(stdout);
 		console.log(stderr);
-        res.send({
-            output: stdout,
-            setinput: stdout.slice(stdout.indexOf('1) Scenario: '))
-			.replace(/\[.*?[Hm]/g, '')
-			.replace(/\d+\) Scenario(.*\n)(.*\n)(.*\n)(.*\n)/mg,'')
-			.replace(/\d+ scenarios \((.*\n)/,'')
-			.replace(/\d+ steps \((.*\n)/,'')
-			.replace(/\d+m\d+\.\d+s/,'')
-			.replace(/       /mg,'    ')
-        })
+		res.send({
+			output: stdout,
+			setinput: stdout.slice(stdout.indexOf('1) Scenario: '))
+				.replace(/\[.*?[Hm]/g, '')
+				.replace(/\d+\) Scenario(.*\n)(.*\n)(.*\n)(.*\n)/mg, '')
+				.replace(/\d+ scenarios \((.*\n)/, '')
+				.replace(/\d+ steps \((.*\n)/, '')
+				.replace(/\d+m\d+\.\d+s/, '')
+				.replace(/       /mg, '    ')
+		})
 	});
 })
 
@@ -99,59 +112,81 @@ router.post('/compile', function (req, res, next) {
 })
 
 router.post('/upload', function (req, res, next) {
-	sql.upload(req.body, req.session.user, (success, result) => {
-		res.json({
-			success: success,
-			result: result
-		});
+	sql.set_project(req.session.user, req.body.project, req.body.feature, req.body.stepDefinitions, req.body.solidity, req.body.mocha, (result) => {
+		console.log(result);
 	})
 });
 
 router.post('/download', function (req, res, next) {
 
-
-
-
 });
 
 router.post('/sign_in', function (req, res, next) {
 
-	console.log("登錄");
+	console.log("sign_in");
 	console.log(req.body);
-	/*
+
 	sql.sing_in(req.body.user, req.body.password, (success, result) => {
 		if (success) {
-			req.session.sing_in = true;
 			req.session.user = req.body.user;
+			res.redirect('/');
+		} else {
+			res.json({
+				success: success,
+				result: result
+			});
 		}
-		res.json({
-			success: success,
-			result: result
-		});
 	})
-	*/
 });
 
 router.post('/sign_up', function (req, res, next) {
 
-	console.log("註冊");
+	console.log("sign_up");
 	console.log(req.body);
-	/*
+
 	sql.sing_up(req.body.user, req.body.email, req.body.password, (success, result) => {
 		res.json({
 			success: success,
 			result: result
 		});
 	});
-	*/
 });
 
-router.post('/sign_out', function (req, res, next) {
+router.get('/sign_out', function (req, res, next) {
 
-	console.log("登出");
-	
+	console.log("sign_out");
+
 	req.session.destroy();
-	res.sendFile(path.resolve('public', 'index.html'));
+	res.redirect('/');
 });
+
+router.post('/new_project', function (req, res, next) {
+
+	console.log("new_project");
+	console.log(req.body);
+
+	sql.new_project(req.session.user, req.body.project_name, (success, result) => {
+		if (success) {
+			res.json(result);
+		}
+	});
+});
+
+router.post('/get_project_list', function (req, res, next) {
+
+	console.log("get_project_list");
+	sql.get_project_list(req.session.user, (result) => {
+		res.json(result);
+	});
+});
+
+router.post('/get_project', function (req, res, next) {
+
+	console.log("get_project");
+	sql.get_project(req.session.user, req.body.project, (result) => {
+		res.json(result);
+	});
+});
+
 
 module.exports = router;

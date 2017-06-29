@@ -58,8 +58,8 @@ function getUser(user, callback) {
 }
 
 function addUser(user, email, password, callback) {
-    var cmd = "INSERT INTO account (user, email, password) VALUES ?";
-    var value = [
+    let cmd = "INSERT INTO account (user, email, password) VALUES ?";
+    let value = [
         [user, email, password]
     ];
     connection.query(cmd, [value], (err, result) => {
@@ -71,12 +71,60 @@ function addUser(user, email, password, callback) {
     });
 }
 
-function addProject(body, callback) {
-    var cmd = "INSERT INTO project (user, project, feature, stepDefinitions, solidity, mocha) VALUES ?";
-    var value = [
-        [body.user, body.project, body.feature, body.stepDefinitions, body.solidity, body.mocha]
-    ];
-    connection.query(cmd, [value], (err, result) => {
+function new_project(user, project_name, callback) {
+
+    get_project(user, project_name, (result) => {
+        if (result == "") {
+
+            let cmd = "INSERT INTO project (user, project, feature, stepDefinitions, solidity, mocha) VALUES ?";
+            let value = [
+                [user, project_name, "", "", "", ""]
+            ];
+            connection.query(cmd, [value], (err, result) => {
+                if (!err) {
+                    callback(true, result);
+                } else {
+                    console.log(err);
+                }
+            });
+
+        } else {
+            callback(false, "你已經使用過此project name");
+        }
+    });
+}
+
+function get_project(user, project_name, callback) {
+    var cmd = "select * from project where user = ? and project = ?";
+    var value = [user, project_name];
+
+    connection.query(cmd, value, (err, result) => {
+        if (!err) {
+            callback(result);
+        } else {
+            console.log(err);
+        }
+    });
+}
+
+function get_project_list(user, callback) {
+    var cmd = "select * from project where user = ?";
+    var value = [user];
+
+    connection.query(cmd, value, (err, result) => {
+        if (!err) {
+            callback(result);
+        } else {
+            console.log(err);
+        }
+    });
+}
+
+function set_project(user, project, feature, stepDefinitions, solidity, mocha, callback) {
+    var cmd = "update project set feature = ?, stepDefinitions = ?, solidity = ?, mocha = ? where user = ? and project = ?";
+    var value = [feature, stepDefinitions, solidity, mocha, user, project];
+
+    connection.query(cmd, value, (err, result) => {
         if (!err) {
             callback(result);
         } else {
@@ -90,5 +138,9 @@ module.exports = {
     download: download,
     upload: upload,
     sing_in: sing_in,
-    sing_up: sing_up
+    sing_up: sing_up,
+    new_project: new_project,
+    get_project: get_project,
+    get_project_list: get_project_list,
+    set_project: set_project
 }
