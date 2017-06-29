@@ -38,7 +38,7 @@ router.get('/editor', function (req, res, next) {
 			} else {
 				res.render('editor', {
 					user: req.session.user,
-					project: "a"
+					project: req.query.project
 				});
 			}
 		});
