@@ -73,10 +73,6 @@
 					</ul>
 				</div>
 				<div class="col-md-8 text-right">
-					<button type="buttom" class="btn btn-success" id="run-feature">Run Feature</button>
-					<button type="buttom" class="btn btn-success" id="run-mocha">Run Mocha</button>
-					<button type="buttom" class="btn btn-success" id="compile">Compile</button>
-
 					<button id="full" type="buttom" class="btn btn-info" aria-label="left Align">
 						<span class="glyphicon glyphicon-resize-small" aria-hidden="true">
 					</button>
@@ -109,6 +105,7 @@
 
 					<!--feature-->
 					<div class="tab-pane active" id="feature-tab">
+						<button type="buttom" class="btn btn-success" id="run-feature">Run Feature</button>
 						<div class="col-md-12">
 							<div id="feature" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'feature')"></div>
 						</div>
@@ -116,6 +113,7 @@
 
 					<!--step-definitions-->
 					<div class="tab-pane" id="step-definitions-tab">
+						<button type="buttom" class="btn btn-success" id="run-feature">Run Feature</button>
 						<div class="col-md-7">
 							<div id="step-definitions" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'step-definitions')"></div>
 						</div>
@@ -126,6 +124,7 @@
 
 					<!--mocha-->
 					<div class="tab-pane" id="mocha-tab">
+						<button type="buttom" class="btn btn-success" id="run-mocha">Run Mocha</button>
 						<div class="col-md-7">
 							<div id="mocha" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'mocha')"></div>
 						</div>
@@ -136,6 +135,7 @@
 
 					<!--solidity-->
 					<div class="tab-pane" id="solidity-tab">
+						<button type="buttom" class="btn btn-success" id="compile">Compile</button>
 						<div class="col-md-7">
 							<div id="solidity" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'solidity')"></div>
 						</div>

@@ -70,7 +70,7 @@ $(function () {
 		$.post("/mocha", {
 			mocha: mochaEditor.getValue()
 		}, (result) => {
-			appendToMochaOutput(result)
+			appendToMochaOutput(ansiHTML(result))
 		});
 	});
 
