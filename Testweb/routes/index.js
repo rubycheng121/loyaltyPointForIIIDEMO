@@ -87,7 +87,7 @@ router.post('/mocha', function (req, res, next) {
 	process.stdout.write = function (str) {
 		output += str;
 	};
-
+	
 	mocha.run(function (failures) {
 		process.stdout.write = write;
 		console.log(output);

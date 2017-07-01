@@ -5,6 +5,7 @@ var mochaEditor
 var $output
 var $mochaOutput
 var $solidityOutput
+var step;
 
 function appendToOutput(data) {
 	$output.append(data);
@@ -25,6 +26,14 @@ function appendToStepDefinitionsEditor(data) {
 	stepDefinitionsEditor.setValue(data);
 }
 
+function appendToMochaEditor(data) {
+	mochaEditor.setValue(data);
+}
+
+function appendToSolidityEditor(data) {
+	solidityEditor.setValue(data);
+}
+
 function displayError(error) {
 	var errorContainer = $('<div>')
 	errorContainer.addClass('error').text(error.stack || error);
@@ -43,6 +52,7 @@ function getUrlVars() {
 }
 
 $(function () {
+	step = checkstep(0);
 	featureEditor = ace.edit("feature");
 	featureEditor.getSession().setMode("ace/mode/gherkin");
 
@@ -70,34 +80,58 @@ $(function () {
 		}, (result) => {
 			appendToOutput(ansiHTML(result.output))
 			if (stepDefinitionsEditor.getValue().length == 0) {
-				appendToStepDefinitionsEditor("const { defineSupportCode } = require('cucumber');\ndefineSupportCode(function ({ Given, When, Then, And }) {\n" + result.setinput.replace(//g, "") + "});")
+				appendToStepDefinitionsEditor("const { defineSupportCode } = require('cucumber');\ndefineSupportCode(function ({ Given, When, Then, And }) {\n" + result.setinput.replace(//g,"") + "});")
 			}
-
+			else if(mochaEditor.getValue().length == 0){
+				appendToMochaEditor("describe('...',function(){\n\tit('should ...',function(){\n\n\n\t})\n})")
+				if ($('#run-feature').attr('class') == 'btn btn-primary') {
+					step = checkstep(step + 1);
+				}
+			}
 		})
 	});
 
 	$('#run-mocha').click(function () {
 		$mochaOutput.empty();
-		$('a[href="#mocha-tab"]').tab('show');
 		$.post("/mocha", {
 			mocha: mochaEditor.getValue()
 		}, (result) => {
 			appendToMochaOutput(ansiHTML(result))
+			if($('#run-mocha').attr('class') == 'btn btn-primary'){
+				step = checkstep(step + 1);
+			}
 		});
 	});
 
 	$('#compile').click(function () {
 		$solidityOutput.empty();
-		$('a[href="#solidity-tab"]').tab('show');
 		$.post("/compile", {
 			solidity: solidityEditor.getValue()
 		}, (result) => {
-			for (var index in result) {
-				appendToSolidityOutput("" + result[index].name.slice(1) + '\n' + 'abi : ' + result[index].abi + '\n' + 'bytecode : ' + result[index].bytecode + '\n\n');
+			for(var index in result){
+				appendToSolidityOutput(""+result[index].name.slice(1)+'\n'+'abi : '+result[index].abi+'\n'+'bytecode : '+result[index].bytecode+'\n\n');
+			}
+			if($('#compile').attr('class') == 'btn btn-primary'){
+				step = checkstep(step + 1);
 			}
 			console.log(result);
 		});
 	});
+	$('#go-to-step-def').click(function(){
+		$('a[href="#step-definitions-tab"]').tab('show');
+		step = checkstep(step + 1);
+	})
+	$('#go-to-mocha').click(function(){
+		$('a[href="#mocha-tab"]').tab('show');
+		step = checkstep(step + 1);
+	})
+	$('#go-to-solidity').click(function(){
+		$('a[href="#solidity-tab"]').tab('show');
+		if (solidityEditor.getValue().length == 0) {
+			appendToSolidityEditor("pragma solidity ^0.4.8;\ncontract ContractName {\n\n\n}")
+		}
+		step = checkstep(step + 1);
+	})
 
 	$('#download').click(function () {
 		$.post("/download", {}, (result) => {
@@ -144,6 +178,84 @@ $(window).load(function () {
 		solidityEditor.setValue(data[0].solidity);
 	});
 })
+
+function checkstep(status) {
+	console.log(status)
+	switch (status) {
+		case 0:
+			$('#run-feature').show();
+			$('#run-feature').attr('class','btn btn-primary')
+			$('#run-mocha').show();
+			$('#compile').show();
+			$('#go-to-step-def').hide();
+			$('#go-to-mocha').hide();
+			$('#go-to-solidity').hide()
+			break;
+		case 1:
+			$('#run-feature').show();
+			$('#run-feature').attr('class','btn btn-success')
+			$('#run-mocha').show();
+			$('#compile').show();
+			$('#go-to-step-def').hide();
+			$('#go-to-mocha').show();
+			$('#go-to-solidity').hide()
+			break;
+		case 2:
+			$('#run-feature').show();
+			$('#run-mocha').show();
+			$('#compile').show();
+			$('#go-to-step-def').hide();
+			$('#go-to-mocha').hide();
+			$('#go-to-solidity').show()
+			break;
+		case 3:
+			$('#run-feature').show();
+			$('#run-mocha').show();
+			$('#compile').show();
+			$('#compile').attr('class','btn btn-primary')
+			$('#go-to-step-def').hide();
+			$('#go-to-mocha').hide();
+			$('#go-to-solidity').hide()
+			break;
+		case 4:
+			$('#run-feature').show();
+			$('#run-mocha').show();
+			$('#compile').show();
+			$('#compile').attr('class','btn btn-success')
+			$('#go-to-step-def').hide();
+			$('#go-to-mocha').show();
+			$('#go-to-solidity').hide()
+			break;
+		case 5:
+			$('#run-feature').show();
+			$('#run-mocha').show();
+			$('#run-mocha').attr('class','btn btn-primary')
+			$('#compile').show();
+			$('#go-to-step-def').hide();
+			$('#go-to-mocha').hide();
+			$('#go-to-solidity').hide()
+			break;
+		case 6:
+			$('#run-feature').show();
+			$('#run-mocha').show();
+			$('#run-mocha').attr('class','btn btn-success')
+			$('#compile').show();
+			$('#go-to-step-def').show();
+			$('#go-to-mocha').hide();
+			$('#go-to-solidity').hide()
+			break;
+		case 7:
+			$('#run-feature').show();
+			$('#run-feature').attr('class','btn btn-primary')
+			$('#run-mocha').show();
+			$('#compile').show();
+			$('#go-to-step-def').hide();
+			$('#go-to-mocha').hide();
+			$('#go-to-solidity').hide()
+			break;
+	}
+	return status;
+}
 
 function read_file(fileinfo) {
 	var file = fileinfo.files[0];
