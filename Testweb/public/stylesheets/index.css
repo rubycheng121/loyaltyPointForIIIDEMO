@@ -1,9 +1,19 @@
 /*
  * header
  */
+header {
+	width: 100%;
+	height: 104px;
+}
 
-header #github-logo {
-	margin-top: 1rem;
+header #nccu_logo {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+header #nccu_logo img {
+	height: 84px;
+	width: 84px;
 }
 
 /*

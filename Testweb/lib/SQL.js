@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 var credentials = require("./credentials.js")
+var moment = require('moment');
 
 var connection = mysql.createConnection({
     host: credentials.SQL.host,
@@ -7,18 +8,6 @@ var connection = mysql.createConnection({
     password: credentials.SQL.password,
     database: credentials.SQL.database
 });
-
-function download() {
-    console.log("資料庫下載");
-}
-
-function upload(body, callback) {
-    console.log("資料庫上傳");
-    console.log(body);
-    addProject(body, (result) => {
-        callback(true, "儲存成功");
-    })
-}
 
 function sing_in(user, password, callback) {
     getUser(user, (result) => {
@@ -76,9 +65,10 @@ function new_project(user, project_name, callback) {
     get_project(user, project_name, (result) => {
         if (result == "") {
 
-            let cmd = "INSERT INTO project (user, project, feature, stepDefinitions, solidity, mocha) VALUES ?";
+            let cmd = "INSERT INTO project (user, project, feature, stepDefinitions, solidity, mocha, create_date, last_update) VALUES ?";
+            let date = moment().format('YYYY-MM-DD hh:mm:ss');
             let value = [
-                [user, project_name, "", "", "", ""]
+                [user, project_name, "", "", "", "", date, date]
             ];
             connection.query(cmd, [value], (err, result) => {
                 if (!err) {
@@ -121,8 +111,10 @@ function get_project_list(user, callback) {
 }
 
 function set_project(user, project, feature, stepDefinitions, solidity, mocha, callback) {
-    var cmd = "update project set feature = ?, stepDefinitions = ?, solidity = ?, mocha = ? where user = ? and project = ?";
-    var value = [feature, stepDefinitions, solidity, mocha, user, project];
+    var cmd = "update project set feature = ?, stepDefinitions = ?, solidity = ?, mocha = ?, last_update = ? where user = ? and project = ?";
+    let date = moment().format('YYYY-MM-DD hh:mm:ss');
+    var value = [feature, stepDefinitions, solidity, mocha, date, user, project];
+    console.log(date);
 
     connection.query(cmd, value, (err, result) => {
         if (!err) {
@@ -135,8 +127,6 @@ function set_project(user, project, feature, stepDefinitions, solidity, mocha, c
 
 module.exports = {
     connection: connection,
-    download: download,
-    upload: upload,
     sing_in: sing_in,
     sing_up: sing_up,
     new_project: new_project,

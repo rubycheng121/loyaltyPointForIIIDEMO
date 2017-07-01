@@ -29,11 +29,12 @@ function update() {
                 '<div class="list-group">' +
                 '<a href="/editor?project=' + data[i].project + '" class="list-group-item">' +
                 '<h4 class="list-group-item-heading">' + data[i].project + '</h4>' +
-                '<p class="list-group-item-text">Create date:</p>' +
-                '<p class="list-group-item-text">Last update:</p>' +
+                '<p class="list-group-item-text">Create date : ' +  new Date(data[i].create_date).toLocaleString() + '</p>' +
+                '<p class="list-group-item-text">Last update : ' +  new Date(data[i].last_update).toLocaleString() + '</p>' +
                 '</a>' +
                 '</div>' +
                 '</div>');
+
         }
     });
 

@@ -117,7 +117,7 @@ $(function () {
 			solidity: solidityEditor.getValue(),
 			mocha: mochaEditor.getValue()
 		}, (result) => {
-			console.log(result);
+			alert(result.result);
 		});
 	});
 
