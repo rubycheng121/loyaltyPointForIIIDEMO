@@ -112,8 +112,13 @@ router.post('/compile', function (req, res, next) {
 })
 
 router.post('/upload', function (req, res, next) {
+
+	console.log("upload");
 	sql.set_project(req.session.user, req.body.project, req.body.feature, req.body.stepDefinitions, req.body.solidity, req.body.mocha, (result) => {
 		console.log(result);
+		res.json({
+			result: "Save successfully"
+		})
 	})
 });
 
