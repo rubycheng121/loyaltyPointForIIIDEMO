@@ -1,0 +1,21 @@
+第一步 完成feature
+
+第二步 按下Run feature 產生Step Definitions骨架
+
+第三步 填寫Step Definitions
+
+第四步 按下Run feature 產生Unit test骨架
+
+第五步 填寫Unit test
+
+第六步 按下Run Mocha 產生Contract骨架
+
+第七步 填寫Contract
+
+第八步 按下Compile 產生api和bytecode
+
+第九步 加入api和bytecode 按下Run Mocha 完成Unit test 
+
+第十步 加入api和bytecode 按下Run feature 完成cucumber
+
+結束

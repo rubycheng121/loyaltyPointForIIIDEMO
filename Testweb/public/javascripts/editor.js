@@ -41,7 +41,8 @@ function displayError(error) {
 }
 
 function getUrlVars() {
-	var vars = [], hash;
+	var vars = [],
+		hash;
 	var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 	for (var i = 0; i < hashes.length; i++) {
 		hash = hashes[i].split('=');
@@ -52,7 +53,9 @@ function getUrlVars() {
 }
 
 $(function () {
+
 	step = checkstep(0);
+
 	featureEditor = ace.edit("feature");
 	featureEditor.getSession().setMode("ace/mode/gherkin");
 
@@ -80,14 +83,47 @@ $(function () {
 		}, (result) => {
 			appendToOutput(ansiHTML(result.output))
 			if (stepDefinitionsEditor.getValue().length == 0) {
-				appendToStepDefinitionsEditor("const { defineSupportCode } = require('cucumber');\ndefineSupportCode(function ({ Given, When, Then, And }) {\n" + result.setinput.replace(//g,"") + "});")
+				appendToStepDefinitionsEditor("const { defineSupportCode } = require('cucumber');\ndefineSupportCode(function ({ Given, When, Then, And }) {\n" + result.setinput.replace(//g, "") + "});")
+				if (step == 0) step = checkstep(1);
+			} else if (mochaEditor.getValue().length == 0) {
+				appendToMochaEditor("'use strict'" +
+"\n" +
+"const Web3 = require('web3')\n" +
+"const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))\n" +
+"\n" +
+"let Account_abi\n" +
+"let Account_bytecode\n" +
+"\n" +
+"let Exchange_abi\n" +
+"let Exchange_bytecode\n" +
+"\n" +
+"let LoyaltyPoint_abi\n" +
+"let LoyaltyPoint_bytecode\n" +
+"\n" +
+"let Account = web3.eth.contract(Account_abi)\n" +
+"let Account0 = web3.eth.contract(Account_abi)\n" +
+"let exchange = web3.eth.contract(Exchange_abi)\n" +
+"\n" +
+"let addr,addr0,Account_address,Account0_address,exchange_address\n" +
+"\n" +
+"describe('Scenario 0 : Deploy Contracts', function () {\n" +
+"	this.timeout(0)\n" +
+"\n" +
+"	describe('Account0 Contract', function () {\n" +
+"\n" +
+"	})\n" +
+"	describe('Account1 Contract', function () {\n" +
+"\n" +
+"	})\n" +
+"\n" +
+"	describe('exchange Contract', function () {\n" +
+"\n" +
+"	})\n" +
+"})" 
+)
+				if (step == 1) step = checkstep(2);
 			}
-			else if(mochaEditor.getValue().length == 0){
-				appendToMochaEditor("describe('...',function(){\n\tit('should ...',function(){\n\n\n\t})\n})")
-				if ($('#run-feature').attr('class') == 'btn btn-primary') {
-					step = checkstep(step + 1);
-				}
-			}
+			if (step == 5) step = checkstep(6);
 		})
 	});
 
@@ -97,10 +133,9 @@ $(function () {
 			mocha: mochaEditor.getValue()
 		}, (result) => {
 			appendToMochaOutput(ansiHTML(result))
-			if($('#run-mocha').attr('class') == 'btn btn-primary'){
-				step = checkstep(step + 1);
-			}
 		});
+		if (step == 2) step = checkstep(3);
+		else if (step == 4) step = checkstep(5);
 	});
 
 	$('#compile').click(function () {
@@ -108,30 +143,19 @@ $(function () {
 		$.post("/compile", {
 			solidity: solidityEditor.getValue()
 		}, (result) => {
-			for(var index in result){
-				appendToSolidityOutput(""+result[index].name.slice(1)+'\n'+'abi : '+result[index].abi+'\n'+'bytecode : '+result[index].bytecode+'\n\n');
+			for (var index in result) {
+				//appendToSolidityOutput('<h3>' + result[index].name.slice(1) + '\n</h3>');
+				appendToSolidityOutput('const ' + result[index].name.slice(1) + '_abi = ' + result[index].abi + '\n')
+				appendToSolidityOutput('const ' + result[index].name.slice(1) + "_bytecode = '0x" + result[index].bytecode + "'\n\n")
 			}
-			if($('#compile').attr('class') == 'btn btn-primary'){
-				step = checkstep(step + 1);
+
+			if (step == 3) {
+				step = checkstep(4);
 			}
+
 			console.log(result);
 		});
 	});
-	$('#go-to-step-def').click(function(){
-		$('a[href="#step-definitions-tab"]').tab('show');
-		step = checkstep(step + 1);
-	})
-	$('#go-to-mocha').click(function(){
-		$('a[href="#mocha-tab"]').tab('show');
-		step = checkstep(step + 1);
-	})
-	$('#go-to-solidity').click(function(){
-		$('a[href="#solidity-tab"]').tab('show');
-		if (solidityEditor.getValue().length == 0) {
-			appendToSolidityEditor("pragma solidity ^0.4.8;\ncontract ContractName {\n\n\n}")
-		}
-		step = checkstep(step + 1);
-	})
 
 	$('#download').click(function () {
 		$.post("/download", {}, (result) => {
@@ -171,7 +195,9 @@ $(function () {
 $(window).load(function () {
 
 	let project = getUrlVars().project;
-	$.post("get_project", {project: project}, (data) => {
+	$.post("get_project", {
+		project: project
+	}, (data) => {
 		featureEditor.setValue(data[0].feature);
 		stepDefinitionsEditor.setValue(data[0].stepDefinitions);
 		mochaEditor.setValue(data[0].mocha);
@@ -183,75 +209,33 @@ function checkstep(status) {
 	console.log(status)
 	switch (status) {
 		case 0:
-			$('#run-feature').show();
-			$('#run-feature').attr('class','btn btn-primary')
-			$('#run-mocha').show();
-			$('#compile').show();
-			$('#go-to-step-def').hide();
-			$('#go-to-mocha').hide();
-			$('#go-to-solidity').hide()
 			break;
 		case 1:
-			$('#run-feature').show();
-			$('#run-feature').attr('class','btn btn-success')
-			$('#run-mocha').show();
-			$('#compile').show();
-			$('#go-to-step-def').hide();
-			$('#go-to-mocha').show();
-			$('#go-to-solidity').hide()
+			$('#feature-span').attr('class', 'glyphicon glyphicon-ok');
 			break;
 		case 2:
-			$('#run-feature').show();
-			$('#run-mocha').show();
-			$('#compile').show();
-			$('#go-to-step-def').hide();
-			$('#go-to-mocha').hide();
-			$('#go-to-solidity').show()
+			$('#step_definitions-span').attr('class', 'glyphicon glyphicon-warning-sign');
+			$('#run-feature span').attr('class', 'glyphicon');
+			$('#run-mocha span').attr('class', 'glyphicon glyphicon-screenshot');
 			break;
 		case 3:
-			$('#run-feature').show();
-			$('#run-mocha').show();
-			$('#compile').show();
-			$('#compile').attr('class','btn btn-primary')
-			$('#go-to-step-def').hide();
-			$('#go-to-mocha').hide();
-			$('#go-to-solidity').hide()
+			$('#unit_test-span').attr('class', 'glyphicon glyphicon-warning-sign');
+			$('#run-mocha span').attr('class', 'glyphicon');
+			$('#compile span').attr('class', 'glyphicon glyphicon-screenshot');
 			break;
 		case 4:
-			$('#run-feature').show();
-			$('#run-mocha').show();
-			$('#compile').show();
-			$('#compile').attr('class','btn btn-success')
-			$('#go-to-step-def').hide();
-			$('#go-to-mocha').show();
-			$('#go-to-solidity').hide()
+			$('#contract-span').attr('class', 'glyphicon glyphicon glyphicon-ok');
+			$('#compile span').attr('class', 'glyphicon');
+			$('#run-mocha span').attr('class', 'glyphicon glyphicon-screenshot');
 			break;
 		case 5:
-			$('#run-feature').show();
-			$('#run-mocha').show();
-			$('#run-mocha').attr('class','btn btn-primary')
-			$('#compile').show();
-			$('#go-to-step-def').hide();
-			$('#go-to-mocha').hide();
-			$('#go-to-solidity').hide()
+			$('#unit_test-span').attr('class', 'glyphicon glyphicon-ok');
+			$('#run-mocha span').attr('class', 'glyphicon');
+			$('#run-feature span').attr('class', 'glyphicon glyphicon-screenshot');
 			break;
 		case 6:
-			$('#run-feature').show();
-			$('#run-mocha').show();
-			$('#run-mocha').attr('class','btn btn-success')
-			$('#compile').show();
-			$('#go-to-step-def').show();
-			$('#go-to-mocha').hide();
-			$('#go-to-solidity').hide()
-			break;
-		case 7:
-			$('#run-feature').show();
-			$('#run-feature').attr('class','btn btn-primary')
-			$('#run-mocha').show();
-			$('#compile').show();
-			$('#go-to-step-def').hide();
-			$('#go-to-mocha').hide();
-			$('#go-to-solidity').hide()
+			$('#step_definitions-span').attr('class', 'glyphicon glyphicon-ok');
+			$('#run-feature span').attr('class', 'glyphicon');
 			break;
 	}
 	return status;
@@ -325,4 +309,3 @@ function dragEnter(evt, target) { //evt 為 DragEvent 物件
 			break;
 	}
 }
-
