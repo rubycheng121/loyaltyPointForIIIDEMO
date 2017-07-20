@@ -40,18 +40,6 @@ function displayError(error) {
 	appendToOutput(errorContainer)
 }
 
-function getUrlVars() {
-	var vars = [],
-		hash;
-	var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-	for (var i = 0; i < hashes.length; i++) {
-		hash = hashes[i].split('=');
-		vars.push(hash[0]);
-		vars[hash[0]] = hash[1];
-	}
-	return vars;
-}
-
 $(function () {
 
 	step = checkstep(0);
@@ -77,55 +65,34 @@ $(function () {
 	$('#run-feature').click(function () {
 		$output.empty();
 		$('a[href="#step-definitions-tab"]').tab('show');
-		$.post('/cucumber', {
-			featureSource: featureEditor.getValue(),
-			stepDefinitions: stepDefinitionsEditor.getValue()
-		}, (result) => {
-			appendToOutput(ansiHTML(result.output))
-			if (stepDefinitionsEditor.getValue().length == 0) {
+
+		if (stepDefinitionsEditor.getValue().trim().length == 0) {
+
+			console.log(featureEditor.getValue());
+
+			$.post('/cucumber', {
+				featureSource: featureEditor.getValue(),
+				stepDefinitions: stepDefinitionsEditor.getValue()
+			}, (result) => {
+				appendToOutput(ansiHTML(result.output))
+
 				appendToStepDefinitionsEditor("const { defineSupportCode } = require('cucumber');\ndefineSupportCode(function ({ Given, When, Then, And }) {\n" + result.setinput.replace(//g, "") + "});")
 				if (step == 0) step = checkstep(1);
-			} else if (mochaEditor.getValue().length == 0) {
-				appendToMochaEditor("'use strict'" +
-"\n" +
-"const Web3 = require('web3')\n" +
-"const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))\n" +
-"\n" +
-"let Account_abi\n" +
-"let Account_bytecode\n" +
-"\n" +
-"let Exchange_abi\n" +
-"let Exchange_bytecode\n" +
-"\n" +
-"let LoyaltyPoint_abi\n" +
-"let LoyaltyPoint_bytecode\n" +
-"\n" +
-"let Account = web3.eth.contract(Account_abi)\n" +
-"let Account0 = web3.eth.contract(Account_abi)\n" +
-"let exchange = web3.eth.contract(Exchange_abi)\n" +
-"\n" +
-"let addr,addr0,Account_address,Account0_address,exchange_address\n" +
-"\n" +
-"describe('Scenario 0 : Deploy Contracts', function () {\n" +
-"	this.timeout(0)\n" +
-"\n" +
-"	describe('Account0 Contract', function () {\n" +
-"\n" +
-"	})\n" +
-"	describe('Account1 Contract', function () {\n" +
-"\n" +
-"	})\n" +
-"\n" +
-"	describe('exchange Contract', function () {\n" +
-"\n" +
-"	})\n" +
-"})" 
-)
+			})
+		}
+		else if (mochaEditor.getValue().trim().length == 0) {
+			$.post('/cucumber', {
+				featureSource: featureEditor.getValue(),
+				stepDefinitions: stepDefinitionsEditor.getValue()
+			}, (result) => {
+				appendToOutput(ansiHTML(result.output))
+				appendToMochaEditor()
 				if (step == 1) step = checkstep(2);
-			}
-			if (step == 5) step = checkstep(6);
-		})
-	});
+			})
+		}
+		if (step == 5) step = checkstep(6);
+	})
+
 
 	$('#run-mocha').click(function () {
 		$mochaOutput.empty();
@@ -308,4 +275,16 @@ function dragEnter(evt, target) { //evt 為 DragEvent 物件
 			$(".tab-pane:eq(3)").addClass("active");
 			break;
 	}
+}
+
+function getUrlVars() {
+	var vars = [],
+		hash;
+	var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+	for (var i = 0; i < hashes.length; i++) {
+		hash = hashes[i].split('=');
+		vars.push(hash[0]);
+		vars[hash[0]] = hash[1];
+	}
+	return vars;
 }
