@@ -114,7 +114,8 @@ router.post('/compile', function (req, res, next) {
 router.post('/upload', function (req, res, next) {
 
 	console.log("upload");
-	sql.set_project(req.session.user, req.body.project, req.body.feature, req.body.stepDefinitions, req.body.solidity, req.body.mocha, (result) => {
+	console.log(req.body);
+	sql.set_project(req.session.user, unescape(req.body.project), req.body.feature, req.body.stepDefinitions, req.body.solidity, req.body.mocha, (result) => {
 		console.log(result);
 		res.json({
 			result: "Save successfully"
@@ -188,7 +189,7 @@ router.post('/get_project_list', function (req, res, next) {
 router.post('/get_project', function (req, res, next) {
 
 	console.log("get_project");
-	sql.get_project(req.session.user, req.body.project, (result) => {
+	sql.get_project(req.session.user, unescape(req.body.project), (result) => {
 		res.json(result);
 	});
 });
