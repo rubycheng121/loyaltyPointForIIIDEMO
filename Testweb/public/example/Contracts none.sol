@@ -12,8 +12,8 @@ contract Exchange{
 
     }
 
-    function to(bytes32 sourceName,bytes32 targetName,int amount) returns (bool){
-        LoyaltyPoint target = LoyaltyPoint(myAccount.getLoyaltyPoint(targetName));
+    function to(bytes32 sourceName,bytes32 targerName,int amount) returns (bool){
+        LoyaltyPoint target = LoyaltyPoint(myAccount.getLoyaltyPoint(targerName));
         LoyaltyPoint source = LoyaltyPoint(myAccount.getLocalLoyaltyPoint());
         LoyaltyPoint partnerSource = LoyaltyPoint(partnerAccount.getLoyaltyPoint(sourceName));
 		LoyaltyPoint partnerTarget = LoyaltyPoint(partnerAccount.getLocalLoyaltyPoint());
