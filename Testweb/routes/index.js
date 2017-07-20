@@ -49,11 +49,10 @@ router.get('/editor', function (req, res, next) {
 
 router.post('/cucumber', async function (req, res, next) {
 	var exec = require('child_process').exec;
-	var cmd1 = 'start cmd.exe /c "cucumberjs features/test.feature > r.txt"';// /k "nodevars.bat" /k cucumberjs features/test.feature'
-	var cmd2 = 'type r.txt'
+	var cmd = 'start cmd.exe /c "cucumberjs features/test.feature > r.txt"';// /k "nodevars.bat" /k cucumberjs features/test.feature'
 	await fs.writeFileSync('features/step_definitions/test.js', req.body.stepDefinitions);
 	await fs.writeFileSync('features/test.feature', req.body.featureSource);
-	exec(cmd1, function (error, stdout, stderr) {
+	exec(cmd, function (error, stdout, stderr) {
 		var r = fs.readFileSync('r.txt').toString();
 		res.send({
 			output: r,
@@ -66,47 +65,15 @@ router.post('/cucumber', async function (req, res, next) {
 				.replace(/       /mg, '    ')
 		})
 	});
-	/*exec(cmd2, function (error, stdout, stderr) {
-		console.log(error);
-		console.log(stdout);
-		console.log(stderr);
-		res.send({
-			output: stdout,
-			setinput: stdout.slice(stdout.indexOf('1) Scenario: '))
-				.replace(/\[.*?[Hm]/g, '')
-				.replace(/\d+\) Scenario(.*\n)(.*\n)(.*\n)(.*\n)/mg, '')
-				.replace(/\d+ scenarios \((.*\n)/, '')
-				.replace(/\d+ steps \((.*\n)/, '')
-				.replace(/\d+m\d+\.\d+s/, '')
-				.replace(/       /mg, '    ')
-		})
-	});*/
-	//res.send('null');
 })
 
 router.post('/mocha', function (req, res, next) {
-
-	Object.keys(require.cache).forEach(function (file) {
-		delete require.cache[file];
-	});
-
-	var mocha = new Mocha({
-		ui: 'bdd',
-		reporter: 'spec'
-	});
-	fs.writeFileSync('test.js', req.body.mocha);
-
-	mocha.addFile('test.js');
-	var write = process.stdout.write;
-	var output = '';
-	process.stdout.write = function (str) {
-		output += str;
-	};
-	
-	mocha.run(function (failures) {
-		process.stdout.write = write;
-		console.log(output);
-		res.send(output)
+	var exec = require('child_process').exec;
+	var cmd = 'start cmd.exe /c "mocha -c > mr.txt"'
+	fs.writeFileSync('test/test.js', req.body.mocha);
+	exec(cmd, function (error, stdout, stderr) {
+		var mr = fs.readFileSync('mr.txt').toString();
+		res.send(mr);
 	});
 })
 
