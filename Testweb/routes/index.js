@@ -49,10 +49,24 @@ router.get('/editor', function (req, res, next) {
 
 router.post('/cucumber', async function (req, res, next) {
 	var exec = require('child_process').exec;
-	var cmd = 'cucumberjs features/test.feature';
+	var cmd1 = 'start cmd.exe /c "cucumberjs features/test.feature > r.txt"';// /k "nodevars.bat" /k cucumberjs features/test.feature'
+	var cmd2 = 'type r.txt'
 	await fs.writeFileSync('features/step_definitions/test.js', req.body.stepDefinitions);
 	await fs.writeFileSync('features/test.feature', req.body.featureSource);
-	exec(cmd, function (error, stdout, stderr) {
+	exec(cmd1, function (error, stdout, stderr) {
+		var r = fs.readFileSync('r.txt').toString();
+		res.send({
+			output: r,
+			setinput: r.slice(r.indexOf('1) Scenario: '))
+				.replace(/\[.*?[Hm]/g, '')
+				.replace(/\d+\) Scenario(.*\n)(.*\n)(.*\n)(.*\n)/mg, '')
+				.replace(/\d+ scenarios \((.*\n)/, '')
+				.replace(/\d+ steps \((.*\n)/, '')
+				.replace(/\d+m\d+\.\d+s/, '')
+				.replace(/       /mg, '    ')
+		})
+	});
+	/*exec(cmd2, function (error, stdout, stderr) {
 		console.log(error);
 		console.log(stdout);
 		console.log(stderr);
@@ -66,7 +80,8 @@ router.post('/cucumber', async function (req, res, next) {
 				.replace(/\d+m\d+\.\d+s/, '')
 				.replace(/       /mg, '    ')
 		})
-	});
+	});*/
+	//res.send('null');
 })
 
 router.post('/mocha', function (req, res, next) {
