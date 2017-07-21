@@ -21,4 +21,8 @@ describe('Scenario 0 : XXXXX', function () {
 	describe('XXXX', function () {
 
 	})
+<<<<<<< HEAD
 })
+=======
+})
+>>>>>>> d8e49b59d19dd9546d52f3f0ee0edc6a858a10c0
