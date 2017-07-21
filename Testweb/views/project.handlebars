@@ -20,7 +20,6 @@
                 <ul class="nav nav-pills" role="tablist">
                     <li><a data-toggle="tab">{{user}}</a></li>
                     <li><a href="/sign_out">sign out</a></li>
-                    <li><a id="new_project">new project</a></li>
                 </ul>
             </div>
         </div>
@@ -30,6 +29,23 @@
 <section id="main">
     <div class="container-fluid">
         <div class="row">
+
+            <div class="col-md-4">
+                <div id="new_project-form">
+                    <form>
+                        <h2>new project</h2>
+                        <label>project name</label><br>
+                        <input type="text" id="project_name"><br>
+                        <hr>
+                        <label>contract 1 name</label><br>
+                        <input type="text" id="contract_name1"><br>
+                    </form>
+                    <br>
+                    <button id="new_project">new</button>
+                    <button id="add_contract">add contract</button>
+                </div>
+            </div>
+
             <div class="col-md-4">
                 <div id="project_list">
                 </div>

@@ -38,7 +38,8 @@ router.get('/editor', function (req, res, next) {
 			} else {
 				res.render('editor', {
 					user: req.session.user,
-					project: req.query.project
+					project: req.query.project,
+					contract: result[0].contract
 				});
 			}
 		});
@@ -153,7 +154,7 @@ router.post('/new_project', function (req, res, next) {
 	console.log("new_project");
 	console.log(req.body);
 
-	sql.new_project(req.session.user, req.body.project_name, (success, result) => {
+	sql.new_project(req.session.user, req.body.project_name, req.body.contract_name, (success, result) => {
 		if (success) {
 			res.json(result);
 		}
