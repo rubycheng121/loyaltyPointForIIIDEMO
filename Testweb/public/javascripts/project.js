@@ -1,50 +1,57 @@
 $(function () {
 
     let count = 1;
-    let count2 = 0;
 
     update();
 
     $('#new_project').click(function () {
 
-        let contract_name = '';
-
+        let contract = {};
         console.log("new_project");
         console.log($('#project_name').val());
 
-        contract_name += $('#contract_name1').val()
+        contract[$('#contract_name1').val()] = []
+        $('.deploy1').each(function (index) {
+            contract[$('#contract_name1').val()].push($(this).val());
+        });
+
         for (let i = 1; i < count; i++) {
-            contract_name += ',' + $('#contract_name' + (i + 1)).val();
+            contract[$('#contract_name' + (i + 1)).val()] = []
+            $('.deploy' + + (i + 1)).each(function (index) {
+                contract[$('#contract_name' + (i + 1)).val()].push($(this).val());
+            });
         }
-        console.log(contract_name);
+
+        console.log(contract);
 
         if ($('#project_name').val()) {
             $.post("new_project", {
                 project_name: $('#project_name').val(),
-                contract_name: contract_name
+                contract: contract
             }, (data) => {
                 update();
             });
         } else {
             alert('Project name cannot be empty');
         }
-
+        
     });
 
     $('#add_contract').click(function () {
+
         $('#form').append('<label>contract ' + ++count + ' name</label><br>')
         $('#form').append('<input type="text" id="contract_name' + count + '"><br>')
-        $('#form').append('<button class="new_deploy">deploy</button><br>')
+        $('#form').append('<button class="new_deploy">deploy' + count + '</button><br>')
         $('.new_deploy').unbind()
         $('.new_deploy').click(function () {
             console.log('new_deploy')
-            $(this).before('<input type="text" style="margin-left:2rem"><br>')
+            $(this).before('<input type="text" class="' + $(this).text() + '" style="margin-left:2rem"><br>')
         });
     });
 
     $('.new_deploy').click(function () {
         console.log('new_deploy')
-        $(this).before('<input type="text" style="margin-left:2rem"><br>')
+        $(this).before('<input type="text" class="' + $(this).text() + '" style="margin-left:2rem"><br>')
     });
 })
 
