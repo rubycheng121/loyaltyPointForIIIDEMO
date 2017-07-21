@@ -53,6 +53,9 @@ router.post('/cucumber', async function (req, res, next) {
 	var cmd = 'start cmd.exe /c "cucumberjs features/test.feature > r.txt"';// /k "nodevars.bat" /k cucumberjs features/test.feature'
 	await fs.writeFileSync('features/step_definitions/test.js', req.body.stepDefinitions);
 	await fs.writeFileSync('features/test.feature', req.body.featureSource);
+	sql.get_contract(req.session.user, req.query.project, (result) => {
+		console.log(result);
+	})
 	exec(cmd, function (error, stdout, stderr) {
 		var r = fs.readFileSync('r.txt').toString();
 		var a = r.match(/\d+ scenarios /)[0].match(/\d+/)[0]
@@ -60,13 +63,13 @@ router.post('/cucumber', async function (req, res, next) {
 		var c = b / a;
 		res.send({
 			output: r,
-			setinput: r.slice(r.indexOf('1) Scenario: '),r.indexOf(''+(c+1)+') Scenario: '))
+			setinput: r.slice(r.indexOf('1) Scenario: '), r.indexOf('' + (c + 1) + ') Scenario: '))
 				.replace(/\[.*?[Hm]/g, '')
 				.replace(/\d+\) Scenario(.*\n)(.*\n)(.*\n)(.*\n)/mg, '')
-				//.replace(/\d+ scenarios \((.*\n)/, '')
-				//.replace(/\d+ steps \((.*\n)/, '')
-				//.replace(/\d+m\d+\.\d+s/, '')
-				//.replace(/       /mg, '    ')
+			//.replace(/\d+ scenarios \((.*\n)/, '')
+			//.replace(/\d+ steps \((.*\n)/, '')
+			//.replace(/\d+m\d+\.\d+s/, '')
+			//.replace(/       /mg, '    ')
 		})
 	});
 })

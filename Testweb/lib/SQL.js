@@ -124,7 +124,17 @@ function set_project(user, project, feature, stepDefinitions, solidity, mocha, c
         }
     });
 }
-
+function get_contract(user, project) {
+    var cmd = "select contract from project where user = ? and project = ?";
+    var value = [user, project];
+     connection.query(cmd, value, (err, result) => {
+        if (!err) {
+            callback(result);
+        } else {
+            console.log(err);
+        }
+    });
+}
 module.exports = {
     connection: connection,
     sing_in: sing_in,
