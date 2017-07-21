@@ -1,6 +1,7 @@
 $(function () {
 
-    var count = 1;
+    let count = 1;
+    let count2 = 0;
 
     update();
 
@@ -31,8 +32,15 @@ $(function () {
     });
 
     $('#add_contract').click(function () {
-        $('form').append('<label>contract ' + ++count + ' name</label><br>')
-        $('form').append('<input type="text" id="contract_name'+ count +'"><br>')
+        $('#form').append('<label>contract ' + ++count + ' name</label><br>')
+        $('#form').append('<input type="text" id="contract_name'+ count +'"><br>')
+        $('#form').append('<button class="new_deploy">deploy</button><br>')
+        
+    });
+
+    $('.new_deploy').click(function () {
+        console.log('new_deploy')
+        $(this).before('<input type="text" style="margin-left:2rem"><br>')
     });
 })
 
