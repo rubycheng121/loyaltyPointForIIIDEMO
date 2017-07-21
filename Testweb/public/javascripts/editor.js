@@ -6,6 +6,7 @@ var $output
 var $mochaOutput
 var $solidityOutput
 var step;
+var functionName;
 
 function appendToOutput(data) {
 	$output.append(data);
@@ -66,33 +67,49 @@ $(function () {
 		$output.empty();
 		$('a[href="#step-definitions-tab"]').tab('show');
 
-		if (stepDefinitionsEditor.getValue().trim().length == 0) {
+		if (step == 0) step = checkstep(1);
+		else if (step == 1) step = checkstep(2);
+		else if (step == 5) step = checkstep(6);
 
-			console.log(featureEditor.getValue());
+		$.post('/cucumber', {
+			featureSource: featureEditor.getValue(),
+			stepDefinitions: stepDefinitionsEditor.getValue()
+		}, (result) => {
+			appendToOutput(ansiHTML(result.output))
 
-			$.post('/cucumber', {
-				featureSource: featureEditor.getValue(),
-				stepDefinitions: stepDefinitionsEditor.getValue()
-			}, (result) => {
-				appendToOutput(ansiHTML(result.output))
+			if (stepDefinitionsEditor.getValue().trim().length == 0) {
+				let head = "const { defineSupportCode } = require('cucumber');\nconst assert = require('assert');\nconst Web3 = require('web3');\nconst web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));\n\n";
+				let contract_arr = $('#contract_name').text().split(',');
+				let contract = "";
+				for (let i = 0; i < contract_arr.length; i++) {
+					contract += 'let ' + contract_arr[i] + '_abi\n'
+					contract += 'let ' + contract_arr[i] + '_bytecode\n'
+					contract += 'let ' + contract_arr[i] + '_contract\n'
+					contract += 'let ' + contract_arr[i] + '_address\n\n'
+				}
+				console.log(contract);
+				appendToStepDefinitionsEditor(head + contract + "defineSupportCode(function ({ Given, When, Then, And }) {\n" + result.setinput.replace(//g, "") + "});")
+			}
+			else if (mochaEditor.getValue().trim().length == 0) {
 
-				appendToStepDefinitionsEditor("const { defineSupportCode } = require('cucumber');\ndefineSupportCode(function ({ Given, When, Then, And }) {\n" + result.setinput.replace(//g, "") + "});")
-				if (step == 0) step = checkstep(1);
-			})
-		}
-		else if (mochaEditor.getValue().trim().length == 0) {
-			$.post('/cucumber', {
-				featureSource: featureEditor.getValue(),
-				stepDefinitions: stepDefinitionsEditor.getValue()
-			}, (result) => {
-				appendToOutput(ansiHTML(result.output))
-				appendToMochaEditor()
-				if (step == 1) step = checkstep(2);
-			})
-		}
-		if (step == 5) step = checkstep(6);
+				functionName = stepDefinitionsEditor.getValue().match(/[.][\w]+[(]/g);
+				functionName = functionName.filter((el, i, arr) => arr.indexOf(el) === i);
+				functionName = functionName.filter(isFunction)
+
+				let head = "const assert = require('assert');\nconst Web3 = require('web3');\nconst web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));\n\n";
+				let contract_arr = $('#contract_name').text().split(',');
+				let contract = ""
+				for (let i = 0; i < contract_arr.length; i++) {
+					contract += 'let ' + contract_arr[i] + '_abi\n'
+					contract += 'let ' + contract_arr[i] + '_bytecode\n'
+					contract += 'let ' + contract_arr[i] + '_contract\n'
+					contract += 'let ' + contract_arr[i] + '_address\n\n'
+				}
+				let body = "describe('Scenario 0 : XXXXX', function () {\n\tthis.timeout(0)\n\n\tdescribe('XXXX', function () {\n\n\t})\n})";
+				appendToMochaEditor(head + contract + body);
+			}
+		})
 	})
-
 
 	$('#run-mocha').click(function () {
 		$mochaOutput.empty();
@@ -100,28 +117,46 @@ $(function () {
 			mocha: mochaEditor.getValue()
 		}, (result) => {
 			appendToMochaOutput(ansiHTML(result))
+			if (solidityEditor.getValue().trim().length == 0) {
+				let head = "pragma solidity ^0.4.8;\n\n";
+				let contract_arr = $('#contract_name').text().split(',');
+				let contract = ""
+				for (let i = 0; i < contract_arr.length; i++) {
+					contract += 'contract ' + contract_arr[i] + '{\n}\n\n'
+				}
+				let body = functionName.toString();
+				appendToSolidityEditor(head + contract + body);
+			}
 		});
 		if (step == 2) step = checkstep(3);
 		else if (step == 4) step = checkstep(5);
 	});
 
 	$('#compile').click(function () {
+		$('a[href="#solidity-tab"]').tab('show');
 		$solidityOutput.empty();
 		$.post("/compile", {
 			solidity: solidityEditor.getValue()
 		}, (result) => {
+
+			let abi = '';
+			let bytecode = '';
 			for (var index in result) {
-				//appendToSolidityOutput('<h3>' + result[index].name.slice(1) + '\n</h3>');
-				appendToSolidityOutput('const ' + result[index].name.slice(1) + '_abi = ' + result[index].abi + '\n')
-				appendToSolidityOutput('const ' + result[index].name.slice(1) + "_bytecode = '0x" + result[index].bytecode + "'\n\n")
-			}
+				abi = 'let ' + result[index].name.slice(1) + '_abi = ' + result[index].abi;
+				bytecode = 'let ' + result[index].name.slice(1) + "_bytecode = '0x" + result[index].bytecode + "'";
 
-			if (step == 3) {
-				step = checkstep(4);
-			}
+				appendToStepDefinitionsEditor(stepDefinitionsEditor.getValue().replace('let ' + result[index].name.slice(1) + '_abi', abi));
+				appendToStepDefinitionsEditor(stepDefinitionsEditor.getValue().replace('let ' + result[index].name.slice(1) + '_bytecode', bytecode));
+				appendToMochaEditor(mochaEditor.getValue().replace('let ' + result[index].name.slice(1) + '_abi', abi));
+				appendToMochaEditor(mochaEditor.getValue().replace('let ' + result[index].name.slice(1) + '_bytecode', bytecode));
 
+				appendToSolidityOutput('<h3>' + result[index].name.slice(1) + '\n');
+				appendToSolidityOutput(abi + '\n');
+				appendToSolidityOutput(bytecode + '\n</h3><button>部署</button>\n');
+			}
 			console.log(result);
 		});
+		if (step == 3) step = checkstep(4);
 	});
 
 	$('#download').click(function () {
@@ -287,4 +322,25 @@ function getUrlVars() {
 		vars[hash[0]] = hash[1];
 	}
 	return vars;
+}
+
+function isFunction(value) {
+
+	switch (value) {
+		case '.HttpProvider(':
+		case '.newRequest(':
+		case '.ok(':
+		case '.writeFile(':
+		case '.ifError(':
+		case '.at(':
+		case '.cwd(':
+		case '.stringify(':
+		case '.resolve(':
+		case '.contract(':
+			return false;
+		default:
+			return true;
+	}
+
+	return value >= 10;
 }
