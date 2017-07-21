@@ -11,10 +11,10 @@ $(function () {
 
         console.log("new_project");
         console.log($('#project_name').val());
-        
+
         contract_name += $('#contract_name1').val()
-        for (let i=1; i<count; i++) {
-            contract_name += ',' + $('#contract_name' + (i+1)).val();
+        for (let i = 1; i < count; i++) {
+            contract_name += ',' + $('#contract_name' + (i + 1)).val();
         }
         console.log(contract_name);
 
@@ -28,14 +28,18 @@ $(function () {
         } else {
             alert('Project name cannot be empty');
         }
-        
+
     });
 
     $('#add_contract').click(function () {
         $('#form').append('<label>contract ' + ++count + ' name</label><br>')
-        $('#form').append('<input type="text" id="contract_name'+ count +'"><br>')
+        $('#form').append('<input type="text" id="contract_name' + count + '"><br>')
         $('#form').append('<button class="new_deploy">deploy</button><br>')
-        
+        $('.new_deploy').unbind()
+        $('.new_deploy').click(function () {
+            console.log('new_deploy')
+            $(this).before('<input type="text" style="margin-left:2rem"><br>')
+        });
     });
 
     $('.new_deploy').click(function () {
