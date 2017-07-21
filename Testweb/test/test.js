@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const assert = require('assert');
 const Web3 = require('web3');
 const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
@@ -25,14 +24,3 @@ describe('Scenario 0 : XXXXX', function () {
 
 	})
 })
-=======
-describe('math module', function(){
-    it('test1', function (done) {
-        done();
-    });
-
-    it('test2', function (done) {
-        done()
-    });
-});
->>>>>>> 103ed6e7fe283fd372ac9636ae5cd7b9dd628090
