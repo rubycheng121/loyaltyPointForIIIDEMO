@@ -55,15 +55,18 @@ router.post('/cucumber', async function (req, res, next) {
 	await fs.writeFileSync('features/test.feature', req.body.featureSource);
 	exec(cmd, function (error, stdout, stderr) {
 		var r = fs.readFileSync('r.txt').toString();
+		var a = r.match(/\d+ scenarios /)[0].match(/\d+/)[0]
+		var b = r.match(/\d+ steps /)[0].match(/\d+/)[0]
+		var c = b / a;
 		res.send({
 			output: r,
-			setinput: r.slice(r.indexOf('1) Scenario: '))
+			setinput: r.slice(r.indexOf('1) Scenario: '),r.indexOf(''+(c+1)+') Scenario: '))
 				.replace(/\[.*?[Hm]/g, '')
 				.replace(/\d+\) Scenario(.*\n)(.*\n)(.*\n)(.*\n)/mg, '')
-				.replace(/\d+ scenarios \((.*\n)/, '')
-				.replace(/\d+ steps \((.*\n)/, '')
-				.replace(/\d+m\d+\.\d+s/, '')
-				.replace(/       /mg, '    ')
+				//.replace(/\d+ scenarios \((.*\n)/, '')
+				//.replace(/\d+ steps \((.*\n)/, '')
+				//.replace(/\d+m\d+\.\d+s/, '')
+				//.replace(/       /mg, '    ')
 		})
 	});
 })
