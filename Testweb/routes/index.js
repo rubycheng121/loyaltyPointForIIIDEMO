@@ -53,9 +53,9 @@ router.post('/cucumber', async function (req, res, next) {
 	var cmd = 'start cmd.exe /c "cucumberjs features/test.feature > r.txt"';// /k "nodevars.bat" /k cucumberjs features/test.feature'
 	await fs.writeFileSync('features/step_definitions/test.js', req.body.stepDefinitions);
 	await fs.writeFileSync('features/test.feature', req.body.featureSource);
-	sql.get_contract(req.session.user, req.query.project, (result) => {
-		console.log(result);
-	})
+	//sql.get_contract(req.session.user, req.query.project, (result) => {
+	//	console.log(result);
+	//})
 	exec(cmd, function (error, stdout, stderr) {
 		var r = fs.readFileSync('r.txt').toString();
 		var a = r.match(/\d+ scenarios /)[0].match(/\d+/)[0]
@@ -159,8 +159,9 @@ router.post('/new_project', function (req, res, next) {
 
 	console.log("new_project");
 	console.log(req.body);
+	console.log(req.body.contract);
 
-	sql.new_project(req.session.user, req.body.project_name, req.body.contract_name, (success, result) => {
+	sql.new_project(req.session.user, req.body.project_name, req.body.contract, (success, result) => {
 		if (success) {
 			res.json(result);
 		}

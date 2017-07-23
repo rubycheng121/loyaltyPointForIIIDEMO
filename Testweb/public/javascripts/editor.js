@@ -79,15 +79,18 @@ $(function () {
 
 			if (stepDefinitionsEditor.getValue().trim().length == 0) {
 				let head = "const { defineSupportCode } = require('cucumber');\nconst assert = require('assert');\nconst Web3 = require('web3');\nconst web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));\n\n";
-				let contract_arr = $('#contract_name').text().split(',');
+				let contract_arr = JSON.parse($('#contract_name').text());
 				let contract = "";
-				for (let i = 0; i < contract_arr.length; i++) {
-					contract += 'let ' + contract_arr[i] + '_abi\n'
-					contract += 'let ' + contract_arr[i] + '_bytecode\n'
-					contract += 'let ' + contract_arr[i] + '_contract\n'
-					contract += 'let ' + contract_arr[i] + '_address\n\n'
-				}
-				console.log(contract);
+				$.each(contract_arr, function (i, item) {
+					contract += 'let ' + i + '_abi\n'
+					contract += 'let ' + i + '_bytecode\n'
+					item.forEach((element, index, array) => {
+						contract += 'let ' + element + '_contract\n'
+						contract += 'let ' + element + '_address\n'
+					});
+					contract += '\n'
+				});
+				console.log(contract_arr);
 				appendToStepDefinitionsEditor(head + contract + "defineSupportCode(function ({ Given, When, Then, And }) {\n" + result.setinput.replace(//g, "") + "});")
 			}
 			else if (mochaEditor.getValue().trim().length == 0) {
@@ -97,14 +100,17 @@ $(function () {
 				functionName = functionName.filter(isFunction)
 
 				let head = "const assert = require('assert');\nconst Web3 = require('web3');\nconst web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));\n\n";
-				let contract_arr = $('#contract_name').text().split(',');
-				let contract = ""
-				for (let i = 0; i < contract_arr.length; i++) {
-					contract += 'let ' + contract_arr[i] + '_abi\n'
-					contract += 'let ' + contract_arr[i] + '_bytecode\n'
-					contract += 'let ' + contract_arr[i] + '_contract\n'
-					contract += 'let ' + contract_arr[i] + '_address\n\n'
-				}
+				let contract_arr = JSON.parse($('#contract_name').text());
+				let contract = "";
+				$.each(contract_arr, function (i, item) {
+					contract += 'let ' + i + '_abi\n'
+					contract += 'let ' + i + '_bytecode\n'
+					item.forEach((element, index, array) => {
+						contract += 'let ' + element + '_contract\n'
+						contract += 'let ' + element + '_address\n'
+					});
+					contract += '\n'
+				});
 				let body = "describe('Scenario 0 : XXXXX', function () {\n\tthis.timeout(0)\n\n\tdescribe('XXXX', function () {\n\n\t})\n})";
 				appendToMochaEditor(head + contract + body);
 			}
@@ -152,7 +158,7 @@ $(function () {
 
 				appendToSolidityOutput('<h3>' + result[index].name.slice(1) + '\n');
 				appendToSolidityOutput(abi + '\n');
-				appendToSolidityOutput(bytecode + '\n</h3><button>部署</button>\n');
+				appendToSolidityOutput(bytecode + '\n');
 			}
 			console.log(result);
 		});

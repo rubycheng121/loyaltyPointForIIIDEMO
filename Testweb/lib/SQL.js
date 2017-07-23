@@ -60,15 +60,15 @@ function addUser(user, email, password, callback) {
     });
 }
 
-function new_project(user, project_name, contract_name, callback) {
+function new_project(user, project_name, contract, callback) {
 
     get_project(user, project_name, (result) => {
         if (result == "") {
 
-            let cmd = "INSERT INTO project (user, project, contract,feature, stepDefinitions, solidity, mocha, create_date, last_update) VALUES ?";
+            let cmd = "INSERT INTO project (user, project, contract, feature, stepDefinitions, solidity, mocha, create_date, last_update) VALUES ?";
             let date = moment().format('YYYY-MM-DD hh:mm:ss');
             let value = [
-                [user, project_name, contract_name, "", "", "", "", date, date]
+                [user, project_name, contract, "", "", "", "", date, date]
             ];
             connection.query(cmd, [value], (err, result) => {
                 if (!err) {

@@ -24,17 +24,12 @@ $(function () {
 
         console.log(contract);
 
-        if ($('#project_name').val()) {
-            $.post("new_project", {
-                project_name: $('#project_name').val(),
-                contract: contract
-            }, (data) => {
-                update();
-            });
-        } else {
-            alert('Project name cannot be empty');
-        }
-        
+        $.post("new_project", {
+            project_name: $('#project_name').val(),
+            contract: JSON.stringify(contract)
+        }, (data) => {
+            update();
+        });
     });
 
     $('#add_contract').click(function () {
