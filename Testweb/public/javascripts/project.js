@@ -33,20 +33,20 @@ $(function () {
     });
 
     $('#add_contract').click(function () {
-
-        $('#form').append('<label>Contract ' + ++count + ' Name</label><br>')
+        count++;
+        $('#form').append('<label>Contract Name</label><br>')
         $('#form').append('<input type="text" id="contract_name' + count + '"><br>')
-        $('#form').append('<button class="new_deploy">Add Contract ' + count + ' Variable</button><br>')
+        $('#form').append('<button class="new_deploy contract'+count+'">Add Contract ID</button><br>')
         $('.new_deploy').unbind()
         $('.new_deploy').click(function () {
-            console.log('new_deploy')
-            $(this).before('<label>Contract Variable Name :</label><input type="text" class="deploy'+count+'" style="margin-left:2rem"><br>')
+            console.log($(this).attr('class').split(' ')[1].match(/\d+/)[0])
+            $(this).before('<label>Contract ID :</label><br><input type="text" class="deploy'+$(this).attr('class').split(' ')[1].match(/\d+/)[0]+'" style="margin-left:2rem"><br>')
         });
     });
 
     $('.new_deploy').click(function () {
-        console.log('new_deploy')
-        $(this).before('<label>Contract Variable Name :</label><input type="text" class="deploy1" style="margin-left:2rem"><br>')
+        console.log($(this).attr('class').split(' ')[1].match(/\d+/)[0])
+        $(this).before('<label>Contract ID :</label><br><input type="text" class="deploy'+$(this).attr('class').split(' ')[1].match(/\d+/)[0]+'" style="margin-left:2rem"><br>')
     });
 })
 
