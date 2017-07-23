@@ -34,19 +34,19 @@ $(function () {
 
     $('#add_contract').click(function () {
 
-        $('#form').append('<label>contract ' + ++count + ' name</label><br>')
+        $('#form').append('<label>Contract ' + ++count + ' Name</label><br>')
         $('#form').append('<input type="text" id="contract_name' + count + '"><br>')
-        $('#form').append('<button class="new_deploy">deploy' + count + '</button><br>')
+        $('#form').append('<button class="new_deploy">Add Contract ' + count + ' Variable</button><br>')
         $('.new_deploy').unbind()
         $('.new_deploy').click(function () {
             console.log('new_deploy')
-            $(this).before('<input type="text" class="' + $(this).text() + '" style="margin-left:2rem"><br>')
+            $(this).before('<label>Contract Variable Name :</label><input type="text" class="deploy'+count+'" style="margin-left:2rem"><br>')
         });
     });
 
     $('.new_deploy').click(function () {
         console.log('new_deploy')
-        $(this).before('<input type="text" class="' + $(this).text() + '" style="margin-left:2rem"><br>')
+        $(this).before('<label>Contract Variable Name :</label><input type="text" class="deploy1" style="margin-left:2rem"><br>')
     });
 })
 
