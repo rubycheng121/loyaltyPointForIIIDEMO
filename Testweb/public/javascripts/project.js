@@ -36,7 +36,7 @@ $(function () {
         count++;
         $('#form').append('<label>Contract Name</label><br>')
         $('#form').append('<input type="text" id="contract_name' + count + '"><br>')
-        $('#form').append('<button class="new_deploy contract'+count+'">Add Contract ID</button><br>')
+        $('#form').append('<button class="new_deploy contract'+count+'">Add another contract instance</button><br>')
         $('.new_deploy').unbind()
         $('.new_deploy').click(function () {
             console.log($(this).attr('class').split(' ')[1].match(/\d+/)[0])
