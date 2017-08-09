@@ -51,6 +51,7 @@ router.post('/cucumber', async function (req, res, next) {
 	var cmd = 'start cmd.exe /c "cucumberjs features/test.feature > r.txt"';// /k "nodevars.bat" /k cucumberjs features/test.feature'
 	await fs.writeFileSync('features/step_definitions/test.js', req.body.stepDefinitions);
 	await fs.writeFileSync('features/test.feature', req.body.featureSource);
+	await fs.writeFileSync('features/code.js', req.body.code);
 	//sql.get_contract(req.session.user, req.query.project, (result) => {
 	//	console.log(result);
 	//})
@@ -72,10 +73,11 @@ router.post('/cucumber', async function (req, res, next) {
 	});
 })
 
-router.post('/mocha', function (req, res, next) {
+router.post('/mocha', async function (req, res, next) {
 	var exec = require('child_process').exec;
 	var cmd = 'start cmd.exe /c "mocha -c > mr.txt"'
-	fs.writeFileSync('test/test.js', req.body.mocha);
+	await fs.writeFileSync('test/test.js', req.body.mocha);
+	await fs.writeFileSync('test/code.js', req.body.code);
 	exec(cmd, function (error, stdout, stderr) {
 		var mr = fs.readFileSync('mr.txt').toString();
 		res.send(mr);

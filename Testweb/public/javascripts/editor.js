@@ -77,7 +77,8 @@ $(function () {
 
 		$.post('/cucumber', {
 			featureSource: featureEditor.getValue(),
-			stepDefinitions: stepDefinitionsEditor.getValue()
+			stepDefinitions: stepDefinitionsEditor.getValue(),
+			code: auxiliaryCodeEditor.getValue()
 		}, (result) => {
 			appendToOutput(ansiHTML(result.output))
 
@@ -124,7 +125,8 @@ $(function () {
 	$('#run-mocha').click(function () {
 		$mochaOutput.empty();
 		$.post("/mocha", {
-			mocha: mochaEditor.getValue()
+			mocha: mochaEditor.getValue(),
+			code: auxiliaryCodeEditor.getValue()
 		}, (result) => {
 			appendToMochaOutput(ansiHTML(result))
 			if (solidityEditor.getValue().trim().length == 0) {
