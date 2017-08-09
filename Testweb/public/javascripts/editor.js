@@ -2,6 +2,7 @@ var featureEditor
 var stepDefinitionsEditor
 var solidityEditor
 var mochaEditor
+var auxiliaryCodeEditor
 var $output
 var $mochaOutput
 var $solidityOutput
@@ -56,6 +57,9 @@ $(function () {
 
 	solidityEditor = ace.edit("solidity");
 	solidityEditor.getSession().setMode("ace/mode/solidity");
+
+	auxiliaryCodeEditor = ace.edit("auxiliaryCode");
+	auxiliaryCodeEditor.getSession().setMode("ace/mode/javascript");
 
 	$output = $('#output');
 	$mochaOutput = $('#mochaOutput');

@@ -43,6 +43,11 @@
                             <span id="contract-span" class="glyphicon glyphicon-remove" aria-hidden="true"></span>Contract
                         </a>
                     </li>
+                    <li ondragenter="dragEnter(event,'auxiliaryCode')">
+                        <a href="#auxiliaryCode-tab" data-toggle="tab">
+                            <span id="contract-span" aria-hidden="true"></span>auxiliary Code
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="col-md-6 text-right">
@@ -116,7 +121,16 @@
                         <pre id="solidityOutput"></pre>
                     </div>
                 </div>
-
+                <!--auxiliary code-->
+                <div class="tab-pane" id="auxiliaryCode-tab">
+                    <div class="col-md-7">
+                        <div id="auxiliaryCode" ondragover="dragoverHandler(event)" ondrop="dropHandler(event,'auxiliaryCode')"></div>
+                    </div>
+                    <div class="col-md-5">
+                        <pre id="auxiliaryCodeOutput">說明文件</pre>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
