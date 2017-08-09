@@ -36,17 +36,17 @@ $(function () {
         count++;
         $('#form').append('<label>Contract Name</label><br>')
         $('#form').append('<input type="text" id="contract_name' + count + '"><br>')
-        $('#form').append('<button class="new_deploy contract'+count+'">Add another contract instance</button><br>')
+        $('#form').append('<button class="new_deploy contract' + count + '">Add another contract instance</button><br>')
         $('.new_deploy').unbind()
         $('.new_deploy').click(function () {
             console.log($(this).attr('class').split(' ')[1].match(/\d+/)[0])
-            $(this).before('├<label style="margin-left:2rem">Contract ID :<input type="checkbox">事先佈署</label><br>├<input type="text" class="deploy'+$(this).attr('class').split(' ')[1].match(/\d+/)[0]+'" style="margin-left:2rem"><br>')
+            $(this).before('├<label style="margin-left:2rem">Contract ID :<input type="checkbox">事先佈署</label><br>├<input type="text" class="deploy' + $(this).attr('class').split(' ')[1].match(/\d+/)[0] + '" style="margin-left:2rem"><br>')
         });
     });
 
     $('.new_deploy').click(function () {
         console.log($(this).attr('class').split(' ')[1].match(/\d+/)[0])
-        $(this).before('├<label style="margin-left:2rem">Contract ID :<input type="checkbox">事先佈署</label><br>├<input type="text" class="deploy'+$(this).attr('class').split(' ')[1].match(/\d+/)[0]+'" style="margin-left:2rem"><br>')
+        $(this).before('├<label style="margin-left:2rem">Contract ID :<input type="checkbox">事先佈署</label><br>├<input type="text" class="deploy' + $(this).attr('class').split(' ')[1].match(/\d+/)[0] + '" style="margin-left:2rem"><br>')
     });
 })
 
@@ -61,8 +61,8 @@ function update() {
                 '<a href="/editor?project=' + data[i].project + '">' +
                 '<h4 class="list-group-item-heading">' + data[i].project + '</h4>' +
                 '</a>' +
-                '<button type="button" class="btn btn-default" aria-label="Left Align">'+
-                '<span calss="glyphicon glyphicon-trash" aria-hidden="true"></span>delete' +
+                '<button type="button" class="btn btn-default delete" aria-label="Left Align">' +
+                'delete' +
                 '</button>' +
                 '</div>' +
                 '<div class="panel-body">' +
@@ -71,6 +71,14 @@ function update() {
                 '</div>' +
                 '</div>');
         }
+        $('.delete').click(function () {
+            console.log('delete : ' + $(this).parent('.panel-heading').children('a').text())
+            $.post("delete_project", {
+                project_name: $(this).parent('.panel-heading').children('a').text(),
+            }, (data) => {
+                update();
+            });
+        });
     });
 
 }

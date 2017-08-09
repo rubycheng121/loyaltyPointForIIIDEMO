@@ -124,10 +124,11 @@ function set_project(user, project, feature, stepDefinitions, solidity, mocha, c
         }
     });
 }
-function get_contract(user, project) {
-    var cmd = "select contract from project where user = ? and project = ?";
+
+function delete_project(user, project, callback) {
+    var cmd = "DELETE FROM project WHERE user = ? and project = ?";
     var value = [user, project];
-     connection.query(cmd, value, (err, result) => {
+    connection.query(cmd, value, (err, result) => {
         if (!err) {
             callback(result);
         } else {
@@ -135,12 +136,30 @@ function get_contract(user, project) {
         }
     });
 }
+
+function get_contract(user, project) {
+    var cmd = "select contract from project where user = ? and project = ?";
+    var value = [user, project];
+    connection.query(cmd, value, (err, result) => {
+        if (!err) {
+            callback(result);
+        } else {
+            console.log(err);
+        }
+    });
+}
+
 module.exports = {
+
     connection: connection,
+
     sing_in: sing_in,
     sing_up: sing_up,
+
     new_project: new_project,
     get_project: get_project,
-    get_project_list: get_project_list,
-    set_project: set_project
+    set_project: set_project,
+    delete_project: delete_project,
+    get_project_list: get_project_list
+
 }

@@ -19,7 +19,6 @@ sql.connection.connect(function (err) {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-
 	if (req.session.user) {
 		res.render('project', {
 			user: req.session.user
@@ -30,7 +29,6 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/editor', function (req, res, next) {
-
 	if (req.session.user) {
 		sql.get_project(req.session.user, req.query.project, (result) => {
 			if (result == "") {
@@ -101,7 +99,6 @@ router.post('/compile', function (req, res, next) {
 })
 
 router.post('/upload', function (req, res, next) {
-
 	console.log("upload");
 	console.log(req.body);
 	sql.set_project(req.session.user, unescape(req.body.project), req.body.feature, req.body.stepDefinitions, req.body.solidity, req.body.mocha, (result) => {
@@ -117,7 +114,6 @@ router.post('/download', function (req, res, next) {
 });
 
 router.post('/sign_in', function (req, res, next) {
-
 	console.log("sign_in");
 	console.log(req.body);
 
@@ -135,7 +131,6 @@ router.post('/sign_in', function (req, res, next) {
 });
 
 router.post('/sign_up', function (req, res, next) {
-
 	console.log("sign_up");
 	console.log(req.body);
 
@@ -148,7 +143,6 @@ router.post('/sign_up', function (req, res, next) {
 });
 
 router.get('/sign_out', function (req, res, next) {
-
 	console.log("sign_out");
 
 	req.session.destroy();
@@ -156,7 +150,6 @@ router.get('/sign_out', function (req, res, next) {
 });
 
 router.post('/new_project', function (req, res, next) {
-
 	console.log("new_project");
 	console.log(req.body);
 	console.log(req.body.contract);
@@ -169,7 +162,6 @@ router.post('/new_project', function (req, res, next) {
 });
 
 router.post('/get_project_list', function (req, res, next) {
-
 	console.log("get_project_list");
 	sql.get_project_list(req.session.user, (result) => {
 		res.json(result);
@@ -177,12 +169,18 @@ router.post('/get_project_list', function (req, res, next) {
 });
 
 router.post('/get_project', function (req, res, next) {
-
 	console.log("get_project");
 	sql.get_project(req.session.user, unescape(req.body.project), (result) => {
 		res.json(result);
 	});
 });
 
+router.post('/delete_project', function (req, res, next) {
+	console.log("delete_project");
+	console.log(req.body.project_name);
+	sql.delete_project(req.session.user, unescape(req.body.project_name), (result) => {
+		res.json(result);
+	});
+});
 
 module.exports = router;
