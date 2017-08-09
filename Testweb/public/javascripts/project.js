@@ -40,13 +40,13 @@ $(function () {
         $('.new_deploy').unbind()
         $('.new_deploy').click(function () {
             console.log($(this).attr('class').split(' ')[1].match(/\d+/)[0])
-            $(this).before('<label>Contract ID :</label><br><input type="text" class="deploy'+$(this).attr('class').split(' ')[1].match(/\d+/)[0]+'" style="margin-left:2rem"><br>')
+            $(this).before('├<label style="margin-left:2rem">Contract ID :<input type="checkbox">事先佈署</label><br>├<input type="text" class="deploy'+$(this).attr('class').split(' ')[1].match(/\d+/)[0]+'" style="margin-left:2rem"><br>')
         });
     });
 
     $('.new_deploy').click(function () {
         console.log($(this).attr('class').split(' ')[1].match(/\d+/)[0])
-        $(this).before('<label>Contract ID :</label><br><input type="text" class="deploy'+$(this).attr('class').split(' ')[1].match(/\d+/)[0]+'" style="margin-left:2rem"><br>')
+        $(this).before('├<label style="margin-left:2rem">Contract ID :<input type="checkbox">事先佈署</label><br>├<input type="text" class="deploy'+$(this).attr('class').split(' ')[1].match(/\d+/)[0]+'" style="margin-left:2rem"><br>')
     });
 })
 
@@ -61,6 +61,9 @@ function update() {
                 '<a href="/editor?project=' + data[i].project + '">' +
                 '<h4 class="list-group-item-heading">' + data[i].project + '</h4>' +
                 '</a>' +
+                '<button type="button" class="btn btn-default" aria-label="Left Align">'+
+                '<span calss="glyphicon glyphicon-trash" aria-hidden="true"></span>delete' +
+                '</button>' +
                 '</div>' +
                 '<div class="panel-body">' +
                 '<p class="list-group-item-text">Create date : ' + new Date(data[i].create_date).toLocaleString() + '</p>' +
