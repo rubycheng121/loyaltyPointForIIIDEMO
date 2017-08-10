@@ -6,8 +6,8 @@ var auxiliaryCodeEditor
 var $output
 var $mochaOutput
 var $solidityOutput
-var step;
-var functionName;
+var step
+var functionName
 
 function appendToOutput(data) {
 	$output.append(data);
@@ -84,14 +84,20 @@ $(function () {
 
 			if (stepDefinitionsEditor.getValue().trim().length == 0) {
 				let head = "const { defineSupportCode } = require('cucumber');\nconst assert = require('assert');\nconst Web3 = require('web3');\nconst web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));\n\n";
-				let contract_arr = JSON.parse($('#contract_name').text());
-				let contract = "";
+				let contract_arr = JSON.parse($('#contract_name').text())
+				let contract = ""
 				$.each(contract_arr, function (i, item) {
-					contract += 'let ' + i + '_abi\n'
-					contract += 'let ' + i + '_bytecode\n'
+					contract += format('let {}_abi\n', i)
+				});
+				contract += '\n'
+				$.each(contract_arr, function (i, item) {
+					contract += format('let {}_bytecode\n', i)
+				});
+				contract += '\n'
+				$.each(contract_arr, function (i, item) {
 					item.forEach((element, index, array) => {
-						contract += 'let ' + element + '_contract\n'
-						contract += 'let ' + element + '_address\n'
+						contract += format('let {}_address\n', element)
+						contract += format('let {}_contract\n', element)
 					});
 					contract += '\n'
 				});
@@ -130,10 +136,10 @@ $(function () {
 						else {
 							a += ");"
 						}
-						func += "describe('Successfully Use "+element[1] +"', function(){\n\t\t"+ element[1] + a+"\n\t})\n\n\t";
+						func += "describe('Successfully Use " + element[1] + "', function(){\n\t\t" + element[1] + a + "\n\t})\n\n\t";
 					}, this);
 				}
-				let body = "describe('Scenario 0 : Successfully Use Functions', function () {\n\tthis.timeout(0)\n\n\t" +func+ "\n})";
+				let body = "describe('Scenario 0 : Successfully Use Functions', function () {\n\tthis.timeout(0)\n\n\t" + func + "\n})";
 				appendToMochaEditor(head + contract + body);
 			}
 		})
