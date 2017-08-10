@@ -86,20 +86,22 @@ router.post('/cucumber', async function (req, res, next) {
 	//	console.log(result);
 	//})
 	exec(cmd, function (error, stdout, stderr) {
-		if(error){
+		if (error) {
 			throw error;
 		}
-		var r = fs.readFileSync('r.txt').toString();
-		var a = r.match(/\d+ scenarios /)[0].match(/\d+/)[0]
-		var b = r.match(/\d+ steps /)[0].match(/\d+/)[0]
-		var c = b / a;
-		res.send({
-			next: next,
-			output: r,
-			setinput: r.slice(r.indexOf('1) Scenario: '), r.indexOf('' + (c + 1) + ') Scenario: '))
-				.replace(/\[.*?[Hm]/g, '')
-				.replace(/\d+\) Scenario(.*\n)(.*\n)(.*\n)(.*\n)/mg, '')
-		})
+		else {
+			var r = fs.readFileSync('r.txt').toString();
+			var a = r.match(/\d+ scenarios /)[0].match(/\d+/)[0]
+			var b = r.match(/\d+ steps /)[0].match(/\d+/)[0]
+			var c = b / a;
+			res.send({
+				next: next,
+				output: r,
+				setinput: r.slice(r.indexOf('1) Scenario: '), r.indexOf('' + (c + 1) + ') Scenario: '))
+					.replace(/\[.*?[Hm]/g, '')
+					.replace(/\d+\) Scenario(.*\n)(.*\n)(.*\n)(.*\n)/mg, '')
+			})
+		}
 	});
 })
 
@@ -109,11 +111,13 @@ router.post('/mocha', async function (req, res, next) {
 	await fs.writeFileSync('test/test.js', req.body.mocha);
 	await fs.writeFileSync('test/code.js', req.body.code);
 	exec(cmd, function (error, stdout, stderr) {
-		if(error){
+		if (error) {
 			throw error;
 		}
-		var mr = fs.readFileSync('mr.txt').toString();
-		res.send(mr);
+		else {
+			var mr = fs.readFileSync('mr.txt').toString();
+			res.send(mr);
+		}
 	});
 })
 
