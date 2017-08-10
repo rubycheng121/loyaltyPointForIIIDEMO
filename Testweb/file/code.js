@@ -1,15 +1,13 @@
 'use strict'
 
 const path = require('path')
-const config = require('./config.json')
 const assert = require('assert')
 const Web3 = require('web3')
 const fs = require('fs')
 const EventEmitter = require('events')
 const emitter = new EventEmitter()
 const mode = "debug"
-const provider = config[mode].provider
-const web3 = new Web3(new Web3.providers.HttpProvider(provider))
+const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
 
 let result
 
