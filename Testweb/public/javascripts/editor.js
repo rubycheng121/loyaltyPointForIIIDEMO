@@ -171,7 +171,7 @@ $(function () {
 								else {
 									a += ")"
 								}
-								f += "\n\t" + element[1].replace(/(.*)\./,"") + a + "{\n\n\t}\n";
+								f += "\n\tfunction " + element[1].replace(/(.*)\./,"") + a + "{\n\n\t}\n";
 							}
 						}
 					})
