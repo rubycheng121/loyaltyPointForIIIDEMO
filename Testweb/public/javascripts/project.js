@@ -36,17 +36,17 @@ $(function () {
         count++;
         $('#form').append('<label>Contract Name</label><br>')
         $('#form').append('<input type="text" id="contract_name' + count + '"><br>')
-        $('#form').append('<button class="new_deploy contract' + count + '">Add another contract instance</button><br>')
+        $('#form').append('└<button class="new_deploy contract' + count + '">Add another contract instance</button><br>')
         $('.new_deploy').unbind()
         $('.new_deploy').click(function () {
             console.log($(this).attr('class').split(' ')[1].match(/\d+/)[0])
-            $(this).before('├<label style="margin-left:2rem">Contract ID :<input type="checkbox">事先佈署</label><br>├<input type="text" class="deploy' + $(this).attr('class').split(' ')[1].match(/\d+/)[0] + '" style="margin-left:2rem"><br>')
+            $(this).before('<label style="margin-left:2rem">Contract ID :</label><br>├<input type="text" class="deploy' + $(this).attr('class').split(' ')[1].match(/\d+/)[0] + '" style="margin-left:2rem"><br>')
         });
     });
 
     $('.new_deploy').click(function () {
         console.log($(this).attr('class').split(' ')[1].match(/\d+/)[0])
-        $(this).before('├<label style="margin-left:2rem">Contract ID :<input type="checkbox">事先佈署</label><br>├<input type="text" class="deploy' + $(this).attr('class').split(' ')[1].match(/\d+/)[0] + '" style="margin-left:2rem"><br>')
+        $(this).before('├<label style="margin-left:2rem">Contract ID :</label><br>├<input type="text" class="deploy' + $(this).attr('class').split(' ')[1].match(/\d+/)[0] + '" style="margin-left:2rem"><br>')
     });
 })
 
