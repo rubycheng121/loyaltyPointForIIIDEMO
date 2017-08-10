@@ -52,6 +52,33 @@ router.post('/cucumber', async function (req, res, next) {
 	await fs.writeFileSync('features/step_definitions/test.js', req.body.stepDefinitions);
 	await fs.writeFileSync('features/test.feature', req.body.featureSource);
 	await fs.writeFileSync('features/code.js', req.body.code);
+	var stepdef = await fs.readFileSync('features/step_definitions/test.js').toString();
+	var next = [];
+	var findfunc = () => {
+		if (stepdef.length != 0) {
+			var func = stepdef.match(/\/\/add to next step(.*\r\n|.*\n)(.*)/mg);
+			if (func != null) {
+				func.forEach(function (element) {
+					var a = [];
+					element = element.replace(/\/\/add to next step(.*\r\n|.*\n)/, "")
+						.replace(/(.*)\=( *)/mg, "")
+						.replace(/\;/mg, "")
+						.replace(/( *)/,"")
+					if (element.match(/\,/mg) != null) {
+						a.push(element.match(/\,/mg).length);
+					}
+					else{
+						a.push(0);
+					}
+					element = element.replace(/\((.*)\)/mg, "")
+					a.push(element);
+					next.push(a);
+				}, this);
+				console.log(next);
+			}
+		}
+	}
+	await findfunc();
 	//sql.get_contract(req.session.user, req.query.project, (result) => {
 	//	console.log(result);
 	//})
@@ -61,14 +88,11 @@ router.post('/cucumber', async function (req, res, next) {
 		var b = r.match(/\d+ steps /)[0].match(/\d+/)[0]
 		var c = b / a;
 		res.send({
+			next: next,
 			output: r,
 			setinput: r.slice(r.indexOf('1) Scenario: '), r.indexOf('' + (c + 1) + ') Scenario: '))
 				.replace(/\[.*?[Hm]/g, '')
 				.replace(/\d+\) Scenario(.*\n)(.*\n)(.*\n)(.*\n)/mg, '')
-			//.replace(/\d+ scenarios \((.*\n)/, '')
-			//.replace(/\d+ steps \((.*\n)/, '')
-			//.replace(/\d+m\d+\.\d+s/, '')
-			//.replace(/       /mg, '    ')
 		})
 	});
 })

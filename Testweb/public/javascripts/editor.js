@@ -116,7 +116,24 @@ $(function () {
 					});
 					contract += '\n'
 				});
-				let body = "describe('Scenario 0 : XXXXX', function () {\n\tthis.timeout(0)\n\n\tdescribe('XXXX', function () {\n\n\t})\n})";
+				var func = "";
+				console.log(result.next);
+				if (result.next != null) {
+					result.next.forEach(function (element) {
+						var a = "(";
+						for (var i = 1; i < element[0]; i++) {
+							a += "a" + i + ",";
+						}
+						if (element[0] != 0) {
+							a += "a" + element[0] + ");"
+						}
+						else {
+							a += ");"
+						}
+						func += "describe('Successfully Use "+element[1] +"', function(){\n\t\t"+ element[1] + a+"\n\t})\n\n\t";
+					}, this);
+				}
+				let body = "describe('Scenario 0 : Successfully Use Functions', function () {\n\tthis.timeout(0)\n\n\t" +func+ "\n})";
 				appendToMochaEditor(head + contract + body);
 			}
 		})
