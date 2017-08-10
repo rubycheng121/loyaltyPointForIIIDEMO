@@ -130,12 +130,13 @@ $(function () {
 		}, (result) => {
 			appendToMochaOutput(ansiHTML(result))
 			if (solidityEditor.getValue().trim().length == 0) {
+				var obj = JSON.parse($('#contract_name').text());
+				console.log(obj);
 				let head = "pragma solidity ^0.4.8;\n\n";
-				let contract_arr = $('#contract_name').text().split(',');
 				let contract = ""
-				for (let i = 0; i < contract_arr.length; i++) {
-					contract += 'contract ' + contract_arr[i] + '{\n}\n\n'
-				}
+				$.each(obj, function (index, value) {
+					contract += 'contract ' + index + ' {\n\n}\n\n'
+				});
 				let body = functionName.toString();
 				appendToSolidityEditor(head + contract + body);
 			}
