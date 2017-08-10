@@ -53,35 +53,7 @@ router.post('/cucumber', async function (req, res, next) {
 	await fs.writeFileSync('features/test.feature', req.body.featureSource);
 	await fs.writeFileSync('features/code.js', req.body.code);
 	var stepdef = await fs.readFileSync('features/step_definitions/test.js').toString();
-	var next = [];
-	var findfunc = () => {
-		if (stepdef.length != 0) {
-			var func = stepdef.match(/\/\/add to next step(.*\r\n|.*\n)(.*)/mg);
-			if (func != null) {
-				func.forEach(function (element) {
-					var a = [];
-					element = element.replace(/\/\/add to next step(.*\r\n|.*\n)/, "")
-						.replace(/(.*)\=( *)/mg, "")
-						.replace(/\;/mg, "")
-						.replace(/( *)/, "")
-					if (element.match(/\,/mg) != null) {
-						a.push(element.match(/\,/mg).length + 1);
-					}
-					else if (element.match(/\(\)/) != null) {
-						a.push(0);
-					}
-					else {
-						a.push(1);
-					}
-					element = element.replace(/\((.*)\)/mg, "")
-					a.push(element);
-					next.push(a);
-				}, this);
-				console.log(next);
-			}
-		}
-	}
-	await findfunc();
+	var next = await findfunc(stepdef);
 	//sql.get_contract(req.session.user, req.query.project, (result) => {
 	//	console.log(result);
 	//})
@@ -110,13 +82,18 @@ router.post('/mocha', async function (req, res, next) {
 	var cmd = 'start cmd.exe /c "mocha -c > mr.txt"'
 	await fs.writeFileSync('test/test.js', req.body.mocha);
 	await fs.writeFileSync('test/code.js', req.body.code);
+	var mocha = await fs.readFileSync('test/test.js').toString();
+	var next = await findfunc(mocha);
 	exec(cmd, function (error, stdout, stderr) {
 		if (error) {
 			throw error;
 		}
 		else {
 			var mr = fs.readFileSync('mr.txt').toString();
-			res.send(mr);
+			res.send({
+				next: next,
+				mocha_result: mr
+			});
 		}
 	});
 })
@@ -221,5 +198,36 @@ router.post('/delete_project', function (req, res, next) {
 		res.json(result);
 	});
 });
+
+var findfunc = (s) => {
+	var next = [];
+	if (s.length != 0) {
+		var func = s.match(/\/\/add to next step(.*\r\n|.*\n)(.*)/mg);
+		if (func != null) {
+			func.forEach(function (element) {
+				var a = [];
+				element = element.replace(/\/\/add to next step(.*\r\n|.*\n)/, "")
+					.replace(/\,( *)\((.*)\)( *)\=\>(.*)|\,function\((.*)\)(.*)/, ",function")
+					.replace(/(.*)\=( *)/, "")
+					.replace(/\;/, "")
+					.replace(/( *)/, "")
+					.replace(/(\t*)/,"")
+				if (element.match(/\,/mg) != null) {
+					a.push(element.match(/\,/mg).length + 1);
+				}
+				else if (element.match(/\(\)/) != null) {
+					a.push(0);
+				}
+				else {
+					a.push(1);
+				}
+				element = element.replace(/\((.*)/mg, "")
+				a.push(element);
+				next.push(a);
+			}, this);
+		}
+	}
+	return next;
+}
 
 module.exports = router;

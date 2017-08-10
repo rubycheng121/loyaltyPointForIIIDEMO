@@ -106,9 +106,9 @@ $(function () {
 			}
 			else if (mochaEditor.getValue().trim().length == 0) {
 
-				functionName = stepDefinitionsEditor.getValue().match(/[.][\w]+[(]/g);
-				functionName = functionName.filter((el, i, arr) => arr.indexOf(el) === i);
-				functionName = functionName.filter(isFunction)
+				//functionName = stepDefinitionsEditor.getValue().match(/[.][\w]+[(]/g);
+				//functionName = functionName.filter((el, i, arr) => arr.indexOf(el) === i);
+				//functionName = functionName.filter(isFunction)
 
 				let head = "const assert = require('assert');\nconst Web3 = require('web3');\nconst web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));\n\n";
 				let contract_arr = JSON.parse($('#contract_name').text());
@@ -136,7 +136,7 @@ $(function () {
 						else {
 							a += ");"
 						}
-						func += "describe('Successfully Use " + element[1] + "', function(){\n\t\t" + element[1] + a + "\n\t})\n\n\t";
+						func += "describe('Successfully Use " + element[1] + "', function(){\n\t\tit('should work', function(done){\n\t\t\t//add to next step\n\t\t\t" + element[1] + a + "\n\t\t\tdone()\n\t\t})\n\t})\n\n\t";
 					}, this);
 				}
 				let body = "describe('Scenario 0 : Successfully Use Functions', function () {\n\tthis.timeout(0)\n\n\t" + func + "\n})";
@@ -151,17 +151,34 @@ $(function () {
 			mocha: mochaEditor.getValue(),
 			code: auxiliaryCodeEditor.getValue()
 		}, (result) => {
-			appendToMochaOutput(ansiHTML(result))
+			appendToMochaOutput(ansiHTML(result.mocha_result))
 			if (solidityEditor.getValue().trim().length == 0) {
 				var obj = JSON.parse($('#contract_name').text());
-				console.log(obj);
 				let head = "pragma solidity ^0.4.8;\n\n";
 				let contract = ""
 				$.each(obj, function (index, value) {
-					contract += 'contract ' + index + ' {\n\n}\n\n'
+					let f = "";
+					result.next.forEach(function (element) {
+						for (var v in value) {
+							if (value[v] == element[1].replace(/\_contract(.*)/, "")) {
+								var a = "(";
+								for (var i = 1; i < element[0]; i++) {
+									a += "a" + i + ",";
+								}
+								if (element[0] != 0) {
+									a += "a" + element[0] + ")"
+								}
+								else {
+									a += ")"
+								}
+								f += "\n\t" + element[1].replace(/(.*)\./,"") + a + "{\n\n\t}\n";
+							}
+						}
+					})
+					contract += 'contract ' + index + ' {\n\tfunction ' + index + '(){}\n' + f + '}\n\n'
 				});
-				let body = functionName.toString();
-				appendToSolidityEditor(head + contract + body);
+				//let body = functionName.toString();
+				appendToSolidityEditor(head + contract);
 			}
 		});
 		if (step == 2) step = checkstep(3);
