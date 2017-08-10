@@ -63,12 +63,15 @@ router.post('/cucumber', async function (req, res, next) {
 					element = element.replace(/\/\/add to next step(.*\r\n|.*\n)/, "")
 						.replace(/(.*)\=( *)/mg, "")
 						.replace(/\;/mg, "")
-						.replace(/( *)/,"")
+						.replace(/( *)/, "")
 					if (element.match(/\,/mg) != null) {
-						a.push(element.match(/\,/mg).length);
+						a.push(element.match(/\,/mg).length + 1);
 					}
-					else{
+					else if (element.match(/\(\)/) != null) {
 						a.push(0);
+					}
+					else {
+						a.push(1);
 					}
 					element = element.replace(/\((.*)\)/mg, "")
 					a.push(element);
