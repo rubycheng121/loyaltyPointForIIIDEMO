@@ -139,7 +139,7 @@ $(function () {
 						func += "describe('Successfully Use " + element[1] + "', function(){\n\t\tit('should work', function(done){\n\t\t\t//add to next step\n\t\t\t" + element[1] + a + "\n\t\t\tdone()\n\t\t})\n\t})\n\n\t";
 					}, this);
 				}
-				let body = "describe('Scenario 0 : Successfully Use Functions', function () {\n\tthis.timeout(0)\n\n\t" + func + "\n})";
+				let body = "describe('Scenario 0 : Successfully Use Functions', function () {\n\tthis.timeout(0)\n\n\tdescribe('Successfully Deploy contracts', function () {\n\n\t})\n\n\t" + func + "\n})";
 				appendToMochaEditor(head + contract + body);
 			}
 		})

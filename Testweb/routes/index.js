@@ -72,6 +72,9 @@ router.post('/cucumber', async function (req, res, next) {
 				setinput: r.slice(r.indexOf('1) Scenario: '), r.indexOf('' + (c + 1) + ') Scenario: '))
 					.replace(/\[.*?[Hm]/g, '')
 					.replace(/\d+\) Scenario(.*\n)(.*\n)(.*\n)(.*\n)/mg, '')
+					.replace(/\d+ scenario(.*\n)/,"")
+					.replace(/\d+ step(.*\n)/,"")
+					.replace(/\d+m\d+\.\d+s/,"")
 			})
 		}
 	});
