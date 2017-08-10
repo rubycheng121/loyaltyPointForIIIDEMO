@@ -1,29 +1,35 @@
-// features/step_definitions/browser_steps.js 1s
-const path = require('path')
-const { defineSupportCode } = require('cucumber');
-const fs = require('fs')
-const assert = require('assert');
-var Code = require(process.cwd() + '/script/model/Code');
-const Web3 = require('web3');
-const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+const { defineSupportCode } = require('cucumber')
+const assert = require('assert')
+const Web3 = require('web3')
+const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+let Code
+
+let Account_abi
+let Exchange_abi
+let LoyaltyPoint_abi
+
+let Account_bytecode
+let Exchange_bytecode
+let LoyaltyPoint_bytecode
+
+let AccountA_address
+let AccountA_contract
+let AccountB_address
+let AccountB_contract
+
+let Exchange_address
+let Exchange_contract
+
+let A_LocalLoyaltyPoint_address
+let A_LocalLoyaltyPoint_contract
+let A_BLoyaltyPoint_address
+let A_BLoyaltyPoint_contract
+let B_LocalLoyaltyPoint_address
+let B_LocalLoyaltyPoint_contract
+let B_ALoyaltyPoint_address
+let B_ALoyaltyPoint_contract
 
 defineSupportCode(function ({ Given, When, Then, And }) {
-
-	let Account_abi = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', 'build', 'Account.abi')))
-	let LoyaltyPoint_abi = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', 'build', 'LoyaltyPoint.abi')))
-	let Exchange_abi = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', '..', 'build', 'Exchange.abi')))
-
-	let AccountA_address
-	let AccountB_address
-
-	let AccountA
-	let AccountB
-	let ExchangeContract
-
-	let A_LocalLoyaltyPointContract
-	let A_BLoyaltyPointContract
-	let B_LocalLoyaltyPointContract
-	let B_ALoyaltyPointContract
 
 	Given('the exchange rate is {alp}alp={blp}blp', function (alp, blp, callback) {
 		// Write code here that turns the phrase above into concrete actions
@@ -76,7 +82,7 @@ defineSupportCode(function ({ Given, When, Then, And }) {
 	});
 
 	Given('original blp account of B is {originalBlp}', function (originalBlp, callback) {
-		B_LocalLoyaltyPointContract = web3.eth.contract(LoyaltyPoint_abi).at(B_Contract.getLocalLoyaltyPoint());
+		B_LocalLoyaltyPoint_contract = web3.eth.contract(LoyaltyPoint_abi).at(B_Contract.getLocalLoyaltyPoint());
 		Code.addPoints(B_LocalLoyaltyPointContract, originalBlp, (err, txhash) => {
 			if (err !== undefined && err !== null) throw err
 			else callback()
@@ -84,8 +90,8 @@ defineSupportCode(function ({ Given, When, Then, And }) {
 	});
 
 	When('A want to exchange {exchangingAlp} alp for blp', function (exchangingAlp, callback) {
-		Code.deploeyExchangeContract(AccountA_address, AccountB_address, (myAddress, partnerAddress, address) => {
-			ExchangeContract = web3.eth.contract(Exchange_abi).at(address);
+		Code.deploeyExchange_contract(AccountA_address, AccountB_address, (myAddress, partnerAddress, address) => {
+			Exchange_contract = web3.eth.contract(Exchange_abi).at(address);
 			Code.to(ExchangeContract, 'Company A', 'Company B', exchangingAlp, (err, txhash) => {
 				if (err !== undefined && err !== null) throw err
 				else callback()
@@ -94,7 +100,7 @@ defineSupportCode(function ({ Given, When, Then, And }) {
 	});
 
 	Then('alp account of A should be {resultAlp}', function (resultAlp, callback) {
-		if (A_LocalLoyaltyPointContract.getPoints() == resultAlp) {
+		if (A_LocalLoyaltyPoint_contract.getPoints() == resultAlp) {
 			callback();
 		}
 		else {
@@ -105,7 +111,7 @@ defineSupportCode(function ({ Given, When, Then, And }) {
 
 	Then('blp account of A should be {resultBlp}', function (resultBlp, callback) {
 		A_BLoyaltyPointContract = web3.eth.contract(LoyaltyPoint_abi).at(A_Contract.getLoyaltyPoint('Company B'));
-		if (A_BLoyaltyPointContract.getPoints() == resultBlp) {
+		if (A_BLoyaltyPoint_contract.getPoints() == resultBlp) {
 			callback();
 		}
 		else {
@@ -115,7 +121,7 @@ defineSupportCode(function ({ Given, When, Then, And }) {
 
 	Then('alp account of B should be {resultBlp}', function (resultBlp, callback) {
 		B_ALoyaltyPointContract = web3.eth.contract(LoyaltyPoint_abi).at(B_Contract.getLoyaltyPoint('Company A'));
-		if (B_ALoyaltyPointContract.getPoints() == resultBlp) {
+		if (B_ALoyaltyPoint_contract.getPoints() == resultBlp) {
 			callback();
 		}
 		else {
@@ -125,7 +131,7 @@ defineSupportCode(function ({ Given, When, Then, And }) {
 
 
 	Then('blp account of B should be {resultBlp}', function (resultBlp, callback) {
-		if (B_LocalLoyaltyPointContract.getPoints() == resultBlp) {
+		if (B_LocalLoyaltyPoint_contract.getPoints() == resultBlp) {
 			callback();
 		}
 		else {

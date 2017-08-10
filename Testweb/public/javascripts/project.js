@@ -57,11 +57,11 @@ function update() {
         for (let i in data) {
             $('#project_list').append(
                 '<div class="panel panel-info">' +
-                '<div class="panel-heading">' +
-                '<a href="/editor?project=' + data[i].project + '">' +
+                '<div class="panel-heading" style="height:5rem">' +
+                '<a style="float:left; text-align:left" href="/editor?project=' + data[i].project + '">' +
                 '<h4 class="list-group-item-heading">' + data[i].project + '</h4>' +
                 '</a>' +
-                '<button type="button" class="btn btn-default delete" aria-label="Left Align">' +
+                '<button style="float:right; text-align:right" type="button" class="btn btn-default delete" aria-label="Left Align">' +
                 'delete' +
                 '</button>' +
                 '</div>' +
