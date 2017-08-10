@@ -57,14 +57,14 @@ router.post('/cucumber', async function (req, res, next) {
 	//sql.get_contract(req.session.user, req.query.project, (result) => {
 	//	console.log(result);
 	//})
-	exec(cmd, function (error, stdout, stderr) {
+	exec(cmd, async function (error, stdout, stderr) {
 		if (error) {
 			throw error;
 		}
 		else {
-			var r = fs.readFileSync('r.txt').toString();
-			var a = r.match(/\d+ scenarios /)[0].match(/\d+/)[0]
-			var b = r.match(/\d+ steps /)[0].match(/\d+/)[0]
+			var r = await fs.readFileSync('r.txt').toString();
+			var a = await r.match(/\d+ scenario/)[0].match(/\d+/)[0]
+			var b = await r.match(/\d+ step/)[0].match(/\d+/)[0]
 			var c = b / a;
 			res.send({
 				next: next,
