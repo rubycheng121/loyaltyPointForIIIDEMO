@@ -28,30 +28,32 @@
 
 <section id="main">
     <div class="container-fluid">
-        <div class="row">
 
-            <div class="col-md-5">
-                <div id="new_project-form">
-                    <div id="form">
-                        <h2>Create a new project</h2>
-                        <label>Project Name</label><br>
-                        <input type="text" id="project_name"><br>
-                        <hr>
-                        <label>Contract Name</label><br>
-                        <input type="text" id="contract_name1"><br>
-                        <button class="new_deploy contract1">Add another contract instance</button><br>
-                    </div>
-                    <br>
-                    <button id="new_project">Create</button>
-                    <button id="add_contract">Add more contracts</button>
-                </div>
+        <div id="new_project" style="float:left">
+            <div id="new_project-header">
+                Create a new project
             </div>
+            <div id="new_project-body">
+                <div class="form-inline">
 
-            <div class="col-md-5">
-                <div id="project_list">
+                    <label>Project Name</label><br>
+                    <input type="text" id="project_name"><br>
+
+                    <hr>
+                    <label>Contract Name</label><br>
+                    <input type="text" id="contract_name1"><br>
+                    <button class="new_deploy contract1">Add another contract instance</button><br>
                 </div>
+                <br>
+                <button id="new_project-button">Create</button>
+                <button id="add_contract-button">Add more contracts</button>
             </div>
         </div>
+
+        <div id="project_list" style="float:left">
+        </div>
+
+    </div>
     </div>
 </section>
 

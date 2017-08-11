@@ -4,7 +4,7 @@ $(function () {
 
     update();
 
-    $('#new_project').click(function () {
+    $('#new_project-button').click(function () {
 
         let contract = {};
         console.log("new_project");
@@ -32,15 +32,15 @@ $(function () {
         });
     });
 
-    $('#add_contract').click(function () {
+    $('#add_contract-button').click(function () {
         count++;
-        $('#form').append('<label>Contract Name</label><br>')
-        $('#form').append('<input type="text" id="contract_name' + count + '"><br>')
-        $('#form').append('└<button class="new_deploy contract' + count + '">Add another contract instance</button><br>')
+        $('#new_project-body div').append('<label style="margin-top: 2rem;">Contract Name</label><br>')
+        $('#new_project-body div').append('<input type="text" id="contract_name' + count + '"><br>')
+        $('#new_project-body div').append('<button class="new_deploy contract' + count + '">Add another contract instance</button><br>')
         $('.new_deploy').unbind()
         $('.new_deploy').click(function () {
             console.log($(this).attr('class').split(' ')[1].match(/\d+/)[0])
-            $(this).before('<label style="margin-left:2rem">Contract ID :</label><br>├<input type="text" class="deploy' + $(this).attr('class').split(' ')[1].match(/\d+/)[0] + '" style="margin-left:2rem"><br>')
+            $(this).before('├<label style="margin-left:2rem">Contract ID :</label><br>├<input type="text" class="deploy' + $(this).attr('class').split(' ')[1].match(/\d+/)[0] + '" style="margin-left:2rem"><br>')
         });
     });
 
