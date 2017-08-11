@@ -1,5 +1,7 @@
 {{#section 'css'}}
-<link rel="stylesheet" href="stylesheets/index.css"> {{/section}}
+<link rel="stylesheet" href="stylesheets/index.css">
+<link rel="stylesheet" href="stylesheets/sign.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> {{/section}}
 
 <!-- header -->
 <header class="container-fluid">
@@ -34,15 +36,17 @@
                 <!--sign in-->
                 <div class="tab-pane active" id="sign_in-tab">
                     <div class="col-md-4">
-                        <div id="sign_in">
+                        <div class="sign-header">
+                            SIGN IN
+                        </div>
+                        <div class="sign-body">
                             <form id="sign_in-form" action="/sign_in" method="post">
-                                <h2>sign in</h2>
-                                <label for="user">Name</label><br>
+                                <label for="user">Username:</label><br>
                                 <input type="text" name="user" id="sign_in_user"><br>
-                                <label for="password">Password</label><br>
+                                <label for="password">Password:</label><br>
                                 <input type="password" name="password" id="sign_in_password"><br>
                                 <br>
-                                <input type="submit">
+                                <button class="sign-submit" type="submit">Sign in</button>
                             </form>
                         </div>
                     </div>
@@ -52,24 +56,26 @@
                 <div class="tab-pane" id="sign_up-tab">
                     <div class="col-md-4">
                         <div id="sign_up">
-                            <form id="sign_up-form" action="/sign_up" method="post">
-                                <h2>sign up</h2>
-                                <label for="user">Name</label><br>
+                            <div class="sign-header">
+                                SIGN UP
+                            </div>
+                            <form class="sign-body" action="/sign_up" method="post">
+                                <label for="user">Username:</label><br>
                                 <input type="text" name="user" id="sign_up_user"><br>
-                                <label for="email">Email</label><br>
+                                <label for="email">Email:</label><br>
                                 <input type="text" name="email" id="sign_up_email"><br>
-                                <label for="password">Password</label><br>
+                                <label for="password">Password:</label><br>
                                 <input type="password" name="password" id="sign_up_password"><br>
-                                <label for="re_password">Re Password</label><br>
+                                <label for="re_password">Re Password:</label><br>
                                 <input type="password" name="re_password" id="sign_up_re_password"><br>
                                 <br>
-                                <input type="submit">
+                                <button class="sign-submit" type="submit">Sign up</button>
                             </form>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <b>Welcome to the website for A Service Platform for</b><br>
                     <h2>BDD-style Smart Contract Integration Test Systems</h2><br>
                     <br>To begin, log in with your user ID and password.<br>

@@ -1,7 +1,12 @@
+body {
+	background-color: #EAEDF2;
+}
+
 /*
  * header
  */
 header {
+	background-color: white;
 	width: 100%;
 	height: 104px;
 }
@@ -28,10 +33,54 @@ header #nccu_logo img {
 	margin-top: 2rem;
 }
 
-.tab-content #sign_in,
-.tab-content #sign_up {
-	border-style:solid;
-	border-width:3px;
-	border-radius: 10px;
-	padding: 0rem 1rem 4rem 5rem;
+/*
+ * sign
+ */
+
+#sign_in-tab,
+#sign_up-tab {
+	margin-left: 2rem;
+}
+
+.sign-header {
+	color: white;
+	font-size:2.5rem;
+	font-weight: 50px;
+	width: 40rem;
+	height: 5rem;
+	background-color: #323A45;
+	text-align:center;
+	line-height:5rem;
+}
+
+.sign-body {
+	background-color: white;
+	width: 40rem;
+	padding-bottom: 3rem;
+	padding-left: 5rem;
+	padding-right: 5rem;
+}
+
+.sign-body label{
+	color: gray;
+	margin-top: 2rem;
+}
+
+.sign-body input{
+	padding-left: 1rem;
+	margin-top: 1px;
+	width: 30rem;
+	height: 4rem;
+	border: 2px solid gray;
+	background-color: #FAFBFD;
+}
+
+.sign-submit {
+	font-size:2rem;
+	background-color: #01AFD1;
+	color: white;
+	width: 30rem;
+	height: 4rem;
+	border:2px blue none;
+	margin-top: 2rem
 }
