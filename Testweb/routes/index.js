@@ -48,12 +48,20 @@ router.get('/editor', function (req, res, next) {
 
 router.post('/cucumber', async function (req, res, next) {
 	var exec = require('child_process').exec;
-	var cmd = 'start cmd.exe /c "cucumberjs features/test.feature > r.txt"';// /k "nodevars.bat" /k cucumberjs features/test.feature'
-	await fs.writeFileSync('features/step_definitions/test.js', req.body.stepDefinitions);
+	var cmd = 'start cmd.exe /c "cucumberjs features/test.feature > r.txt"';
+	let head = "const { defineSupportCode } = require('cucumber');\nconst assert = require('assert');\nconst Web3 = require('web3');\nconst web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));\n\n";
+
+	if (req.body.trans != []) {
+		var newstepdef = transfunc(req.body.stepDefinitions, req.body.trans.split(','));
+		await fs.writeFileSync('features/step_definitions/test.js', head + newstepdef);
+	}
+	else {
+		await fs.writeFileSync('features/step_definitions/test.js', head + req.body.stepDefinitions);
+
+	}
 	await fs.writeFileSync('features/test.feature', req.body.featureSource);
 	await fs.writeFileSync('features/code.js', req.body.code);
-	var stepdef = await fs.readFileSync('features/step_definitions/test.js').toString();
-	var next = await findfunc(stepdef);
+	var next = await findfunc(req.body.stepDefinitions);
 	//sql.get_contract(req.session.user, req.query.project, (result) => {
 	//	console.log(result);
 	//})
@@ -72,9 +80,9 @@ router.post('/cucumber', async function (req, res, next) {
 				setinput: r.slice(r.indexOf('1) Scenario: '), r.indexOf('' + (c + 1) + ') Scenario: '))
 					.replace(/\[.*?[Hm]/g, '')
 					.replace(/\d+\) Scenario(.*\n)(.*\n)(.*\n)(.*\n)/mg, '')
-					.replace(/\d+ scenario(.*\n)/,"")
-					.replace(/\d+ step(.*\n)/,"")
-					.replace(/\d+m\d+\.\d+s/,"")
+					.replace(/\d+ scenario(.*\n)/, "")
+					.replace(/\d+ step(.*\n)/, "")
+					.replace(/\d+m\d+\.\d+s/, "")
 			})
 		}
 	});
@@ -83,10 +91,16 @@ router.post('/cucumber', async function (req, res, next) {
 router.post('/mocha', async function (req, res, next) {
 	var exec = require('child_process').exec;
 	var cmd = 'start cmd.exe /c "mocha -c > mr.txt"'
-	await fs.writeFileSync('test/test.js', req.body.mocha);
+	let head = "const assert = require('assert');\nconst Web3 = require('web3');\nconst web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));\n\n";
+	if (req.body.trans != []) {
+		var newmocha = transfunc(req.body.mocha, req.body.trans.split(','));
+		await fs.writeFileSync('test/test.js', head + newmocha);
+	}
+	else {
+		await fs.writeFileSync('test/test.js', head + req.body.mocha);
+	}
 	await fs.writeFileSync('test/code.js', req.body.code);
-	var mocha = await fs.readFileSync('test/test.js').toString();
-	var next = await findfunc(mocha);
+	var next = await findfunc(req.body.mocha);
 	exec(cmd, function (error, stdout, stderr) {
 		if (error) {
 			throw error;
@@ -104,6 +118,14 @@ router.post('/mocha', async function (req, res, next) {
 router.post('/compile', function (req, res, next) {
 	var info = [];
 	var source = req.body.solidity;
+	var func = req.body.solidity.match(/function(.*)/mg)
+	var trans = [];
+	func.forEach(function (element) {
+		if (element.match(/function(.*)constant(.*)/) == null) {
+			trans.push(element.replace(/\{(.*)/, "").replace(/function /, "").replace(/\((.*)\)/, ""));
+		}
+	})
+	fs.writeFileSync('solfunc.txt', func)
 	var compiledContract = solc.compile(source, 1);
 	//console.log(compiledContract)
 	for (var index in compiledContract.contracts) {
@@ -114,7 +136,10 @@ router.post('/compile', function (req, res, next) {
 		}
 		info.push(contractinfo);
 	}
-	res.send(info);
+	res.send({
+		info: info,
+		trans: trans
+	});
 })
 
 router.post('/upload', function (req, res, next) {
@@ -214,7 +239,7 @@ var findfunc = (s) => {
 					.replace(/(.*)\=( *)/, "")
 					.replace(/\;/, "")
 					.replace(/( *)/, "")
-					.replace(/(\t*)/,"")
+					.replace(/(\t*)/, "")
 				if (element.match(/\,/mg) != null) {
 					a.push(element.match(/\,/mg).length + 1);
 				}
@@ -233,4 +258,15 @@ var findfunc = (s) => {
 	return next;
 }
 
+var transfunc = (s, t) => {
+	delete t[0]
+	t.forEach(function (element) {
+		if (s.match("(.*)_contract." + element) != null) {
+			var a = s.match("(.*)_contract." + element + "(.*)")[0];
+			var n = a.substring(0, a.lastIndexOf(')')) + ",{from:web3.eth.accounts[0],gas:'8888888'})";
+			s = s.replace(a, n);
+		}
+	})
+	return s;
+}
 module.exports = router;

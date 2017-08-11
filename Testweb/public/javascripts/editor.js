@@ -8,6 +8,7 @@ var $mochaOutput
 var $solidityOutput
 var step
 var functionName
+var transfunc = []
 
 function appendToOutput(data) {
 	$output.append(data);
@@ -68,6 +69,7 @@ $(function () {
 	window.onerror = displayError;
 
 	$('#run-feature').click(function () {
+		console.log(transfunc.toString())
 		$output.empty();
 		$('a[href="#step-definitions-tab"]').tab('show');
 
@@ -78,26 +80,27 @@ $(function () {
 		$.post('/cucumber', {
 			featureSource: featureEditor.getValue(),
 			stepDefinitions: stepDefinitionsEditor.getValue(),
-			code: auxiliaryCodeEditor.getValue()
+			code: auxiliaryCodeEditor.getValue(),
+			trans: transfunc.toString()
 		}, (result) => {
 			appendToOutput(ansiHTML(result.output))
 
 			if (stepDefinitionsEditor.getValue().trim().length == 0) {
-				let head = "const { defineSupportCode } = require('cucumber');\nconst assert = require('assert');\nconst Web3 = require('web3');\nconst web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));\n\n";
+				let head = "//You can use 'assert' and 'web3'. If you want to use other modules ,you should write require in this text\n\n";
 				let contract_arr = JSON.parse($('#contract_name').text())
 				let contract = ""
 				$.each(contract_arr, function (i, item) {
 					contract += format('let {}_abi\n', i)
 				});
-				contract += '\n'
+				contract += ''
 				$.each(contract_arr, function (i, item) {
 					contract += format('let {}_bytecode\n', i)
 				});
 				contract += '\n'
 				$.each(contract_arr, function (i, item) {
 					item.forEach((element, index, array) => {
+						contract += format('let {}_contract = web3.eth.contract({}_abi)\n', element,element)
 						contract += format('let {}_address\n', element)
-						contract += format('let {}_contract\n', element)
 					});
 					contract += '\n'
 				});
@@ -110,14 +113,14 @@ $(function () {
 				//functionName = functionName.filter((el, i, arr) => arr.indexOf(el) === i);
 				//functionName = functionName.filter(isFunction)
 
-				let head = "const assert = require('assert');\nconst Web3 = require('web3');\nconst web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));\n\n";
+				let head = "//You can use 'assert' and 'web3'. If you want to use other modules ,you should write require in this text\n\n";
 				let contract_arr = JSON.parse($('#contract_name').text());
 				let contract = "";
 				$.each(contract_arr, function (i, item) {
 					contract += 'let ' + i + '_abi\n'
 					contract += 'let ' + i + '_bytecode\n'
 					item.forEach((element, index, array) => {
-						contract += 'let ' + element + '_contract\n'
+						contract += 'let ' + element + '_contract = web3.eth.contract('+element+'_abi)\n'
 						contract += 'let ' + element + '_address\n'
 					});
 					contract += '\n'
@@ -136,7 +139,7 @@ $(function () {
 						else {
 							a += ");"
 						}
-						func += "describe('Successfully Use " + element[1] + "', function(){\n\t\tit('should work', function(done){\n\t\t\t//add to next step\n\t\t\t" + element[1] + a + "\n\t\t\tdone()\n\t\t})\n\t})\n\n\t";
+						func += "describe('Successfully Use " + element[1].replace(/(.*)\./,"") + "', function(){\n\t\tit('should work', function(done){\n\t\t\t//add to next step\n\t\t\t" + element[1] + a + "\n\t\t\tdone()\n\t\t})\n\t})\n\n\t";
 					}, this);
 				}
 				let body = "describe('Scenario 0 : Successfully Use Functions', function () {\n\tthis.timeout(0)\n\n\t//deploy your contract\n\tbefore(function (done) {\n\t\tdone()\n\t})\n\n\t" + func + "\n})";
@@ -146,10 +149,12 @@ $(function () {
 	})
 
 	$('#run-mocha').click(function () {
+		console.log(transfunc)
 		$mochaOutput.empty();
 		$.post("/mocha", {
 			mocha: mochaEditor.getValue(),
-			code: auxiliaryCodeEditor.getValue()
+			code: auxiliaryCodeEditor.getValue(),
+			trans: transfunc.toString()
 		}, (result) => {
 			appendToMochaOutput(ansiHTML(result.mocha_result))
 			if (solidityEditor.getValue().trim().length == 0) {
@@ -194,20 +199,21 @@ $(function () {
 
 			let abi = '';
 			let bytecode = '';
-			for (var index in result) {
-				abi = 'let ' + result[index].name.slice(1) + '_abi = ' + result[index].abi;
-				bytecode = 'let ' + result[index].name.slice(1) + "_bytecode = '0x" + result[index].bytecode + "'";
+			for (var index in result.info) {
+				abi = 'let ' + result.info[index].name.slice(1) + '_abi = ' + result.info[index].abi;
+				bytecode = 'let ' + result.info[index].name.slice(1) + "_bytecode = '0x" + result.info[index].bytecode + "'";
 
-				appendToStepDefinitionsEditor(stepDefinitionsEditor.getValue().replace('let ' + result[index].name.slice(1) + '_abi', abi));
-				appendToStepDefinitionsEditor(stepDefinitionsEditor.getValue().replace('let ' + result[index].name.slice(1) + '_bytecode', bytecode));
-				appendToMochaEditor(mochaEditor.getValue().replace('let ' + result[index].name.slice(1) + '_abi', abi));
-				appendToMochaEditor(mochaEditor.getValue().replace('let ' + result[index].name.slice(1) + '_bytecode', bytecode));
+				appendToStepDefinitionsEditor(stepDefinitionsEditor.getValue().replace('let ' + result.info[index].name.slice(1) + '_abi', abi));
+				appendToStepDefinitionsEditor(stepDefinitionsEditor.getValue().replace('let ' + result.info[index].name.slice(1) + '_bytecode', bytecode));
+				appendToMochaEditor(mochaEditor.getValue().replace('let ' + result.info[index].name.slice(1) + '_abi', abi));
+				appendToMochaEditor(mochaEditor.getValue().replace('let ' + result.info[index].name.slice(1) + '_bytecode', bytecode));
 
-				appendToSolidityOutput('<h3>' + result[index].name.slice(1) + '\n');
+				appendToSolidityOutput('<h3>' + result.info[index].name.slice(1) + '\n');
 				appendToSolidityOutput(abi + '\n');
 				appendToSolidityOutput(bytecode + '\n');
 			}
-			console.log(result);
+			transfunc = result.trans;
+			console.log(result.info);
 		});
 		if (step == 3) step = checkstep(4);
 	});
